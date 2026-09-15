@@ -11,25 +11,43 @@ Format per entry:
 
 ---
 
-## 2026-09-15 — STEP_02 — Data Validation & Audit Logging
+## 2026-09-15 — STEP_01 & STEP_02 — Parser Project Code Resolution & Granular Validation Refactor
 - what changed (code):
-  - Created `src/validation/rules.py` with pure validation functions for progress bounds (`progress_out_of_range`), non-negative values (`negative_value`), chronological sequence / sentinel checks (`date_inconsistency`), cost reductions (`cost_revised_down`), and expenditure overruns (`exp_exceeds_cost`).
-  - Created `src/validation/run.py` to batch-validate all 35 interim parquet tables across 13 months, attach `data_quality_flag`, and emit `data/interim/validation_report.csv` and `data/interim/validation_log.parquet` (and `.csv`).
-  - Added unit and integration test suite `tests/test_validation.py` covering all rule boundary conditions and end-to-end pipeline execution.
+  - Fixed `src/ingestion/parser.py` (`parse_table6_project_cell`): properly handles single-parenthesized legacy code lines at cell bottom (introduced by MoSPI in Feb/Mar 2026 before PMGID was added in Apr 2026). Swallowed project codes restored across all tables.
+  - Added regression test `test_project_code_completeness_all_months` in `tests/test_ingestion_multimonth.py` asserting strict 0.0% missing-rate on `project_code` across all 13 months.
+  - Refactored `src/validation/rules.py` with granular flag taxonomy:
+    - Split `date_inconsistency` into:
+      - `date_impossible`: chronological impossibilities (`orig < start`, `act < start`, `orig < approval`) and sentinel years (<1970).
+      - `start_before_approval`: administrative reporting convention (work start prior to formal cabinet sanction; kept).
+      - `schedule_advanced`: schedule acceleration signal (revised completion earlier than original; kept as positive signal for STEP_05).
+    - Split downward cost revisions into:
+      - `implausible_cost_revision`: extreme reductions >90% (`revised < 0.1 * original`, e.g. project 618886: 238.66 -> 0.1), flagging potential data-entry/contract unbundling artifact.
+      - `cost_revised_down`: legitimate descoping / tender savings.
+  - Added dedicated fixture test suite `tests/test_validation_fixtures.py` exercising all split rules and boundary conditions.
 - what was verified (real output ref):
-  - All 21 tests passed cleanly (`pytest -v`).
-  - 19,596 total records processed; 0 records dropped (zero data loss).
-  - 4,301 records flagged with 4,588 total issues logged:
-    - `cost_revised_down`: 2,767 (known reporting artifact; records preserved)
-    - `date_inconsistency`: 1,053 (temporal sequence checks)
-    - `exp_exceeds_cost`: 764 (sanctioned cost overrun review flag)
-    - `negative_value`: 4 (Jan 2026 MoRTH onboarding negative cumulative expenditures)
-    - `progress_out_of_range`: 0 (all physical progress within [0, 100]%)
-  - `ruff check .` and `black --check .` 100% clean.
+  - All 29 tests passing (`pytest -v`):
+    - `test_ingestion_april.py`: 6 passed
+    - `test_ingestion_multimonth.py`: 7 passed (including 0% project_code missing assertion)
+    - `test_validation.py`: 9 passed
+    - `test_validation_fixtures.py`: 7 passed
+  - Identifier completeness across all 13 months:
+    - `project_code` missing-rate = 0.0% across all 13 months (0 missing rows in Feb/Mar, down from 758 and 752).
+    - Legacy OCMS codes extracted: 1,190 in Feb 2026, 1,189 in Mar 2026, 1,184 in Apr 2026, 1,170 in May 2026.
+    - Zero rows missing all 3 identifiers across entire corpus.
+  - Real validation metrics across 19,596 records (0 dropped):
+    - `cost_revised_down`: 2,738
+    - `exp_exceeds_cost`: 764
+    - `start_before_approval`: 633
+    - `schedule_advanced`: 332
+    - `date_impossible`: 88
+    - `implausible_cost_revision`: 29 (affecting 4 distinct projects including 618886)
+    - `negative_value`: 4
+    - `progress_out_of_range`: 0
+  - `ruff check .` and `black --check .`: 100% clean.
 - docs updated:
-  - `docs/steps/STEP_02_validation.md`, `PROGRESS.md`, `CHANGELOG.md`
+  - `docs/04_DATA_SCHEMA.md`, `docs/steps/STEP_02_validation.md`, `PROGRESS.md`, `CHANGELOG.md`
 - decisions / notes:
-  - Preserved no-deletion rule (Rule 4 of `ANTIGRAVITY.md`). Every anomaly is flagged and logged with human-readable rationale.
+  - Preserved no-deletion rule (Rule 4 of `ANTIGRAVITY.md`). Schedule acceleration (`schedule_advanced`) is recognized as a signal, not a defect. Implausible downward cost crashes (>90%) are separated from standard descoping.
 
 
 ## 2026-09-15 — DATA_SHARING — DVC & Google Drive Data Sharing Workflow

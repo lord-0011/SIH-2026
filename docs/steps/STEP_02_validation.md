@@ -21,25 +21,29 @@ Validation complete across all 35 interim files (19,596 total records processed;
 Total flagged records: 4,301 (21.9%)
 Total issues logged: 4,588
 
-Flag counts by type:
-  cost_revised_down:    2,767  (known reporting artifact; keep record)
-  date_inconsistency:   1,053  (temporal sequence checks)
-  exp_exceeds_cost:       764  (sanctioned cost overrun / review flag)
-  negative_value:           4  (cumulative expenditure negative in 2026-01 MoRTH onboarding)
-  progress_out_of_range:    0  (all physical progress values within [0, 100]%)
+Flag counts by type (granular split):
+  cost_revised_down:          2,738  (known reporting artifact / legitimate descoping; keep record)
+  exp_exceeds_cost:             764  (sanctioned cost overrun review flag)
+  start_before_approval:        633  (administrative convention: work started prior to formal sanction)
+  schedule_advanced:            332  (schedule acceleration signal: expected completion earlier than original)
+  date_impossible:               88  (genuine defect: impossible chronological ordering or pre-1970 sentinel)
+  implausible_cost_revision:     29  (extreme >90% drop artifact, e.g. project 618886: 238.66 -> 0.1)
+  negative_value:                 4  (Jan 2026 MoRTH onboarding negative cumulative expenditures)
+  progress_out_of_range:          0  (all physical progress values within [0, 100]%)
 
-Spot check 3 flagged records:
+Spot check flagged records:
 1. [2026-06] Project 618258: "Two laning with paved shoulders of Gondiguda to Araku uptoBh..."
    Ministry: Ministry of Road Transport & Highways | Sector: Roads & Highways
    Flag: cost_revised_down | Reason: revised_cost_cr (289.11 Cr) < original_cost_cr (296.66 Cr) (known reporting artifact; keep record)
 
 2. [2026-01] Project 705528: "Muzaffarpur-Sugauli..."
    Ministry: Ministry of Railways | Sector: Railways
-   Flag: date_inconsistency | Reason: start_date (03/2017) is before date_of_approval (03/2018)
+   Flag: start_before_approval | Reason: start_date (03/2017) is before date_of_approval (03/2018) (administrative convention: work start / advance tender prior to formal sanction; keep record)
 
-3. [2026-05] Project 618447: "Construction of 2-Laning with Paved Shoulder of New Greenfie..."
+3. [2026-01] Project 618886: "Road Safety Improvement of Critical Junctions on MuzaffarnagarHaridwar Section..."
    Ministry: Ministry of Road Transport & Highways | Sector: Roads & Highways
-   Flag: cost_revised_down | Reason: revised_cost_cr (379.3 Cr) < original_cost_cr (410.6 Cr) (known reporting artifact; keep record)
+   Flag: implausible_cost_revision | Reason: revised_cost_cr (0.1 Cr) < 10% of original_cost_cr (238.66 Cr) — extreme downward revision (99.96% drop), likely data-entry or partial contract unbundling artifact; keep record
+   Flag: exp_exceeds_cost | Reason: cumulative_expenditure_cr (2.58 Cr) exceeds revised_cost_cr (0.1 Cr) by 2.48 Cr
 ```
 
 ## Definition of Done

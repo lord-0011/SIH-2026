@@ -5,14 +5,14 @@
 
 **Current step:** STEP_03 (matching) — ⬜ not started
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-15 (STEP_02 validation completed: 19,596 records validated across 35 files, 0 dropped)
+**Last updated:** 2026-09-15 (STEP_01 project_code parser bug fixed; STEP_02 granular validation completed: 19,596 records, 0 dropped)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
 |------|-------|--------|------------------|
 | STEP_00 repo setup | 0 | ✅ | scaffold, venv, pyproject.toml, docker db service |
-| STEP_01 ingestion | 1 | ✅ | 13 monthly reports parsed; 100% Table 1 non-circular match; 289 completed projects |
-| STEP_02 validation | 2 | ✅ | 19,596 records checked; 4,301 flagged; validation report + log emitted |
+| STEP_01 ingestion | 1 | ✅ | 13 monthly reports parsed; 100% Table 1 match; 0% missing project_code across all 13 months |
+| STEP_02 validation | 2 | ✅ | 19,596 records checked; 0 dropped; granular taxonomy (date_impossible, start_before_approval, schedule_advanced, implausible_cost_revision) |
 | STEP_03 matching | 2 | ⬜ | Next step: canonical project_id via PMGID -> Project Code -> Legacy OCMS -> fuzzy |
 | STEP_04 panel | 3 | ⬜ | handle MoRTH onboarding discontinuity |
 | STEP_05 EDA gate | 4 | ⬜ | **GATE: resolves all data TODOs** |

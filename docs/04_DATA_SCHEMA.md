@@ -51,13 +51,18 @@ Add a row here whenever you implement a feature (Sync Rule 1).
 DERIVED features use TRAILING windows ending at T only. Each needs a leakage test.
 
 ## Validation rules table — src/validation (add rows as implemented)
-| Rule | Action on trigger |
-|------|-------------------|
-| physical_progress outside 0-100 | flag `progress_out_of_range` |
-| negative cost / exp / progress | flag `negative_value` |
-| start_date after approval / revised before original | flag `date_inconsistency` |
-| revised_cost < original_cost | flag `cost_revised_down` (KEEP, not error) |
-| cum_exp > revised_cost | flag `exp_exceeds_cost` (review) |
-| month-over-month change > k·σ | flag `outlier_jump` |
-| missing month, project not new/completed/excluded | flag `unexplained_gap` |
-Never silently delete. Every flag logged with project_id + month + reason.
+| Rule | Flag | Category | Action / Meaning |
+|------|------|----------|------------------|
+| `physical_progress_pct` outside [0, 100] | `progress_out_of_range` | Defect | Flag and keep record |
+| Negative cost, expenditure, or progress | `negative_value` | Defect | Flag and keep record (e.g. 4 negative expenditures in Jan 2026 MoRTH onboarding) |
+| Impossible chronological ordering (`orig_comp < start`, `act_comp < start`, `orig_comp < approval`, sentinel year < 1970) | `date_impossible` | Defect | Flag and keep record |
+| `start_date < date_of_approval` | `start_before_approval` | Reporting Convention | Flag and keep record (advance work / retrospective sanction prior to formal approval) |
+| `revised_completion_date < original_completion_date` | `schedule_advanced` | Signal (Positive Performance) | Flag and keep record (schedule acceleration; expected early completion) |
+| `revised_cost_cr < 0.1 * original_cost_cr` (>90% reduction) | `implausible_cost_revision` | Data-Entry / Contract Artifact | Flag and keep record (e.g. project 618886: 238.66 -> 0.1; distinct from genuine descoping) |
+| `revised_cost_cr < original_cost_cr` (standard reduction) | `cost_revised_down` | Known Reporting Artifact | Flag and keep record (genuine descoping or tender savings) |
+| `cumulative_expenditure_cr > revised_cost_cr` | `exp_exceeds_cost` | Budget Review | Flag and keep record (expenditure exceeds currently sanctioned cost) |
+| month-over-month change > k·σ (panel-level) | `outlier_jump` | Panel Check | Evaluated at STEP_04 panel assembly |
+| missing month, project not new/completed/excluded | `unexplained_gap` | Panel Check | Evaluated at STEP_04 panel assembly |
+
+Never silently delete. Every flag logged with `project_code` + `report_month` + `column` + `value` + human-readable `reason`.
+
