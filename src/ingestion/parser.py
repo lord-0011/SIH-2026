@@ -162,9 +162,10 @@ def parse_table_1_summary(doc: pdfplumber.PDF) -> dict[str, Any]:
     for p in doc.pages[:35]:
         t = p.extract_text() or ""
         if (
-            "Table 1: Ministry-wise" in t
-            or "Ministry-wise Ongoing Projects" in t
-        ) and "List of Tables" not in t and "CONTENTS" not in t:
+            ("Table 1: Ministry-wise" in t or "Ministry-wise Ongoing Projects" in t)
+            and "List of Tables" not in t
+            and "CONTENTS" not in t
+        ):
             in_table1 = True
         if not in_table1:
             continue
@@ -222,7 +223,10 @@ def parse_ongoing_table(doc: pdfplumber.PDF, source_month: str, source_doc: str)
                     raw_row[0] is None
                     and len(raw_row) > 1
                     and clean_str(raw_row[1])
-                    and (clean_str(raw_row[1]).isdigit() or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No"))
+                    and (
+                        clean_str(raw_row[1]).isdigit()
+                        or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No")
+                    )
                 ):
                     row = raw_row[1:]
                 else:
@@ -255,7 +259,9 @@ def parse_ongoing_table(doc: pdfplumber.PDF, source_month: str, source_doc: str)
 
                 # Ongoing project row
                 sl_no = int(col0)
-                proj_name, agency, proj_code, legacy_code, pmgid = parse_table6_project_cell(col1 or "")
+                proj_name, agency, proj_code, legacy_code, pmgid = parse_table6_project_cell(
+                    col1 or ""
+                )
                 state = clean_str(row[2]) if len(row) > 2 else None
 
                 # Approval & Start Dates (col 3)
@@ -344,7 +350,10 @@ def parse_table_3(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
                     raw_row[0] is None
                     and len(raw_row) > 1
                     and clean_str(raw_row[1])
-                    and (clean_str(raw_row[1]).isdigit() or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No"))
+                    and (
+                        clean_str(raw_row[1]).isdigit()
+                        or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No")
+                    )
                 ):
                     row = raw_row[1:]
                 else:
@@ -453,7 +462,10 @@ def parse_table_4(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
                     raw_row[0] is None
                     and len(raw_row) > 1
                     and clean_str(raw_row[1])
-                    and (clean_str(raw_row[1]).isdigit() or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No"))
+                    and (
+                        clean_str(raw_row[1]).isdigit()
+                        or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No")
+                    )
                 ):
                     row = raw_row[1:]
                 else:

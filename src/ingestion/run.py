@@ -103,21 +103,32 @@ def run(config: dict | None = None) -> dict[str, Any]:
 
         # Layout type
         layout_type = "Early" if source_month in ("2025-07", "2025-08") else "Modern"
-        ongoing_table_title = "Table 4: All Ongoing Projects" if layout_type == "Early" else "Table 6: All Ongoing Projects"
+        ongoing_table_title = (
+            "Table 4: All Ongoing Projects"
+            if layout_type == "Early"
+            else "Table 6: All Ongoing Projects"
+        )
 
         # Check fields
         has_revised_cost = bool(
             "revised_cost_cr" in df_ongoing.columns and df_ongoing["revised_cost_cr"].notna().any()
         )
         has_revised_doc = bool(
-            "revised_completion_date" in df_ongoing.columns and df_ongoing["revised_completion_date"].notna().any()
+            "revised_completion_date" in df_ongoing.columns
+            and df_ongoing["revised_completion_date"].notna().any()
         )
         has_completed_table = completed_count > 0
         has_newly_added_table = newly_added_count > 0
 
         # Aggregates
-        ongoing_orig_cost = round(float(df_ongoing["original_cost_cr"].sum()), 2) if not df_ongoing.empty else 0.0
-        ongoing_cum_exp = round(float(df_ongoing["cumulative_expenditure_cr"].sum()), 2) if not df_ongoing.empty else 0.0
+        ongoing_orig_cost = (
+            round(float(df_ongoing["original_cost_cr"].sum()), 2) if not df_ongoing.empty else 0.0
+        )
+        ongoing_cum_exp = (
+            round(float(df_ongoing["cumulative_expenditure_cr"].sum()), 2)
+            if not df_ongoing.empty
+            else 0.0
+        )
 
         t1_count = t1.get("table1_project_count")
         t1_orig_cost = t1.get("table1_orig_cost_cr")

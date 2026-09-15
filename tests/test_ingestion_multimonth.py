@@ -17,19 +17,110 @@ from src.common.io import load_dataframe
 
 # Published ground-truth reference figures (independent secondary cross-check)
 PUBLISHED_GROUND_TRUTH = {
-    "2025-07": {"ongoing_count": 791, "orig_cost": 2386335.28, "layout": "Early", "morth": 0, "completed": 0, "newly_added": 0},
-    "2025-08": {"ongoing_count": 800, "orig_cost": 2375332.37, "layout": "Early", "morth": 0, "completed": 0, "newly_added": 0},
-    "2025-09": {"ongoing_count": 794, "orig_cost": 2533121.98, "layout": "Modern", "morth": 0, "completed": 6, "newly_added": 34},
-    "2025-10": {"ongoing_count": 820, "orig_cost": 2552631.73, "layout": "Modern", "morth": 0, "completed": 6, "newly_added": 35},
-    "2025-11": {"ongoing_count": 823, "orig_cost": 2418198.30, "layout": "Modern", "morth": 0, "completed": 13, "newly_added": 21},
-    "2025-12": {"ongoing_count": 1392, "orig_cost": 2968247.55, "layout": "Modern", "morth": 584, "completed": 17, "newly_added": 20},
-    "2026-01": {"ongoing_count": 1702, "orig_cost": 3371816.32, "layout": "Modern", "morth": 863, "completed": 3, "newly_added": 203},
-    "2026-02": {"ongoing_count": 1948, "orig_cost": 3632088.32, "layout": "Modern", "morth": 1108, "completed": 9, "newly_added": 268},
-    "2026-03": {"ongoing_count": 1941, "orig_cost": 3588861.17, "layout": "Modern", "morth": 1120, "completed": 25, "newly_added": 12},
-    "2026-04": {"ongoing_count": 1981, "orig_cost": 3712662.01, "layout": "Modern", "morth": 1137, "completed": 9, "newly_added": 55},
-    "2026-05": {"ongoing_count": 1987, "orig_cost": 3709724.65, "layout": "Modern", "morth": 1149, "completed": 16, "newly_added": 35},
-    "2026-06": {"ongoing_count": 1847, "orig_cost": 3561721.07, "layout": "Modern", "morth": 1022, "completed": 130, "newly_added": 17},
-    "2026-07": {"ongoing_count": 1775, "orig_cost": 3370138.22, "layout": "Modern", "morth": 993, "completed": 25, "newly_added": 36},
+    "2025-07": {
+        "ongoing_count": 791,
+        "orig_cost": 2386335.28,
+        "layout": "Early",
+        "morth": 0,
+        "completed": 0,
+        "newly_added": 0,
+    },
+    "2025-08": {
+        "ongoing_count": 800,
+        "orig_cost": 2375332.37,
+        "layout": "Early",
+        "morth": 0,
+        "completed": 0,
+        "newly_added": 0,
+    },
+    "2025-09": {
+        "ongoing_count": 794,
+        "orig_cost": 2533121.98,
+        "layout": "Modern",
+        "morth": 0,
+        "completed": 6,
+        "newly_added": 34,
+    },
+    "2025-10": {
+        "ongoing_count": 820,
+        "orig_cost": 2552631.73,
+        "layout": "Modern",
+        "morth": 0,
+        "completed": 6,
+        "newly_added": 35,
+    },
+    "2025-11": {
+        "ongoing_count": 823,
+        "orig_cost": 2418198.30,
+        "layout": "Modern",
+        "morth": 0,
+        "completed": 13,
+        "newly_added": 21,
+    },
+    "2025-12": {
+        "ongoing_count": 1392,
+        "orig_cost": 2968247.55,
+        "layout": "Modern",
+        "morth": 584,
+        "completed": 17,
+        "newly_added": 20,
+    },
+    "2026-01": {
+        "ongoing_count": 1702,
+        "orig_cost": 3371816.32,
+        "layout": "Modern",
+        "morth": 863,
+        "completed": 3,
+        "newly_added": 203,
+    },
+    "2026-02": {
+        "ongoing_count": 1948,
+        "orig_cost": 3632088.32,
+        "layout": "Modern",
+        "morth": 1108,
+        "completed": 9,
+        "newly_added": 268,
+    },
+    "2026-03": {
+        "ongoing_count": 1941,
+        "orig_cost": 3588861.17,
+        "layout": "Modern",
+        "morth": 1120,
+        "completed": 25,
+        "newly_added": 12,
+    },
+    "2026-04": {
+        "ongoing_count": 1981,
+        "orig_cost": 3712662.01,
+        "layout": "Modern",
+        "morth": 1137,
+        "completed": 9,
+        "newly_added": 55,
+    },
+    "2026-05": {
+        "ongoing_count": 1987,
+        "orig_cost": 3709724.65,
+        "layout": "Modern",
+        "morth": 1149,
+        "completed": 16,
+        "newly_added": 35,
+    },
+    "2026-06": {
+        "ongoing_count": 1847,
+        "orig_cost": 3561721.07,
+        "layout": "Modern",
+        "morth": 1022,
+        "completed": 130,
+        "newly_added": 17,
+    },
+    "2026-07": {
+        "ongoing_count": 1775,
+        "orig_cost": 3370138.22,
+        "layout": "Modern",
+        "morth": 993,
+        "completed": 25,
+        "newly_added": 36,
+    },
 }
 
 
@@ -64,11 +155,15 @@ def test_independent_ground_truth_crosscheck(summary_df):
     for _, row in summary_df.iterrows():
         month = row["report_month"]
         ref = PUBLISHED_GROUND_TRUTH[month]
-        assert row["ongoing_row_count"] == ref["ongoing_count"], f"[{month}] Project count mismatch vs reference"
+        assert (
+            row["ongoing_row_count"] == ref["ongoing_count"]
+        ), f"[{month}] Project count mismatch vs reference"
         assert row["layout_type"] == ref["layout"], f"[{month}] Layout type mismatch"
         assert row["morth_ongoing_count"] == ref["morth"], f"[{month}] MoRTH count mismatch"
         assert row["completed_row_count"] == ref["completed"], f"[{month}] Completed count mismatch"
-        assert row["newly_added_row_count"] == ref["newly_added"], f"[{month}] Newly added count mismatch"
+        assert (
+            row["newly_added_row_count"] == ref["newly_added"]
+        ), f"[{month}] Newly added count mismatch"
 
 
 def test_cost_aggregates_match_table1(summary_df):
@@ -86,8 +181,12 @@ def test_revised_fields_available_all_months(summary_df):
     """Assert both revised cost and revised completion date are available across all 13 months."""
     for _, row in summary_df.iterrows():
         month = row["report_month"]
-        assert row["has_revised_cost"] is True or row["has_revised_cost"] == 1, f"[{month}] Missing revised cost"
-        assert row["has_revised_doc"] is True or row["has_revised_doc"] == 1, f"[{month}] Missing revised DoC"
+        assert (
+            row["has_revised_cost"] is True or row["has_revised_cost"] == 1
+        ), f"[{month}] Missing revised cost"
+        assert (
+            row["has_revised_doc"] is True or row["has_revised_doc"] == 1
+        ), f"[{month}] Missing revised DoC"
 
 
 def test_parquet_file_integrity():
