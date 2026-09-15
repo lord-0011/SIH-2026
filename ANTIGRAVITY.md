@@ -85,6 +85,7 @@ internal) hackathon** with the MVP scope in `docs/00_PROJECT_CHARTER.md`.
 
 - [ ] Scope in the step file is fully implemented, nothing extra
 - [ ] Tests written and passing (leakage test included where applicable)
+- [ ] Before claiming done, run `black .` (not just `--check`) and `ruff check .`, and confirm CI is green on the pushed branch — a claim of "quality checks pass" must reference an actual green CI run, not a local assumption
 - [ ] Real verify-command output pasted, not summarized
 - [ ] Docs synced per `docs/09_DOC_SYNC_RULES.md` (PROGRESS + CHANGELOG + mapped docs)
 - [ ] Walkthrough written for Claude review

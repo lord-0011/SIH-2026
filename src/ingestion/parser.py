@@ -151,8 +151,49 @@ def is_ministry_header(norm_text: str) -> bool:
     return norm_text.startswith(("Ministry of", "Department of", "Department for"))
 
 
-def parse_table_6(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd.DataFrame:
-    """Parse Table 6 (All Ongoing Projects)."""
+def parse_table_1_summary(doc: pdfplumber.PDF) -> dict[str, Any]:
+    """Parse Table 1 (Ministry-wise Ongoing Projects) grand totals and MoRTH count."""
+    morth_count = 0
+    grand_total = None
+    t1_orig_cost = None
+    t1_cum_exp = None
+    in_table1 = False
+
+    for p in doc.pages[:35]:
+        t = p.extract_text() or ""
+        if (
+            ("Table 1: Ministry-wise" in t or "Ministry-wise Ongoing Projects" in t)
+            and "List of Tables" not in t
+            and "CONTENTS" not in t
+        ):
+            in_table1 = True
+        if not in_table1:
+            continue
+        if "Table 2:" in t or "State-wise Ongoing Projects" in t:
+            break
+        for table in p.extract_tables():
+            for r in table:
+                clean_r = [str(c).strip() for c in r if c and str(c).strip()]
+                if not clean_r:
+                    continue
+                if any("road transport" in c.lower() for c in clean_r) and len(clean_r) >= 4:
+                    if clean_r[3].isdigit():
+                        morth_count = int(clean_r[3])
+                if clean_r[0].lower() == "total" and len(clean_r) >= 4 and clean_r[1].isdigit():
+                    grand_total = int(clean_r[1])
+                    t1_orig_cost = parse_number(clean_r[2])
+                    t1_cum_exp = parse_number(clean_r[3])
+
+    return {
+        "table1_project_count": grand_total,
+        "table1_orig_cost_cr": t1_orig_cost,
+        "table1_cum_exp_cr": t1_cum_exp,
+        "morth_ongoing_count": morth_count,
+    }
+
+
+def parse_ongoing_table(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd.DataFrame:
+    """Parse All Ongoing Projects table (layout-aware, handles early Table 4 & modern Table 6)."""
     rows = []
     curr_ministry = None
     curr_sector = None
@@ -162,7 +203,6 @@ def parse_table_6(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
         # Check if page is an 'All Ongoing Projects' data page
         if (
             "All Ongoing Projects" not in txt
-            or ("Legacy OCMS Code" not in txt and "Sl.No" not in txt)
             or "List of Tables" in txt
             or "Appendix" in txt
             or "CONTENTS" in txt
@@ -173,90 +213,113 @@ def parse_table_6(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
         if not tables:
             continue
 
-        table = tables[0]
-        for row in table:
-            if not row or not any(row):
-                continue
-
-            col0 = clean_str(row[0])
-            col1 = clean_str(row[1])
-
-            # Header row check
-            if col0 == "Sl.No" or (col1 and "Project Name" in col1):
-                continue
-
-            # Section header or summary row
-            if not col0 or not col0.isdigit():
-                if not col1:
-                    continue
-                if col1.lower().startswith("total"):
+        for table in tables:
+            for raw_row in table:
+                if not raw_row or not any(raw_row):
                     continue
 
-                norm_col1 = " ".join(col1.split())
-                if is_ministry_header(norm_col1):
-                    curr_ministry = norm_col1
-                    curr_sector = None
+                # Shift row only when leading cell is None and second cell is digit/Sl.No (handles border columns)
+                if (
+                    raw_row[0] is None
+                    and len(raw_row) > 1
+                    and clean_str(raw_row[1])
+                    and (
+                        clean_str(raw_row[1]).isdigit()
+                        or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No")
+                    )
+                ):
+                    row = raw_row[1:]
                 else:
-                    curr_sector = norm_col1
-                continue
+                    row = raw_row
 
-            # Ongoing project row
-            sl_no = int(col0)
-            proj_name, agency, proj_code, legacy_code, pmgid = parse_table6_project_cell(col1 or "")
-            state = clean_str(row[2]) if len(row) > 2 else None
+                if not row or len(row) < 2:
+                    continue
 
-            # Approval & Start Dates (col 3)
-            c3 = clean_str(row[3]) if len(row) > 3 else ""
-            c3_parts = [p.strip() for p in (c3 or "").split("\n") if p.strip()]
-            approval_date = c3_parts[0] if c3_parts else None
-            start_date = c3_parts[1].strip("()") if len(c3_parts) > 1 else None
-            if start_date in ("-", "--"):
-                start_date = None
+                col0 = clean_str(row[0])
+                col1 = clean_str(row[1])
 
-            # Original & Revised DoC (col 4)
-            c4 = clean_str(row[4]) if len(row) > 4 else ""
-            c4_parts = [p.strip() for p in (c4 or "").split("\n") if p.strip()]
-            orig_doc = c4_parts[0] if c4_parts else None
-            rev_doc = c4_parts[1].strip("()") if len(c4_parts) > 1 else None
-            if rev_doc in ("-", "--"):
-                rev_doc = None
+                # Header row check
+                if col0 in ("Sl.No", "Sl. No", "Sl No") or (col1 and "Project Name" in col1):
+                    continue
 
-            # Original & Revised Cost (col 5)
-            c5 = clean_str(row[5]) if len(row) > 5 else ""
-            c5_parts = [p.strip() for p in (c5 or "").split("\n") if p.strip()]
-            orig_cost = parse_number(c5_parts[0]) if c5_parts else None
-            rev_cost = parse_number(c5_parts[1]) if len(c5_parts) > 1 else orig_cost
+                # Section header or summary row
+                if not col0 or not col0.isdigit():
+                    if not col1:
+                        continue
+                    if col1.lower().startswith("total"):
+                        continue
 
-            cum_exp = parse_number(row[6]) if len(row) > 6 else None
-            progress = parse_number(row[7]) if len(row) > 7 else None
+                    norm_col1 = " ".join(col1.split())
+                    if is_ministry_header(norm_col1):
+                        curr_ministry = norm_col1
+                        curr_sector = None
+                    else:
+                        curr_sector = norm_col1
+                    continue
 
-            rows.append(
-                {
-                    "sl_no": sl_no,
-                    "project_name": proj_name,
-                    "implementing_agency": agency,
-                    "project_code": proj_code,
-                    "legacy_ocms_code": legacy_code,
-                    "pmgid": pmgid,
-                    "ministry": curr_ministry,
-                    "sector": curr_sector,
-                    "state": state,
-                    "date_of_approval": approval_date,
-                    "start_date": start_date,
-                    "original_completion_date": orig_doc,
-                    "revised_completion_date": rev_doc,
-                    "original_cost_cr": orig_cost,
-                    "revised_cost_cr": rev_cost,
-                    "cumulative_expenditure_cr": cum_exp,
-                    "physical_progress_pct": progress,
-                    "report_month": source_month,
-                    "source_doc": source_doc,
-                }
-            )
+                # Ongoing project row
+                sl_no = int(col0)
+                proj_name, agency, proj_code, legacy_code, pmgid = parse_table6_project_cell(
+                    col1 or ""
+                )
+                state = clean_str(row[2]) if len(row) > 2 else None
+
+                # Approval & Start Dates (col 3)
+                c3 = clean_str(row[3]) if len(row) > 3 else ""
+                c3_parts = [p.strip() for p in (c3 or "").split("\n") if p.strip()]
+                approval_date = c3_parts[0] if c3_parts else None
+                start_date = c3_parts[1].strip("()") if len(c3_parts) > 1 else None
+                if start_date in ("-", "--"):
+                    start_date = None
+
+                # Original & Revised DoC (col 4)
+                c4 = clean_str(row[4]) if len(row) > 4 else ""
+                c4_parts = [p.strip() for p in (c4 or "").split("\n") if p.strip()]
+                orig_doc = c4_parts[0] if c4_parts else None
+                rev_doc = c4_parts[1].strip("()") if len(c4_parts) > 1 else None
+                if rev_doc in ("-", "--"):
+                    rev_doc = None
+
+                # Original & Revised Cost (col 5)
+                c5 = clean_str(row[5]) if len(row) > 5 else ""
+                c5_parts = [p.strip() for p in (c5 or "").split("\n") if p.strip()]
+                orig_cost = parse_number(c5_parts[0]) if c5_parts else None
+                rev_cost = parse_number(c5_parts[1]) if len(c5_parts) > 1 else orig_cost
+
+                cum_exp = parse_number(row[6]) if len(row) > 6 else None
+                progress = parse_number(row[7]) if len(row) > 7 else None
+
+                rows.append(
+                    {
+                        "sl_no": sl_no,
+                        "project_name": proj_name,
+                        "implementing_agency": agency,
+                        "project_code": proj_code,
+                        "legacy_ocms_code": legacy_code,
+                        "pmgid": pmgid,
+                        "ministry": curr_ministry,
+                        "sector": curr_sector,
+                        "state": state,
+                        "date_of_approval": approval_date,
+                        "start_date": start_date,
+                        "original_completion_date": orig_doc,
+                        "revised_completion_date": rev_doc,
+                        "original_cost_cr": orig_cost,
+                        "revised_cost_cr": rev_cost,
+                        "cumulative_expenditure_cr": cum_exp,
+                        "physical_progress_pct": progress,
+                        "report_month": source_month,
+                        "source_doc": source_doc,
+                    }
+                )
 
     df = pd.DataFrame(rows)
-    log.info("Parsed Table 6: %d rows from %s", len(df), source_doc)
+    log.info("Parsed Ongoing table: %d rows from %s", len(df), source_doc)
     return df
+
+
+# Backward compatibility alias
+parse_table_6 = parse_ongoing_table
 
 
 def parse_table_3(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd.DataFrame:
@@ -268,8 +331,7 @@ def parse_table_3(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
     for idx, page in enumerate(doc.pages):
         txt = page.extract_text() or ""
         if (
-            "Actual Date of Completion" not in txt
-            or "Sl.No" not in txt
+            ("Completed Projects" not in txt and "Actual Date of Completion" not in txt)
             or "List of Tables" in txt
             or "Appendix" in txt
             or "CONTENTS" in txt
@@ -280,79 +342,95 @@ def parse_table_3(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
         if not tables:
             continue
 
-        table = tables[0]
-        for row in table:
-            if not row or not any(row):
-                continue
-            col0 = clean_str(row[0])
-            col1 = clean_str(row[1])
-
-            if col0 == "Sl.No" or (col1 and "Project Name" in col1):
-                continue
-
-            if not col0 or not col0.isdigit():
-                if not col1 or col1.lower().startswith("total"):
+        for table in tables:
+            for raw_row in table:
+                if not raw_row or not any(raw_row):
                     continue
-                norm = " ".join(col1.split())
-                if is_ministry_header(norm):
-                    curr_ministry = norm
-                    curr_sector = None
+                if (
+                    raw_row[0] is None
+                    and len(raw_row) > 1
+                    and clean_str(raw_row[1])
+                    and (
+                        clean_str(raw_row[1]).isdigit()
+                        or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No")
+                    )
+                ):
+                    row = raw_row[1:]
                 else:
-                    curr_sector = norm
-                continue
+                    row = raw_row
 
-            sl_no = int(col0)
-            proj_name, agency, proj_code = parse_simple_project_cell(col1 or "")
-            state = clean_str(row[2]) if len(row) > 2 else None
+                if not row or len(row) < 2:
+                    continue
 
-            # Col 3: Approval / Start
-            c3 = clean_str(row[3]) if len(row) > 3 else ""
-            c3_parts = [p.strip() for p in (c3 or "").split("\n") if p.strip()]
-            approval_date = c3_parts[0] if c3_parts else None
-            start_date = c3_parts[1].strip("()") if len(c3_parts) > 1 else None
+                col0 = clean_str(row[0])
+                col1 = clean_str(row[1])
 
-            # Col 4: Actual Completion / Orig DoC / Rev DoC
-            c4 = clean_str(row[4]) if len(row) > 4 else ""
-            c4_parts = [p.strip() for p in (c4 or "").split("\n") if p.strip()]
-            act_comp = c4_parts[0] if c4_parts else None
-            orig_doc = c4_parts[1].strip("()") if len(c4_parts) > 1 else None
-            rev_doc = c4_parts[2].strip("()") if len(c4_parts) > 2 else None
-            if rev_doc in ("-", "--"):
-                rev_doc = None
+                if col0 in ("Sl.No", "Sl. No", "Sl No") or (col1 and "Project Name" in col1):
+                    continue
 
-            # Col 5: Orig Cost / Rev Cost
-            c5 = clean_str(row[5]) if len(row) > 5 else ""
-            c5_parts = [p.strip() for p in (c5 or "").split("\n") if p.strip()]
-            orig_cost = parse_number(c5_parts[0]) if c5_parts else None
-            rev_cost = parse_number(c5_parts[1]) if len(c5_parts) > 1 else orig_cost
+                if not col0 or not col0.isdigit():
+                    if not col1 or col1.lower().startswith("total"):
+                        continue
+                    norm = " ".join(col1.split())
+                    if is_ministry_header(norm):
+                        curr_ministry = norm
+                        curr_sector = None
+                    else:
+                        curr_sector = norm
+                    continue
 
-            cum_exp = parse_number(row[6]) if len(row) > 6 else None
+                sl_no = int(col0)
+                proj_name, agency, proj_code = parse_simple_project_cell(col1 or "")
+                state = clean_str(row[2]) if len(row) > 2 else None
 
-            rows.append(
-                {
-                    "sl_no": sl_no,
-                    "project_name": proj_name,
-                    "implementing_agency": agency,
-                    "project_code": proj_code,
-                    "ministry": curr_ministry,
-                    "sector": curr_sector,
-                    "state": state,
-                    "date_of_approval": approval_date,
-                    "start_date": start_date,
-                    "actual_completion_date": act_comp,
-                    "original_completion_date": orig_doc,
-                    "revised_completion_date": rev_doc,
-                    "original_cost_cr": orig_cost,
-                    "revised_cost_cr": rev_cost,
-                    "cumulative_expenditure_cr": cum_exp,
-                    "is_completed_this_month": True,
-                    "report_month": source_month,
-                    "source_doc": source_doc,
-                }
-            )
+                # Col 3: Approval / Start
+                c3 = clean_str(row[3]) if len(row) > 3 else ""
+                c3_parts = [p.strip() for p in (c3 or "").split("\n") if p.strip()]
+                approval_date = c3_parts[0] if c3_parts else None
+                start_date = c3_parts[1].strip("()") if len(c3_parts) > 1 else None
+
+                # Col 4: Actual Completion / Orig DoC / Rev DoC
+                c4 = clean_str(row[4]) if len(row) > 4 else ""
+                c4_parts = [p.strip() for p in (c4 or "").split("\n") if p.strip()]
+                act_comp = c4_parts[0] if c4_parts else None
+                orig_doc = c4_parts[1].strip("()") if len(c4_parts) > 1 else None
+                rev_doc = c4_parts[2].strip("()") if len(c4_parts) > 2 else None
+                if rev_doc in ("-", "--"):
+                    rev_doc = None
+
+                # Col 5: Orig Cost / Rev Cost
+                c5 = clean_str(row[5]) if len(row) > 5 else ""
+                c5_parts = [p.strip() for p in (c5 or "").split("\n") if p.strip()]
+                orig_cost = parse_number(c5_parts[0]) if c5_parts else None
+                rev_cost = parse_number(c5_parts[1]) if len(c5_parts) > 1 else orig_cost
+
+                cum_exp = parse_number(row[6]) if len(row) > 6 else None
+
+                rows.append(
+                    {
+                        "sl_no": sl_no,
+                        "project_name": proj_name,
+                        "implementing_agency": agency,
+                        "project_code": proj_code,
+                        "ministry": curr_ministry,
+                        "sector": curr_sector,
+                        "state": state,
+                        "date_of_approval": approval_date,
+                        "start_date": start_date,
+                        "actual_completion_date": act_comp,
+                        "original_completion_date": orig_doc,
+                        "revised_completion_date": rev_doc,
+                        "original_cost_cr": orig_cost,
+                        "revised_cost_cr": rev_cost,
+                        "cumulative_expenditure_cr": cum_exp,
+                        "is_completed_this_month": True,
+                        "report_month": source_month,
+                        "source_doc": source_doc,
+                    }
+                )
 
     df = pd.DataFrame(rows)
-    log.info("Parsed Table 3: %d rows from %s", len(df), source_doc)
+    log.info("Parsed Completed table: %d rows from %s", len(df), source_doc)
     return df
 
 
@@ -364,101 +442,115 @@ def parse_table_4(doc: pdfplumber.PDF, source_month: str, source_doc: str) -> pd
 
     for idx, page in enumerate(doc.pages):
         txt = page.extract_text() or ""
-        tables = page.extract_tables()
-        if not tables or not tables[0] or not tables[0][0]:
-            continue
-
-        hdr_str = " ".join([str(c).replace("\n", " ") for c in tables[0][0] if c])
-        if not (
-            "Orignal Cost" in hdr_str
-            and len(tables[0][0]) == 6
-            and "Sl.No" in hdr_str
-            and "CONTENTS" not in txt
-            and "Appendix" not in txt
-            and "List of Tables" not in txt
+        if (
+            "Newly Added Projects" not in txt
+            or "List of Tables" in txt
+            or "Appendix" in txt
+            or "CONTENTS" in txt
         ):
             continue
 
-        table = tables[0]
-        for row in table:
-            if not row or not any(row):
-                continue
-            col0 = clean_str(row[0])
-            col1 = clean_str(row[1])
+        tables = page.extract_tables()
+        if not tables:
+            continue
 
-            if col0 == "Sl.No" or (col1 and "Project Name" in col1):
-                continue
-
-            if not col0 or not col0.isdigit():
-                if not col1 or col1.lower().startswith("total"):
+        for table in tables:
+            for raw_row in table:
+                if not raw_row or not any(raw_row):
                     continue
-                norm = " ".join(col1.split())
-                if is_ministry_header(norm):
-                    curr_ministry = norm
-                    curr_sector = None
+                if (
+                    raw_row[0] is None
+                    and len(raw_row) > 1
+                    and clean_str(raw_row[1])
+                    and (
+                        clean_str(raw_row[1]).isdigit()
+                        or clean_str(raw_row[1]) in ("Sl.No", "Sl. No", "Sl No")
+                    )
+                ):
+                    row = raw_row[1:]
                 else:
-                    curr_sector = norm
-                continue
+                    row = raw_row
 
-            sl_no = int(col0)
-            proj_name, agency, proj_code = parse_simple_project_cell(col1 or "")
-            state = clean_str(row[2]) if len(row) > 2 else None
+                if not row or len(row) < 2:
+                    continue
 
-            # Col 3: Approval / Start
-            c3 = clean_str(row[3]) if len(row) > 3 else ""
-            c3_parts = [p.strip() for p in (c3 or "").split("\n") if p.strip()]
-            approval_date = c3_parts[0] if c3_parts else None
-            start_date = c3_parts[1].strip("()") if len(c3_parts) > 1 else None
+                col0 = clean_str(row[0])
+                col1 = clean_str(row[1])
 
-            # Col 4: Target DoC / Rev DoC
-            c4 = clean_str(row[4]) if len(row) > 4 else ""
-            c4_parts = [p.strip() for p in (c4 or "").split("\n") if p.strip()]
-            orig_doc = c4_parts[0] if c4_parts else None
-            rev_doc = c4_parts[1].strip("()") if len(c4_parts) > 1 else None
-            if rev_doc in ("-", "--"):
-                rev_doc = None
+                if col0 in ("Sl.No", "Sl. No", "Sl No") or (col1 and "Project Name" in col1):
+                    continue
 
-            # Col 5: Orig Cost / Rev Cost
-            c5 = clean_str(row[5]) if len(row) > 5 else ""
-            c5_parts = [p.strip() for p in (c5 or "").split("\n") if p.strip()]
-            orig_cost = parse_number(c5_parts[0]) if c5_parts else None
-            rev_cost = parse_number(c5_parts[1]) if len(c5_parts) > 1 else orig_cost
+                if not col0 or not col0.isdigit():
+                    if not col1 or col1.lower().startswith("total"):
+                        continue
+                    norm = " ".join(col1.split())
+                    if is_ministry_header(norm):
+                        curr_ministry = norm
+                        curr_sector = None
+                    else:
+                        curr_sector = norm
+                    continue
 
-            rows.append(
-                {
-                    "sl_no": sl_no,
-                    "project_name": proj_name,
-                    "implementing_agency": agency,
-                    "project_code": proj_code,
-                    "ministry": curr_ministry,
-                    "sector": curr_sector,
-                    "state": state,
-                    "date_of_approval": approval_date,
-                    "start_date": start_date,
-                    "original_completion_date": orig_doc,
-                    "revised_completion_date": rev_doc,
-                    "original_cost_cr": orig_cost,
-                    "revised_cost_cr": rev_cost,
-                    "is_newly_added_this_month": True,
-                    "report_month": source_month,
-                    "source_doc": source_doc,
-                }
-            )
+                sl_no = int(col0)
+                proj_name, agency, proj_code = parse_simple_project_cell(col1 or "")
+                state = clean_str(row[2]) if len(row) > 2 else None
+
+                # Col 3: Approval / Start
+                c3 = clean_str(row[3]) if len(row) > 3 else ""
+                c3_parts = [p.strip() for p in (c3 or "").split("\n") if p.strip()]
+                approval_date = c3_parts[0] if c3_parts else None
+                start_date = c3_parts[1].strip("()") if len(c3_parts) > 1 else None
+
+                # Col 4: Target DoC / Rev DoC
+                c4 = clean_str(row[4]) if len(row) > 4 else ""
+                c4_parts = [p.strip() for p in (c4 or "").split("\n") if p.strip()]
+                orig_doc = c4_parts[0] if c4_parts else None
+                rev_doc = c4_parts[1].strip("()") if len(c4_parts) > 1 else None
+                if rev_doc in ("-", "--"):
+                    rev_doc = None
+
+                # Col 5: Orig Cost / Rev Cost
+                c5 = clean_str(row[5]) if len(row) > 5 else ""
+                c5_parts = [p.strip() for p in (c5 or "").split("\n") if p.strip()]
+                orig_cost = parse_number(c5_parts[0]) if c5_parts else None
+                rev_cost = parse_number(c5_parts[1]) if len(c5_parts) > 1 else orig_cost
+
+                rows.append(
+                    {
+                        "sl_no": sl_no,
+                        "project_name": proj_name,
+                        "implementing_agency": agency,
+                        "project_code": proj_code,
+                        "ministry": curr_ministry,
+                        "sector": curr_sector,
+                        "state": state,
+                        "date_of_approval": approval_date,
+                        "start_date": start_date,
+                        "original_completion_date": orig_doc,
+                        "revised_completion_date": rev_doc,
+                        "original_cost_cr": orig_cost,
+                        "revised_cost_cr": rev_cost,
+                        "is_newly_added_this_month": True,
+                        "report_month": source_month,
+                        "source_doc": source_doc,
+                    }
+                )
 
     df = pd.DataFrame(rows)
-    log.info("Parsed Table 4: %d rows from %s", len(df), source_doc)
+    log.info("Parsed Newly Added table: %d rows from %s", len(df), source_doc)
     return df
 
 
-def parse_flash_report(pdf_path: Path | str, source_month: str) -> dict[str, pd.DataFrame]:
-    """Parse a Flash Report PDF into ongoing, completed, and newly added tables."""
+def parse_flash_report(pdf_path: Path | str, source_month: str) -> dict[str, Any]:
+    """Parse a Flash Report PDF into ongoing, completed, and newly added tables, plus Table 1 summary."""
     path = Path(pdf_path)
     if not path.exists():
         raise FileNotFoundError(f"Flash report not found: {path}")
 
     log.info("Opening %s for month %s", path.name, source_month)
     with pdfplumber.open(path) as doc:
-        df_ongoing = parse_table_6(doc, source_month=source_month, source_doc=path.name)
+        t1_summary = parse_table_1_summary(doc)
+        df_ongoing = parse_ongoing_table(doc, source_month=source_month, source_doc=path.name)
         df_completed = parse_table_3(doc, source_month=source_month, source_doc=path.name)
         df_newly_added = parse_table_4(doc, source_month=source_month, source_doc=path.name)
 
@@ -466,4 +558,5 @@ def parse_flash_report(pdf_path: Path | str, source_month: str) -> dict[str, pd.
         "ongoing": df_ongoing,
         "completed": df_completed,
         "newly_added": df_newly_added,
+        "table1_summary": t1_summary,
     }
