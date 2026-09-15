@@ -9,6 +9,31 @@ Format per entry:
 - decisions / notes
 ```
 
+## 2026-09-16 — STEP_04 — Build Project-Month Panel & Enforce Reconciliation Identity
+- what changed (code):
+  - `src/panel/builder.py`: Pure functions module for panel assembly (`parse_state_list`, `compute_elapsed_months`, `classify_project_gaps`, `build_panel_df`). Standardizes ongoing and completed rows, computes elapsed months against `trajectory_anchor_date` (Trap A), leaves missing months empty without forward-filling (Trap B), incorporates all Table 3 completed rows as terminal observed records (Trap C), and enforces the computed reconciliation identity `observed_rows + sum(gaps) == n_projects * n_months`.
+  - `src/panel/run.py`: Panel pipeline runner. Assembles `data/processed/panel.parquet` (18,860 rows across 2,243 projects and 13 months) and `data/processed/panel_gaps.csv` (10,299 explicitly classified absent cells). Asserts 0 duplicates on `(project_id, report_month)` and validates anchoring and gap distributions.
+  - `tests/test_panel_fixture.py`: Dedicated non-skipping CI fixture test suite (3 tests). Validates Trap A (anchor vs report month), Trap B (missing month semantics with no forward fill), Trap C (completed row presence), state list parsing, and computed reconciliation identity on synthetic multi-month project grids.
+  - `tests/test_panel.py`: Real-data integration test suite (6 tests) that skips cleanly in clean CI runners. Asserts computed reconciliation identity, exact totals (18,860 observed + 10,299 gaps == 29,159 grid total), 0 duplicates, project 617907 39-month anchor verification, and completed row schemas.
+- what was verified (real output ref):
+  - Computed Reconciliation Identity verified exact:
+    - 2,243 distinct canonical projects x 13 months = 29,159 grid cells
+    - 18,860 observed rows (18,601 ongoing + 259 completed) + 10,299 gap cells == 29,159 [DIFFERENCE = 0].
+  - Gap breakdown: 8,593 `not_yet_onboarded`, 684 `completed`, 1,022 `unexplained_gap`, 0 `excluded_quality`.
+  - Trap A verified: MoRTH project 617907 anchored to `09/2022` start date computes `elapsed_months_since_anchor = 39.0` in `2025-12` (at 89% progress), not 0.
+  - Trap B verified: project 400019 (missing in 2026-07) has 0 rows fabricated in panel, logged as `unexplained_gap`.
+  - Trap C verified: all 259 completed records present with `is_completed_this_month = True`, `actual_completion_date` populated, and `physical_progress_pct = 100.0`.
+  - All 70 repository tests passing (`pytest -v`): 69 passed, 1 skipped placeholder in 3.48s.
+  - Clean runner simulation: `test_panel_fixture.py` passed 100% in 0.56s.
+  - Black and Ruff: 100% clean across all 41 repository files.
+- docs updated:
+  - `docs/steps/STEP_04_panel.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - The completion month is an OBSERVED row in `panel.parquet` (`is_completed_this_month = True`), so it is NOT a gap. Gaps for a completed project are strictly the months after completion.
+  - The single project that reappeared in ongoing after a completed table appearance (Southern Railway 705635 in Feb 2026, then Mar-Jul 2026 ongoing) was observed in all 13 months, contributing 0 post-completion gap cells and explaining the 684 vs 689 gap delta.
+
+---
+
 ## 2026-09-16 — STEP_03 — Entity Matching & Canonical Identity Resolution
 - what changed (code):
   - `src/matching/matcher.py`: Pure entity matching engine. Implements direct join on `project_code` (`canonical_project_id = project_code`, `match_confidence = "exact_code"`), and fallback cascade exception handler for records lacking `project_code`. Enforces that distinct `project_code`s are never merged into one canonical ID.
