@@ -93,6 +93,7 @@ internal) hackathon** with the MVP scope in `docs/00_PROJECT_CHARTER.md`.
   - Never `git add` a `.parquet`, output `.csv`, or a raw PDF.
   - In the walkthrough/report, state the data version: which `.dvc` files changed and confirm `dvc push` status alongside green-CI evidence.
 - [ ] Real verify-command output pasted, not summarized
+- [ ] **CI Test Discipline**: Any test that reads a file under `data/` or `reports/` (DVC-tracked) MUST skip cleanly when the file is absent (the CI runner has no DVC data). Real CI coverage for that step goes in a `*_fixture.py` test that runs on synthetic in-memory/committed data and never skips. A data-dependent test that errors on a clean runner is a CI-discipline bug, not a code bug.
 - [ ] Data versioned via DVC if data changed: `dvc add <path>` → `dvc push` (when remote configured) → commit `.dvc` file
 - [ ] Docs synced per `docs/09_DOC_SYNC_RULES.md` (PROGRESS + CHANGELOG + mapped docs)
 - [ ] Walkthrough written for Claude review

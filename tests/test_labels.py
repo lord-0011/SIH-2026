@@ -7,12 +7,14 @@ import pytest
 
 from src.common.io import load_dataframe
 
+LABELS_PATH = Path("data/processed/labels.parquet")
+
 
 @pytest.fixture(scope="module")
 def labels_df() -> pd.DataFrame:
-    path = Path("data/processed/labels.parquet")
-    assert path.exists(), "labels.parquet must exist"
-    return load_dataframe(path)
+    if not LABELS_PATH.exists():
+        pytest.skip(f"Labels data not found at {LABELS_PATH} (DVC-tracked)")
+    return load_dataframe(LABELS_PATH)
 
 
 def test_labels_total_rows(labels_df: pd.DataFrame):
