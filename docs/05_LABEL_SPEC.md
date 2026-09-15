@@ -22,9 +22,20 @@ At month T, using ONLY data with month <= T, predict:
   UNKNOWN — drop it from training, do NOT label it negative.
 
 ## Scheme B — realized-outcome label [STRETCH for L1, but capture the data now]
-For projects appearing in "Completed Projects During Month" tables, the true outcome is
+For projects appearing in "Completed Projects During Month" tables (Table 3), the true outcome is
 known (actual vs original completion date; final vs original cost). Small set; used as an
-honest validation anchor, not primary training data. Size = Section-C #4 in DATA_INVENTORY.
+honest validation anchor, not primary training data. Sourced total = 259 completed records.
+
+### Ground-Truth Reversibility Rule & Exclusion (Discovered in STEP_04)
+A completion in MoSPI reporting is NOT guaranteed to be irrevocable:
+- **Provisional / Reversible Completion**: Project `705635` (*Southern Railway, Trivandrum-Kanyakumari*)
+  appeared in Table 3 Completed in `2026-02`, but subsequently reappeared in Table 6 Ongoing
+  from `2026-03` to `2026-07` (5 months) with its completion target revised to `06/2028`.
+- **Exclusion Rule**: Any project that reappears in Ongoing in any month strictly *after* its appearance
+  in Table 3 Completed must be **EXCLUDED** from the Scheme B ground truth validation set.
+- **Clean Realized-Outcome Set**: Exactly **258** projects satisfy the clean condition:
+  $$\text{Clean Anchor} = \text{Completed in Table 3} \land \text{Never observed ongoing afterward}$$
+  (Note: Heavily concentrated in June 2026 with 130 road packages, so effective independent sample size is ~129).
 
 ## Leakage rules (tested, not trusted)
 1. Feature at T uses only month <= T. Rolling = trailing window ending at T.
