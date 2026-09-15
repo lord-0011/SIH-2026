@@ -8,6 +8,31 @@ Format per entry:
 - docs updated: <list>
 - decisions / notes
 ```
+## 2026-09-16 — STEP_11 — Project Risk Scoring, Probability Calibration & Data Sufficiency
+- what changed (code):
+  - `src/risk/scorer.py`: Implements Platt scaling calibration (`fit_platt_calibrator`, `calibrate_probabilities`) trained strictly on Validation block ($T \in [\text{2026-01}, \text{2026-02}]$); monotonic mapping to 0–100 scale ($S = \text{round}(100 \times p_{\text{calibrated}}, 1)$); quantile-derived risk band cutoffs (`LOW` < 4.6, `MEDIUM` 4.6–36.1, `HIGH` 36.1–55.9, `CRITICAL` >= 55.9); and cumulative observation counting for Data Sufficiency tagging (`PROVISIONAL` if $\le 2$ observed months, `SUFFICIENT` if $\ge 3$).
+  - `src/risk/run.py`: Pipeline entrypoint writing `data/processed/risk_scores.parquet` (18,860 rows, 0 nulls across critical fields) and diagnostics to `reports/risk_score_calibration.json` and `data/processed/models/risk_score_calibration.json`.
+  - `tests/test_risk_fixture.py`: Dedicated non-skipping CI fixture suite (4 tests) verifying probability monotonic mapping, synthetic risk band classification, data sufficiency threshold logic, and synthetic Platt calibration behavior in clean CI environments.
+  - `tests/test_risk.py`: Real data integration suite (4 tests, cleanly skipped when DVC assets absent) asserting total row count (18,860), 0 nulls, calibration ECE reduction, and the crucial operational invariant: strictly increasing realized slip rates on held-out Non-Roads test set ($\text{LOW} < \text{MEDIUM} < \text{HIGH} < \text{CRITICAL}$).
+- what was verified (real output ref):
+  - Calibration: Test set ECE reduced from 0.2077 to 0.0685 (67.0% reduction); Brier score reduced from 0.1467 to 0.0718 (51.1% reduction). Rank ordering 100% preserved (PR-AUC = 0.4656).
+  - Risk Band Monotonic Invariant on Held-Out Non-Roads Test Set ($N=1,373$, Positives=116, Base Rate=8.45%):
+    - LOW (< 4.6): 726 projects (52.9%), 12 realized slips (1.65% event rate).
+    - MEDIUM (4.6–36.1): 400 projects (29.1%), 27 realized slips (6.75% event rate).
+    - HIGH (36.1–55.9): 164 projects (11.9%), 31 realized slips (18.90% event rate).
+    - CRITICAL (>= 55.9): 83 projects (6.0%), 46 realized slips (55.42% event rate).
+    - Monotonic ordering strictly verified: $1.65\% < 6.75\% < 18.90\% < 55.42\%$.
+    - Operational concentration: CRITICAL tier holds 6.0% of projects but captures 39.7% of all slips; HIGH + CRITICAL holds 18.0% of projects and captures 66.4% of all slips.
+  - Data Sufficiency (NFR-4): 14,449 rows (76.6%) flagged SUFFICIENT, 4,411 (23.4%) PROVISIONAL across full panel; in latest month (2026-07), 1,747 are SUFFICIENT (97.1%) and 53 PROVISIONAL (2.9%).
+  - Full test suite: 110/110 passed (`pytest` in 11.44s).
+  - Clean runner simulation: fixture tests pass 100%, data-dependent tests skip cleanly with 0 errors.
+  - Linter and formatter: `ruff check` and `black --check` 100% clean.
+- docs updated:
+  - `docs/steps/STEP_11_risk.md`, `docs/08_EVALUATION.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Platt scaling preferred over isotonic regression because Platt strictly preserves ranking without staircase distortions.
+  - Quantile cutoffs derived empirically from validation fold distribution.
+  - Honest sample size note recorded: validated on 116 clean non-roads test events.
 
 ## 2026-09-16 — STEP_07 / STEP_08 / STEP_09 / STEP_10 — Baseline & ML Risk Prediction Models
 - what changed (code):
