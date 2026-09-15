@@ -176,6 +176,171 @@ def compute_usable_rows_and_positives(
     return horizon_results
 
 
+def compute_schedule_contamination_analysis(
+    panel_df: pd.DataFrame, horizon: int = 3
+) -> dict[str, Any]:
+    """Decompose schedule-risk positives to detect and isolate data-entry bulk population artifacts.
+
+    Distinguishes between:
+      1. existing_rev_moved_out: Project already had an active revised_completion_date at T,
+         which was extended further into the future during (T, T+N] (strict transition).
+      2. first_population_artifact: Project had NO revised_completion_date at T (revised was null),
+         and a revised date was bulk-entered for the first time in (T, T+N] (data event).
+    """
+    panel = panel_df.copy()
+    trajectories = {}
+    for pid, group in panel.groupby("project_id"):
+        sorted_group = group.sort_values("report_month")
+        trajectories[pid] = {
+            "months": sorted_group["report_month"].tolist(),
+            "orig_dates": [
+                parse_date_to_months(x) for x in sorted_group["original_completion_date"]
+            ],
+            "rev_dates": [parse_date_to_months(x) for x in sorted_group["revised_completion_date"]],
+        }
+
+    rows = []
+    for pid, traj in trajectories.items():
+        t_months = traj["months"]
+        n_obs = len(t_months)
+        orig_dates = traj["orig_dates"]
+        rev_dates = traj["rev_dates"]
+
+        for i, m_T in enumerate(t_months):
+            if (n_obs - 1 - i) < horizon:
+                continue
+
+            has_rev_T = rev_dates[i] is not None
+            rev_T = rev_dates[i]
+            orig_T = orig_dates[i]
+            eff_date_T = rev_T if has_rev_T else orig_T
+
+            future_rev = rev_dates[i + 1 : i + horizon + 1]
+            future_orig = orig_dates[i + 1 : i + horizon + 1]
+            future_months = t_months[i + 1 : i + horizon + 1]
+
+            future_eff = [
+                future_rev[k] if future_rev[k] is not None else future_orig[k]
+                for k in range(horizon)
+            ]
+
+            valid_future_eff = [d for d in future_eff if d is not None]
+            slip_amount = (
+                (max(valid_future_eff) - eff_date_T)
+                if (eff_date_T is not None and valid_future_eff)
+                else 0
+            )
+
+            # Detect first slip month
+            slip_event_month = None
+            for k in range(horizon):
+                if (
+                    future_eff[k] is not None
+                    and eff_date_T is not None
+                    and (future_eff[k] - eff_date_T) >= 3
+                ):
+                    slip_event_month = future_months[k]
+                    break
+
+            is_first_pop = (not has_rev_T) and any(r is not None for r in future_rev)
+            is_exist_move = False
+            if has_rev_T:
+                valid_f_rev = [r for r in future_rev if r is not None]
+                if valid_f_rev and max(valid_f_rev) > rev_T:
+                    is_exist_move = True
+
+            rows.append(
+                {
+                    "project_id": pid,
+                    "origin_month": m_T,
+                    "has_rev_T": has_rev_T,
+                    "slip_amount": slip_amount,
+                    "is_slip_ge_3": slip_amount >= 3,
+                    "is_slip_ge_1": slip_amount >= 1,
+                    "is_first_pop": is_first_pop,
+                    "is_exist_move": is_exist_move,
+                    "slip_event_month": slip_event_month,
+                }
+            )
+
+    df = pd.DataFrame(rows)
+    n_usable = len(df)
+    n_has_rev_T = int(df["has_rev_T"].sum())
+
+    # Decompose Y >= 3
+    sub3 = df[df["is_slip_ge_3"]]
+    exist_move_3 = int(((df["is_slip_ge_3"]) & (df["is_exist_move"])).sum())
+    first_pop_3 = int(((df["is_slip_ge_3"]) & (df["is_first_pop"])).sum())
+    other_3 = len(sub3) - exist_move_3 - first_pop_3
+
+    # Decompose Y >= 1
+    sub1 = df[df["is_slip_ge_1"]]
+    exist_move_1 = int(((df["is_slip_ge_1"]) & (df["is_exist_move"])).sum())
+    first_pop_1 = int(((df["is_slip_ge_1"]) & (df["is_first_pop"])).sum())
+    other_1 = len(sub1) - exist_move_1 - first_pop_1
+
+    # Monthly breakdown of origin T
+    by_origin = {}
+    for m, g in df.groupby("origin_month"):
+        tot = len(g)
+        gross_pos = int(g["is_slip_ge_3"].sum())
+        clean_pos = int(((g["is_slip_ge_3"]) & (g["is_exist_move"])).sum())
+        fpop_pos = int(((g["is_slip_ge_3"]) & (g["is_first_pop"])).sum())
+        by_origin[m] = {
+            "total_usable": tot,
+            "gross_positives_ge3": gross_pos,
+            "clean_positives_ge3": clean_pos,
+            "first_pop_positives_ge3": fpop_pos,
+            "clean_positive_pct": round(clean_pos / tot * 100, 2),
+        }
+
+    # Monthly breakdown of when slip event was recorded
+    ge3_events = df[df["is_slip_ge_3"] & df["slip_event_month"].notna()]
+    by_event_month = {}
+    for em, g in ge3_events.groupby("slip_event_month"):
+        clean_c = int(g["is_exist_move"].sum())
+        fpop_c = int(g["is_first_pop"].sum())
+        by_event_month[em] = {
+            "clean_existing_rev_moved": clean_c,
+            "first_population_artifact": fpop_c,
+            "total": clean_c + fpop_c,
+        }
+
+    return {
+        "horizon": horizon,
+        "total_usable_rows": n_usable,
+        "rows_with_existing_rev_at_T": {
+            "count": n_has_rev_T,
+            "pct": round(n_has_rev_T / n_usable * 100, 2),
+        },
+        "rows_with_null_rev_at_T": {
+            "count": n_usable - n_has_rev_T,
+            "pct": round((n_usable - n_has_rev_T) / n_usable * 100, 2),
+        },
+        "threshold_ge_3_months": {
+            "gross_positives": len(sub3),
+            "gross_positive_pct": round(len(sub3) / n_usable * 100, 2),
+            "clean_existing_rev_moved_out": exist_move_3,
+            "clean_positive_pct_all_rows": round(exist_move_3 / n_usable * 100, 2),
+            "clean_positive_pct_rev_only": round(exist_move_3 / n_has_rev_T * 100, 2),
+            "first_population_artifacts": first_pop_3,
+            "first_population_share_of_positives": round(first_pop_3 / len(sub3) * 100, 2),
+            "other_slips": other_3,
+        },
+        "threshold_ge_1_month": {
+            "gross_positives": len(sub1),
+            "gross_positive_pct": round(len(sub1) / n_usable * 100, 2),
+            "clean_existing_rev_moved_out": exist_move_1,
+            "clean_positive_pct_all_rows": round(exist_move_1 / n_usable * 100, 2),
+            "first_population_artifacts": first_pop_1,
+            "first_population_share_of_positives": round(first_pop_1 / len(sub1) * 100, 2),
+            "other_slips": other_1,
+        },
+        "by_origin_month": by_origin,
+        "by_event_recording_month": by_event_month,
+    }
+
+
 def compute_event_rate_distributions(panel_df: pd.DataFrame, horizon: int = 3) -> dict[str, Any]:
     """Compute empirical distribution percentiles for changes in cost escalation and schedule variance."""
     panel = panel_df.copy()

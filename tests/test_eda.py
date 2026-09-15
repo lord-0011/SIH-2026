@@ -116,3 +116,32 @@ def test_structural_breaks_real_data(eda_data):
     assert feb_pct < 55.0  # 50.56%
     assert mar_pct > 80.0  # 82.12%
     assert mar_pct - feb_pct > 30.0  # +31.56 percentage point reporting jump
+
+
+def test_schedule_contamination_and_clean_transition_real_data(eda_data):
+    """Verify schedule contamination decomposition and strict transition rates."""
+    from src.eda.eda_gate import compute_schedule_contamination_analysis
+
+    panel_df = eda_data["panel_df"]
+    contam = compute_schedule_contamination_analysis(panel_df, horizon=3)
+
+    assert contam["total_usable_rows"] == 12300
+
+    # Y >= 3 months
+    y3 = contam["threshold_ge_3_months"]
+    assert y3["gross_positives"] == 3933
+    assert y3["clean_existing_rev_moved_out"] == 2744
+    assert y3["clean_positive_pct_all_rows"] == 22.31
+    assert y3["first_population_artifacts"] == 1120
+    assert y3["first_population_share_of_positives"] == 28.48
+
+    # Y >= 1 month
+    y1 = contam["threshold_ge_1_month"]
+    assert y1["gross_positives"] == 4531
+    assert y1["clean_existing_rev_moved_out"] == 3290
+    assert y1["clean_positive_pct_all_rows"] == 26.75
+    assert y1["first_population_artifacts"] == 1161
+
+    # Healthy clean base rate (> 10-15% benchmark)
+    assert y3["clean_positive_pct_all_rows"] > 15.0
+    assert y1["clean_positive_pct_all_rows"] > 15.0

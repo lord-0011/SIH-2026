@@ -17,6 +17,7 @@ from src.common.logging_setup import get_logger
 from src.eda.eda_gate import (
     compute_event_rate_distributions,
     compute_observation_depth,
+    compute_schedule_contamination_analysis,
     compute_scheme_b_breakdown,
     compute_structural_breaks,
     compute_usable_rows_and_positives,
@@ -56,6 +57,10 @@ def run(config: dict[str, Any] | None = None) -> dict[str, Any]:
     log.info("Computing usable rows and positive rates across horizons N=3, 6, 12...")
     usable_rows = compute_usable_rows_and_positives(panel_df, candidate_horizons=(3, 6, 12))
 
+    # 2b. Schedule contamination & transition vs state analysis
+    log.info("Computing schedule contamination & transition vs state decomposition for N=3...")
+    contamination_n3 = compute_schedule_contamination_analysis(panel_df, horizon=3)
+
     # 3. Event-base-rate reality check (empirical distributions)
     log.info("Computing empirical distribution percentiles for N=3...")
     event_distributions_n3 = compute_event_rate_distributions(panel_df, horizon=3)
@@ -72,6 +77,7 @@ def run(config: dict[str, Any] | None = None) -> dict[str, Any]:
     summary = {
         "observation_depth": obs_depth,
         "usable_rows_by_horizon": usable_rows,
+        "schedule_contamination_analysis": contamination_n3,
         "event_distributions": {
             "horizon_3": event_distributions_n3,
             "horizon_6": event_distributions_n6,
