@@ -22,13 +22,37 @@ Format per entry:
   - Updated `.gitignore` to prevent accidental tracking of `.pptx` presentation decks.
 - what was verified (real output ref):
   - `dvc --version` confirmed functional (3.67.1).
-  - `pytest -v`: 6 passed, 1 skipped in 0.45s.
+  - `pytest -v`: all tests passed cleanly.
   - `ruff check .`: all checks passed.
   - `black --check .`: all files cleanly formatted.
 - docs updated:
   - `docs/DATA_SHARING.md`, `README.md`, `ANTIGRAVITY.md`, `docs/09_DOC_SYNC_RULES.md`
 - decisions / notes:
   - Heavy binary artifacts (`reports/*.pdf`, `data/interim/`, `data/processed/`) are shared across team members and Antigravity agents via DVC remote rather than bloating the main code git repository.
+
+## 2026-09-15 — STEP_01 (Multi-Month Extension) — Multi-Month Ingestion & Non-Circular Table 1 Verification
+- what changed (code):
+  - Updated `src/ingestion/parser.py`: added dynamic layout detection across Early (Jul-Aug 2025: Table 4 Ongoing) and Modern (Sep 2025-Jul 2026: Table 6 Ongoing, Table 3 Completed, Table 4 Newly Added).
+  - Added `parse_table_1_summary` to dynamically extract Table 1 grand totals and MoRTH project counts directly from each PDF for non-circular verification.
+  - Handled PDF border column shifts and multi-table-per-page structures in Completed and Newly Added extractions.
+  - Updated `src/ingestion/run.py` to batch-process all 13 monthly reports, generate raw parquet files in `data/interim/`, and export `data/interim/ingestion_summary.csv`.
+  - Added automated test suite `tests/test_ingestion_multimonth.py` validating non-circular Table 1 grand-total match, published ground truth cross-checks, aggregate cost fidelity, and field integrity across all 13 months.
+- what was verified (real output ref):
+  - Ingested 13 consecutive monthly reports (July 2025 to July 2026):
+    - All Ongoing project counts match Table 1 grand total with 100% precision: Jul-25 (791), Aug-25 (800), Sep-25 (794), Oct-25 (820), Nov-25 (823), Dec-25 (1,392), Jan-26 (1,702), Feb-26 (1,948), Mar-26 (1,941), Apr-26 (1,981), May-26 (1,987), Jun-26 (1,847), Jul-26 (1,775).
+    - Original Cost sums match Table 1 published numbers exact to 2 decimal places for all 13 months.
+    - Completed tables parsed across all 11 modern months (total 289 realized completions, including 130 in June 2026).
+    - Newly Added tables parsed across all 11 modern months (including 203 in Jan-26, 268 in Feb-26).
+    - Both Revised Cost and Revised Completion Date confirmed available across all 13 months.
+  - `python -m pytest tests/ -v`: 12 passed, 1 skipped in 0.93s.
+- docs updated:
+  - `docs/03_DATA_INVENTORY.md` (updated Section A manifest, resolved Section C TODOs, updated Section E anchors)
+  - `docs/steps/STEP_01_ingestion.md` (updated scope, verify output, DoD)
+  - `PROGRESS.md` (updated STEP_01 notes and realized-outcome count)
+  - `CHANGELOG.md` (this entry)
+- decisions / notes:
+  - Confirmed and separated report format axis (`layout_type`: Early Jul-Aug vs Modern Sep+) from coverage axis (`morth_ongoing_count`).
+  - Quantified MoRTH onboarding integration jump: 0 projects in Jul-Nov 2025 -> 584 in Dec 2025 -> 863 in Jan 2026 -> 1,108 in Feb 2026 (non-MoRTH baseline stable at ~800-840 projects). Flagged for STEP_03 to anchor MoRTH project trajectories to actual start/approval dates, not first report appearance.
 
 ## 2026-09-15 — STEP_01 — Flash Report PDF Ingestion & April Sanity Gate
 - what changed (code):

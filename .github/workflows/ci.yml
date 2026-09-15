@@ -31,6 +31,17 @@ jobs:
       - name: Run Black Check
         run: black --check .
 
+      - name: Cache interim data
+        uses: actions/cache@v4
+        id: cache-interim
+        with:
+          path: data/interim
+          key: interim-data-${{ hashFiles('reports/*.pdf', 'src/ingestion/**') }}
+
+      - name: Run Multi-Month Ingestion
+        if: steps.cache-interim.outputs.cache-hit != 'true'
+        run: python -m src.ingestion.run
+
       - name: Run Pytest Test Suite
         run: pytest -v
 
