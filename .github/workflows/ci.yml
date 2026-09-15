@@ -49,6 +49,7 @@ jobs:
             echo "Raw report PDFs not in git (tracked via DVC); skipping ingestion in clean CI runner"
           fi
 
+      # Exercises parser on committed synthetic fixture (tests/test_ingestion_fixture.py) on every run
       - name: Run Pytest Test Suite
         run: pytest -v
 
