@@ -10,6 +10,8 @@ data/
 *.csv
 *.xlsx
 *.docx
+*.pptx
+*.ppt
 *.zip
 !docs/**
 .DS_Store
