@@ -36,11 +36,18 @@ jobs:
         id: cache-interim
         with:
           path: data/interim
-          key: interim-data-${{ hashFiles('reports/*.pdf', 'src/ingestion/**') }}
+          key: interim-data-${{ hashFiles('reports.dvc', 'data/interim.dvc', 'src/ingestion/**') }}
+          restore-keys: |
+            interim-data-
 
       - name: Run Multi-Month Ingestion
         if: steps.cache-interim.outputs.cache-hit != 'true'
-        run: python -m src.ingestion.run
+        run: |
+          if compgen -G "reports/*.pdf" > /dev/null; then
+            python -m src.ingestion.run
+          else
+            echo "Raw report PDFs not in git (tracked via DVC); skipping ingestion in clean CI runner"
+          fi
 
       - name: Run Pytest Test Suite
         run: pytest -v
