@@ -9,6 +9,33 @@ Format per entry:
 - decisions / notes
 ```
 
+## 2026-09-16 — STEP_07 / STEP_08 / STEP_09 / STEP_10 — Baseline & ML Risk Prediction Models
+- what changed (code):
+  - `src/labels/generator.py`: Generates clean transition schedule slip labels ($N=3, Y \ge 3$) with universal active-target filter ($revised\_date \ge report\_month$) and temporal split tags (Train: <=2025-12, Val: 2026-01..2026-02, Test: 2026-03..2026-04, Censored: >=2026-05).
+  - `src/labels/run.py`: Pipeline entrypoint writing `data/processed/labels.parquet` (18,860 rows, 10,947 usable filtered, 1,871 clean positives).
+  - `src/models/metrics.py`: Computes PR-AUC (lead metric), ROC-AUC, Brier score, ECE (Expected Calibration Error), Precision@10%, Precision@20%.
+  - `src/models/trainer.py`: Implements Config 1 (Statistical Baseline), Config 2 (Logistic Regression CUF), Config 3 (LightGBM CUF), Config 4 (LightGBM Full), validation-fold tuning, near-label ablation (dropping schedule_variance and delay_to_date), zero-shot transfer evaluation to Roads test set, and raw-vs-filtered demonstration.
+  - `src/models/run.py`: Model pipeline runner writing artifacts to `data/processed/models/` (model checkpoints `.joblib` and `evaluation_results.json`).
+  - `tests/test_labels.py`: Tests for label rows, active-target filter invariant, first-population exclusion, and temporal split monotonicity.
+  - `tests/test_models.py`: Tests verifying model artifacts, headline Non-Roads performance answering both PS questions, near-label ablation non-collapse assertion, and Roads transfer caveats.
+- what was verified (real output ref):
+  - Primary Benchmark: Non-Roads Test Set ($N=1,373$, Positives=116, Base Rate=8.45%).
+  - Config 1: Statistical Baseline: PR-AUC = 0.1895, ROC-AUC = 0.7497, Brier = 0.2798, ECE = 0.4531, P@10% = 0.2190.
+  - Config 2: Logistic Reg (CUF): PR-AUC = 0.2956, ROC-AUC = 0.8080, Brier = 0.1875, ECE = 0.2776, P@10% = 0.3066.
+    -> PS Question 1 Answered: CUF alone has strong predictive power over baseline (+10.6 percentage points PR-AUC).
+  - Config 3: LightGBM (CUF): PR-AUC = 0.4180, ROC-AUC = 0.8408, Brier = 0.1386, ECE = 0.1924, P@10% = 0.4234.
+    -> PS Question 2 Answered: ML decisively beats baseline (more than 2.2x PR-AUC lift) and logistic regression. Precision@10% achieves 42.34% (5x lift over 8.45% base rate).
+  - Config 4: LightGBM (Full Features): PR-AUC = 0.4100, ROC-AUC = 0.8433, Brier = 0.1443, ECE = 0.2004, P@10% = 0.4161.
+  - Near-Label Ablation: Config 4 WITHOUT schedule_variance and delay_to_date achieves PR-AUC = 0.4656, ROC-AUC = 0.8525. (Model does NOT collapse; genuinely predicts future slippage from project trajectory).
+  - Secondary Transfer to Roads Test Set ($N=1,901$, Positives=827, Base Rate=43.50%): Config 3 PR-AUC = 0.6694, ROC-AUC = 0.7850; Config 4 PR-AUC = 0.6736, ROC-AUC = 0.7835.
+  - 100/100 repository tests passing (`pytest -v` in 10.15s).
+- docs updated:
+  - `docs/steps/STEP_08_baseline.md`, `docs/steps/STEP_09_ml.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Primary benchmark locked to Non-Roads test set; Roads reported strictly as secondary zero-shot transfer with onboarding caveats.
+  - Universal Active-Target Filter (Remedy C) applied permanently.
+  - LightGBM selected as production ML library.
+
 ## 2026-09-16 — STEP_06 — Feature Engineering (CUF vs. DERIVED Split & Leakage Invariance)
 - what changed (code):
   - `src/features/builder.py`: Feature builder computing 25 engineered features per `(project_id, report_month)`: 13 snapshot CUF features and 12 strictly causal DERIVED features. Implements elapsed duration anchored to `elapsed_months_since_anchor` (preventing mid-window MoRTH clock corruption), trailing expenditure and progress velocity/acceleration, provisional progress stagnation (<0.5%) and recent deterioration (>=2 adverse indicators), first revised date trailing population (mirror of STEP_05 exclusion logic), and cross-project historical sector event rate resolved strictly <= T (M <= T - 3).

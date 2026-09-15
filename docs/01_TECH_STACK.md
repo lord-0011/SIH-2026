@@ -11,7 +11,7 @@ All open-source-first. Chosen by requirement, not hype. Data volume is small
 | PDF extract | pdfplumber + pdftotext (poppler) | April report is text-layer, no OCR |
 | DB | PostgreSQL 16 (Docker) | stores panel + precomputed output tables |
 | Stats | scikit-learn (logistic reg) | + lifelines/scikit-survival `[STRETCH]` hazard |
-| ML | XGBoost **or** LightGBM (pick ONE) | tabular, ARM64 ok. Do not compare 3 libs |
+| ML | LightGBM | tabular, ARM64 ok. Picked in STEP_09. |
 | Explain | feature importance (L1) → SHAP TreeExplainer `[STRETCH]` | |
 | Backend | FastAPI + uvicorn | auto OpenAPI docs |
 | Frontend | React + Vite + Tailwind + Recharts | 3-level dashboard |
@@ -19,8 +19,7 @@ All open-source-first. Chosen by requirement, not hype. Data volume is small
 | Quality | black, ruff, pytest | enforced in review |
 
 ## Model-library decision
-Pick XGBoost or LightGBM in STEP_10 and record the choice here + in CHANGELOG. Once
-chosen, do not switch without a logged reason (per ANTIGRAVITY.md §5).
+LightGBM picked in STEP_09 (lightgbm==4.7.0, fast training, native categorical handling, reproducible). Recorded here and in CHANGELOG.md. Once chosen, do not switch without a logged reason (per ANTIGRAVITY.md §5).
 
 ## Local setup (Adi's MacBook M5, 16GB)
 ```bash
