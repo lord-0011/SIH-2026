@@ -3,16 +3,16 @@
 > Update this after EVERY implementation (docs/09 Rule 0). Newest status wins.
 > Legend: ⬜ not started · 🟨 in progress · 🟥 blocked · ✅ done
 
-**Current step:** STEP_00 (repo setup) — ⬜ not started
+**Current step:** STEP_02 (validation) — ⬜ not started
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** (set on first commit)
+**Last updated:** 2026-09-15 (STEP_00 & STEP_01 completed)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
 |------|-------|--------|------------------|
-| STEP_00 repo setup | 0 | ⬜ | scaffold only |
-| STEP_01 ingestion | 1 | ⬜ | must reproduce April anchors |
-| STEP_02 validation | 2 | ⬜ | |
+| STEP_00 repo setup | 0 | ✅ | scaffold, venv, pyproject.toml, docker db service |
+| STEP_01 ingestion | 1 | ✅ | April report parsed; 1,981 rows & cost anchors reproduced |
+| STEP_02 validation | 2 | ⬜ | Next step |
 | STEP_03 matching | 2 | ⬜ | hardest step — do not rush |
 | STEP_04 panel | 3 | ⬜ | |
 | STEP_05 EDA gate | 4 | ⬜ | **GATE: resolves all data TODOs** |
@@ -34,8 +34,8 @@
 - ML library (XGBoost vs LightGBM): TBD at STEP_09
 
 ## Data readiness (mirror of DATA_INVENTORY §C)
-- [ ] All 19 months located + format known
-- [ ] Realized-outcome (Completed) count known
+- [x] 13 consecutive months located (2025-07 → 2026-07) + format known (DATA_INVENTORY §A)
+- [ ] Realized-outcome (Completed) count known (9 in April; others pending Phase 4)
 - [ ] Usable rows per horizon known
 - [ ] Entity-stability numbers known
 → until all four checked, Phase 5+ is blocked.

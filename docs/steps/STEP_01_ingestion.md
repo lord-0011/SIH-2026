@@ -1,7 +1,7 @@
 # STEP 01 — Ingestion / Schema Extraction
 
 - **Phase:** 1
-- **Status:** NOT STARTED   <!-- NOT STARTED | IN PROGRESS | BLOCKED | DONE -->
+- **Status:** DONE   <!-- NOT STARTED | IN PROGRESS | BLOCKED | DONE -->
 - **Depends on:** STEP_00
 
 ## Goal
@@ -15,18 +15,38 @@ Parse each held monthly source into a normalised raw table (one per month), pres
 - Do NOT clean/validate/match here.
 
 ## Method / approach
-pdfplumber/pdftotext -layout; position/regex parser tuned to observed layout. Multi-line project names handled. Keep raw strings + parsed values so parse bugs are debuggable.
+Implemented `src/ingestion/parser.py` using `pdfplumber` to extract Table 6, Table 3, and Table 4 from Flash Report PDFs. Forward-fills Ministry and Sector from section headers, parses bottom-up multi-line project cells into (project_name, implementing_agency, project_code, legacy_ocms_code, pmgid), and splits paired visual cells (approval/start date, orig/revised DoC, orig/revised cost). Outputs parquet tables to `data/interim/`.
 
 ## Verify (paste REAL output, don't summarise)
-Parse April → assert exactly 1,981 ongoing rows and aggregate cost totals match DATA_INVENTORY §E within rounding. Print the assertion result.
+```
+$ .venv/bin/python -m src.ingestion.run
+2026-09-15 10:28:59,662 INFO ingestion :: Starting ingestion for FlashReport_April2026.pdf (month: 2026-04)
+2026-09-15 10:28:59,662 INFO ingestion.parser :: Opening FlashReport_April2026.pdf for month 2026-04
+2026-09-15 10:29:12,064 INFO ingestion.parser :: Parsed Table 6: 1981 rows from FlashReport_April2026.pdf
+2026-09-15 10:29:12,079 INFO ingestion.parser :: Parsed Table 3: 9 rows from FlashReport_April2026.pdf
+2026-09-15 10:29:14,766 INFO ingestion.parser :: Parsed Table 4: 55 rows from FlashReport_April2026.pdf
+2026-09-15 10:29:16,707 INFO ingestion :: Saved ongoing (1981 rows) to /Users/adii/Development/SIH/data/interim/raw_ongoing_2026_04.parquet
+2026-09-15 10:29:16,708 INFO ingestion :: Saved completed (9 rows) to /Users/adii/Development/SIH/data/interim/raw_completed_2026_04.parquet
+2026-09-15 10:29:16,710 INFO ingestion :: Saved newly_added (55 rows) to /Users/adii/Development/SIH/data/interim/raw_newly_added_2026_04.parquet
+2026-09-15 10:29:16,710 INFO ingestion :: Ingestion complete for 2026-04.
+
+$ .venv/bin/pytest -v tests/test_ingestion_april.py
+tests/test_ingestion_april.py::test_table6_project_counts PASSED         [ 16%]
+tests/test_ingestion_april.py::test_table6_ministries_and_sectors PASSED [ 33%]
+tests/test_ingestion_april.py::test_table6_cost_and_expenditure_aggregates PASSED [ 50%]
+tests/test_ingestion_april.py::test_table6_field_integrity PASSED        [ 66%]
+tests/test_ingestion_april.py::test_table3_completed_projects PASSED     [ 83%]
+tests/test_ingestion_april.py::test_table4_newly_added_projects PASSED   [100%]
+============================== 6 passed in 0.23s ===============================
+```
 
 ## Definition of Done
-- [ ] Scope implemented, nothing extra
-- [ ] Tests written & passing (parse test that reproduces April anchors (DATA_INVENTORY §E))
-- [ ] Verify output pasted
-- [ ] Docs synced: STEP_01_ingestion.md0
-- [ ] PROGRESS.md + CHANGELOG.md updated
-- [ ] Walkthrough written for review
+- [x] Scope implemented, nothing extra
+- [x] Tests written & passing (parse test that reproduces April anchors (DATA_INVENTORY §E))
+- [x] Verify output pasted
+- [x] Docs synced: STEP_01_ingestion.md
+- [x] PROGRESS.md + CHANGELOG.md updated
+- [x] Walkthrough written for review
 
 ## Blockers / Questions
-(record here; stop and ask rather than improvising a design decision)
+None. April 2026 anchors reproduced with 100% precision.
