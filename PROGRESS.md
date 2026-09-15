@@ -5,7 +5,7 @@
 
 **Current step:** STEP_03 (matching) — ⬜ not started
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-15 (STEP_01 project_code parser bug fixed; STEP_02 granular validation completed: 19,596 records, 0 dropped)
+**Last updated:** 2026-09-15 (CI decoupled from cache & verified GREEN on Actions #35000903149; STEP_01 0% missing code; STEP_02 validation done)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |

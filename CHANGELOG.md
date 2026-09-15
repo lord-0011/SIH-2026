@@ -11,6 +11,24 @@ Format per entry:
 
 ---
 
+## 2026-09-15 — CI_ARCHITECTURE — Decouple CI from DVC/Cache & Add Committed PDF Fixtures
+- what changed (code):
+  - `.github/workflows/ci.yml`: Removed stale `Cache interim data` and conditional `Run Multi-Month Ingestion` steps. CI now runs clean and deterministically on every runner without stale cache pollution.
+  - Added committed 1-page sample PDF fixture `tests/fixtures/sample_table6_page.pdf` (extracted from actual February 2026 report with 20 real ongoing projects including legacy codes and dash placeholders).
+  - Created `tests/test_ingestion_fixture.py` (9 tests) testing end-to-end table extraction on `sample_table6_page.pdf` and parsing rules across all historical layout patterns (Patterns A, B, C, dashes).
+  - Added clean skip guards in `tests/test_ingestion_multimonth.py` (`summary_df` fixture) and `tests/test_validation.py` (`test_pipeline_integration_real_data`) when full DVC-tracked datasets / 13 PDFs are absent.
+- what was verified (real output ref):
+  - GitHub Actions Run [#35000903149](https://github.com/lord-0011/SIH-2026/actions/runs/35000903149) completed **SUCCESS** (Job 104488750135: all steps green).
+  - In CI: 25 tests PASSED (all fixture and pure rule tests), 14 tests SKIPPED cleanly (April and multimonth data suites).
+  - Locally: all 38 tests PASSED, 1 skipped placeholder (`pytest -v`).
+  - `ruff check .` and `black --check .`: 100% clean across all 34 files.
+- docs updated:
+  - `CHANGELOG.md`, `PROGRESS.md`, `walkthrough.md`
+- decisions / notes:
+  - CI must never assert against cached real data it cannot deterministically reproduce. Code-coupled coverage belongs to committed fixtures; heavy 13-month data tests belong to the local pre-merge gate.
+
+
+
 ## 2026-09-15 — STEP_01 & STEP_02 — Parser Project Code Resolution & Granular Validation Refactor
 - what changed (code):
   - Fixed `src/ingestion/parser.py` (`parse_table6_project_cell`): properly handles single-parenthesized legacy code lines at cell bottom (introduced by MoSPI in Feb/Mar 2026 before PMGID was added in Apr 2026). Swallowed project codes restored across all tables.
