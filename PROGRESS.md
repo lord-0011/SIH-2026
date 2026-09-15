@@ -3,9 +3,9 @@
 > Update this after EVERY implementation (docs/09 Rule 0). Newest status wins.
 > Legend: ⬜ not started · 🟨 in progress · 🟥 blocked · ✅ done
 
-**Current step:** STEP_03 (matching) — ⬜ not started
+**Current step:** STEP_04 (panel) — ⬜ not started
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-15 (CI decoupled from cache & verified GREEN on Actions #35000903149; STEP_01 0% missing code; STEP_02 validation done)
+**Last updated:** 2026-09-16 (STEP_03 matching complete: 2,243 canonical projects, 0 cross-month renames, 1,341 mid-window arrivals anchored)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
@@ -13,7 +13,7 @@
 | STEP_00 repo setup | 0 | ✅ | scaffold, venv, pyproject.toml, docker db service |
 | STEP_01 ingestion | 1 | ✅ | 13 monthly reports parsed; 100% Table 1 match; 0% missing project_code across all 13 months |
 | STEP_02 validation | 2 | ✅ | 19,596 records checked; 0 dropped; granular taxonomy (date_impossible, start_before_approval, schedule_advanced, implausible_cost_revision) |
-| STEP_03 matching | 2 | ⬜ | Next step: canonical project_id via PMGID -> Project Code -> Legacy OCMS -> fuzzy |
+| STEP_03 matching | 2 | ✅ | 2,243 canonical projects; 100% exact code matches; 0 cross-month renames; 1,341 mid-window arrivals anchored |
 | STEP_04 panel | 3 | ⬜ | handle MoRTH onboarding discontinuity |
 | STEP_05 EDA gate | 4 | ⬜ | **GATE: resolves all data TODOs** |
 | STEP_06 labels | 5 | ⬜ | blocked until STEP_05 done |
@@ -35,7 +35,7 @@
 
 ## Data readiness (mirror of DATA_INVENTORY §C)
 - [x] 13 consecutive months located (2025-07 → 2026-07) + format known (DATA_INVENTORY §A)
-- [x] Realized-outcome (Completed) count known: exactly 289 completed projects across 11 months
+- [x] Realized-outcome (Completed) count known: exactly 259 completed projects across 11 months (June 2026 concentrated)
 - [ ] Usable rows per horizon known
-- [ ] Entity-stability numbers known
+- [x] Entity-stability numbers known (2,243 canonical, 0 cross-month renames, 26 single-month / 30 pooled umbrellas reconciled)
 → until all four checked, Phase 5+ is blocked.

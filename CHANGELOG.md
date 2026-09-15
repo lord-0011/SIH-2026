@@ -9,6 +9,27 @@ Format per entry:
 - decisions / notes
 ```
 
+## 2026-09-16 — STEP_03 — Entity Matching & Canonical Identity Resolution
+- what changed (code):
+  - `src/matching/matcher.py`: Pure entity matching engine. Implements direct join on `project_code` (`canonical_project_id = project_code`, `match_confidence = "exact_code"`), and fallback cascade exception handler for records lacking `project_code`. Enforces that distinct `project_code`s are never merged into one canonical ID.
+  - `src/matching/run.py`: Pipeline runner. Loads 13 months of validated ongoing records (18,601 rows), resolves canonical project IDs, computes `first_appearance_month`, flags `is_mid_window_arrival` (all 1,341 Dec+ arrivals) and `is_morth_onboarded_mid_window` (1,187 MoRTH), extracts non-null `trajectory_anchor_date` for 100% of mid-window arrivals, asserts concurrency and no-merge invariants across all 13 months, and outputs `matched_ongoing_*.parquet`, `canonical_projects.parquet`, and `matching_audit.csv`.
+  - `tests/test_matching_fixture.py`: Dedicated non-skipping CI fixture suite (6 tests). Includes adversarial Bokaro vs Bhilai legacy-swap anomaly test (two projects in different months sharing legacy code `N12000133`), umbrella corridor split test, fallback exception handler test, and concurrency invariant test.
+  - `tests/test_matching.py`: Full 13-month real data verification suite (7 tests). Asserts 100% exact code matches across 18,601 rows, 2,243 distinct canonical projects, 0 duplicates per month, 0 cross-month renames, 26 single-month vs 30 corpus-wide umbrella legacy codes reconciled (identifying the 4 swap codes `N12000133`, `N12000134`, `N12000135`, `N22000602`), and valid anchor dates for all 1,341 mid-window arrivals.
+- what was verified (real output ref):
+  - 100% exact code match rate across all 18,601 ongoing records (0 null canonical IDs).
+  - Exactly 2,243 distinct canonical projects across the 13-month corpus.
+  - Zero cross-month renames: `(legacy_ocms_code, project_name)` maps to multiple `project_code`s: exactly 0.
+  - Reconciled umbrella legacy codes: 26 within any single month; 30 across pooled 13 months.
+  - Mid-window arrivals: exactly 1,341 (1,187 MoRTH + 154 other ministries), 100% populated with `trajectory_anchor_date`.
+  - All 60 unit/integration tests passed locally in 3.99s.
+  - In clean runner simulation: `test_matching_fixture.py` passed 100%; data-dependent suite skipped cleanly.
+  - Black and Ruff: 100% clean across all 38 repository files.
+- docs updated:
+  - `docs/steps/STEP_03_matching.md`, `docs/03_DATA_INVENTORY.md` §C#5, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Matching is a direct join on `project_code`, not a fuzzy cascade. Legacy code is one-to-many and occasionally reassigned across plants by MoSPI, so it must never be used to collapse project identities.
+  - All 1,341 mid-window arrivals (MoRTH and non-MoRTH alike) are anchored to their actual approval/start dates to prevent misrepresenting legacy projects as new in STEP_04.
+
 ---
 
 ## 2026-09-15 — CI_ARCHITECTURE — Decouple CI from DVC/Cache & Add Committed PDF Fixtures
