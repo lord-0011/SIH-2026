@@ -124,7 +124,7 @@ def validate_dates(record: dict | pd.Series) -> list[ValidationIssue]:
     d_rev = parse_date_mmyyyy(rev_comp_str)
     d_act = parse_date_mmyyyy(act_comp_str)
 
-    # Check sentinel dates (e.g. year 1900 or uninitialized)
+    # Check sentinel dates (e.g. year 1900 or uninitialized) -> date_impossible
     for col, dt_tuple, raw_s in [
         ("date_of_approval", d_app, approval_str),
         ("start_date", d_start, start_str),
@@ -135,71 +135,78 @@ def validate_dates(record: dict | pd.Series) -> list[ValidationIssue]:
         if dt_tuple is not None and dt_tuple[0] < 1970:
             issues.append(
                 ValidationIssue(
-                    flag="date_inconsistency",
+                    flag="date_impossible",
                     reason=f"{col} has sentinel/uninitialized year ({raw_s})",
                     column=col,
                     value=raw_s,
                 )
             )
 
-    # 1. start_date before date_of_approval
+    # 1. start_date before date_of_approval -> start_before_approval (Administrative convention, keep)
     if d_start and d_app and d_start < d_app:
         issues.append(
             ValidationIssue(
-                flag="date_inconsistency",
-                reason=(f"start_date ({start_str}) is before date_of_approval ({approval_str})"),
+                flag="start_before_approval",
+                reason=(
+                    f"start_date ({start_str}) is before date_of_approval ({approval_str}) "
+                    "(administrative convention: work start / advance tender prior to formal sanction; keep record)"
+                ),
                 column="start_date",
                 value=f"{start_str} < {approval_str}",
             )
         )
 
-    # 2. revised_completion_date before original_completion_date
+    # 2. revised_completion_date before original_completion_date -> schedule_advanced (Signal, not error)
     if d_rev and d_orig and d_rev < d_orig:
         issues.append(
             ValidationIssue(
-                flag="date_inconsistency",
+                flag="schedule_advanced",
                 reason=(
                     f"revised_completion_date ({rev_comp_str}) is before "
-                    f"original_completion_date ({orig_comp_str})"
+                    f"original_completion_date ({orig_comp_str}) "
+                    "(schedule acceleration signal: expected early completion; keep record)"
                 ),
                 column="revised_completion_date",
                 value=f"{rev_comp_str} < {orig_comp_str}",
             )
         )
 
-    # 3. original_completion_date before start_date
+    # 3. original_completion_date before start_date -> date_impossible (Genuine defect)
     if d_orig and d_start and d_orig < d_start:
         issues.append(
             ValidationIssue(
-                flag="date_inconsistency",
+                flag="date_impossible",
                 reason=(
-                    f"original_completion_date ({orig_comp_str}) is before start_date ({start_str})"
+                    f"original_completion_date ({orig_comp_str}) is before start_date ({start_str}) "
+                    "(chronological impossibility)"
                 ),
                 column="original_completion_date",
                 value=f"{orig_comp_str} < {start_str}",
             )
         )
 
-    # 4. original_completion_date before date_of_approval
+    # 4. original_completion_date before date_of_approval -> date_impossible (Genuine defect)
     if d_orig and d_app and d_orig < d_app:
         issues.append(
             ValidationIssue(
-                flag="date_inconsistency",
+                flag="date_impossible",
                 reason=(
-                    f"original_completion_date ({orig_comp_str}) is before date_of_approval ({approval_str})"
+                    f"original_completion_date ({orig_comp_str}) is before date_of_approval ({approval_str}) "
+                    "(chronological impossibility)"
                 ),
                 column="original_completion_date",
                 value=f"{orig_comp_str} < {approval_str}",
             )
         )
 
-    # 5. actual_completion_date before start_date
+    # 5. actual_completion_date before start_date -> date_impossible (Genuine defect)
     if d_act and d_start and d_act < d_start:
         issues.append(
             ValidationIssue(
-                flag="date_inconsistency",
+                flag="date_impossible",
                 reason=(
-                    f"actual_completion_date ({act_comp_str}) is before start_date ({start_str})"
+                    f"actual_completion_date ({act_comp_str}) is before start_date ({start_str}) "
+                    "(chronological impossibility)"
                 ),
                 column="actual_completion_date",
                 value=f"{act_comp_str} < {start_str}",
@@ -210,9 +217,12 @@ def validate_dates(record: dict | pd.Series) -> list[ValidationIssue]:
 
 
 def validate_cost_revision(record: dict | pd.Series) -> list[ValidationIssue]:
-    """Flag revised_cost < original_cost.
+    """Flag downward cost revisions.
 
-    Note: This is a known reporting artifact (KEEP, not error), e.g. descope or tender savings.
+    Distinguishes:
+      - implausible_cost_revision: revised cost < 10% of original cost (>90% drop,
+        likely data-entry or partial unbundling artifact, e.g. project 618886: 238.66 -> 0.1).
+      - cost_revised_down: standard downward revision / descope (known reporting artifact; keep record).
     """
     issues = []
     orig = record.get("original_cost_cr")
@@ -221,7 +231,21 @@ def validate_cost_revision(record: dict | pd.Series) -> list[ValidationIssue]:
         try:
             o_val = float(orig)
             r_val = float(rev)
-            if r_val < o_val:
+            if o_val > 0 and r_val < 0.1 * o_val:
+                pct_drop = round((1.0 - r_val / o_val) * 100, 2)
+                issues.append(
+                    ValidationIssue(
+                        flag="implausible_cost_revision",
+                        reason=(
+                            f"revised_cost_cr ({r_val} Cr) < 10% of original_cost_cr ({o_val} Cr) "
+                            f"— extreme downward revision ({pct_drop}% drop), likely data-entry "
+                            "or partial contract unbundling artifact; keep record"
+                        ),
+                        column="revised_cost_cr",
+                        value=r_val,
+                    )
+                )
+            elif r_val < o_val:
                 issues.append(
                     ValidationIssue(
                         flag="cost_revised_down",
