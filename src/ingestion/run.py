@@ -6,6 +6,8 @@ Does NOT clean or validate; preserves raw strings and parsed values.
 Generates data/interim/ingestion_summary.csv for all processed months.
 """
 
+import concurrent.futures
+import os
 from pathlib import Path
 from typing import Any
 
@@ -58,6 +60,88 @@ def ingest_single_report(pdf_path: Path, source_month: str) -> dict[str, Any]:
     return results
 
 
+def process_report_task(source_month: str, pdf_path: Path) -> dict[str, Any]:
+    """Process a single monthly report PDF and return metadata and summary dict."""
+    if not pdf_path.exists():
+        log.warning("Report file not found: %s", pdf_path)
+        return {}
+
+    with pdfplumber.open(pdf_path) as doc:
+        page_count = len(doc.pages)
+
+    res = ingest_single_report(pdf_path, source_month=source_month)
+
+    df_ongoing = res["ongoing"]
+    df_completed = res["completed"]
+    df_newly_added = res["newly_added"]
+    t1 = res.get("table1_summary", {})
+
+    ongoing_count = len(df_ongoing)
+    completed_count = len(df_completed) if isinstance(df_completed, pd.DataFrame) else 0
+    newly_added_count = len(df_newly_added) if isinstance(df_newly_added, pd.DataFrame) else 0
+
+    layout_type = "Early" if source_month in ("2025-07", "2025-08") else "Modern"
+    ongoing_table_title = (
+        "Table 4: All Ongoing Projects"
+        if layout_type == "Early"
+        else "Table 6: All Ongoing Projects"
+    )
+
+    has_revised_cost = bool(
+        "revised_cost_cr" in df_ongoing.columns and df_ongoing["revised_cost_cr"].notna().any()
+    )
+    has_revised_doc = bool(
+        "revised_completion_date" in df_ongoing.columns
+        and df_ongoing["revised_completion_date"].notna().any()
+    )
+    has_completed_table = completed_count > 0
+    has_newly_added_table = newly_added_count > 0
+
+    ongoing_orig_cost = (
+        round(float(df_ongoing["original_cost_cr"].sum()), 2) if not df_ongoing.empty else 0.0
+    )
+    ongoing_cum_exp = (
+        round(float(df_ongoing["cumulative_expenditure_cr"].sum()), 2)
+        if not df_ongoing.empty
+        else 0.0
+    )
+
+    t1_count = t1.get("table1_project_count")
+    t1_orig_cost = t1.get("table1_orig_cost_cr")
+    t1_cum_exp = t1.get("table1_cum_exp_cr")
+    morth_count = t1.get("morth_ongoing_count", 0)
+
+    summary_dict = {
+        "report_month": source_month,
+        "source_doc": pdf_path.name,
+        "layout_type": layout_type,
+        "ongoing_table_title": ongoing_table_title,
+        "page_count": page_count,
+        "morth_ongoing_count": morth_count,
+        "table1_project_count": t1_count,
+        "ongoing_row_count": ongoing_count,
+        "count_match": (t1_count == ongoing_count) if t1_count is not None else False,
+        "table1_orig_cost_cr": t1_orig_cost,
+        "ongoing_orig_cost_cr": ongoing_orig_cost,
+        "table1_cum_exp_cr": t1_cum_exp,
+        "ongoing_cum_exp_cr": ongoing_cum_exp,
+        "has_revised_cost": has_revised_cost,
+        "has_revised_doc": has_revised_doc,
+        "has_completed_table": has_completed_table,
+        "completed_row_count": completed_count,
+        "has_newly_added_table": has_newly_added_table,
+        "newly_added_row_count": newly_added_count,
+        "columns_found": ";".join(df_ongoing.columns.tolist()),
+        "drop_note": "N/A",
+    }
+
+    return {
+        "source_month": source_month,
+        "output_paths": res["output_paths"],
+        "summary_dict": summary_dict,
+    }
+
+
 def run(config: dict | None = None) -> dict[str, Any]:
     """Execute ingestion pipeline stage.
 
@@ -68,74 +152,83 @@ def run(config: dict | None = None) -> dict[str, Any]:
     """
     config = config or {}
     DATA_INTERIM.mkdir(parents=True, exist_ok=True)
+    summary_path = DATA_INTERIM / "ingestion_summary.csv"
 
-    # Determine processing scope
+    # Single-file mode
     if "pdf_path" in config:
-        # Single-file mode
-        reports_to_process = [(config.get("source_month", "2026-04"), Path(config["pdf_path"]))]
-    else:
-        # All 13 months mode
-        reports_to_process = [(m, REPORTS / fname) for m, fname in MONTHLY_REPORTS]
+        source_month = config.get("source_month", "2026-04")
+        pdf_path = Path(config["pdf_path"])
+        task_res = process_report_task(source_month, pdf_path)
+        new_row = task_res.get("summary_dict", {})
+        if new_row:
+            if summary_path.exists():
+                existing_df = pd.read_csv(summary_path)
+                if source_month in existing_df["report_month"].astype(str).values:
+                    # Update row in place
+                    for col, val in new_row.items():
+                        if col in existing_df.columns:
+                            existing_df.loc[
+                                existing_df["report_month"].astype(str) == source_month, col
+                            ] = val
+                    summary_df = existing_df
+                else:
+                    summary_df = pd.concat(
+                        [existing_df, pd.DataFrame([new_row])], ignore_index=True
+                    )
+            else:
+                summary_df = pd.DataFrame([new_row])
+            summary_df.to_csv(summary_path, index=False)
+            log.info(
+                "Updated ingestion summary at %s (single month: %s)", summary_path, source_month
+            )
+        return task_res.get("output_paths", {})
 
+    # All 13 months mode
+    reports_to_process = [(m, REPORTS / fname) for m, fname in MONTHLY_REPORTS]
+    max_workers = min(len(reports_to_process), max(1, (os.cpu_count() or 2)))
+    task_results = {}
+
+    log.info(
+        "Processing %d monthly reports using %d worker processes",
+        len(reports_to_process),
+        max_workers,
+    )
+    if max_workers > 1:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+            future_to_month = {
+                executor.submit(process_report_task, m, p): m for m, p in reports_to_process
+            }
+            for future in concurrent.futures.as_completed(future_to_month):
+                m = future_to_month[future]
+                try:
+                    res = future.result()
+                    if res and "source_month" in res:
+                        task_results[res["source_month"]] = res
+                except Exception as e:
+                    log.error("Failed processing month %s: %s", m, e)
+    else:
+        for m, p in reports_to_process:
+            res = process_report_task(m, p)
+            if res and "source_month" in res:
+                task_results[res["source_month"]] = res
+
+    # Build summary rows in canonical chronological order
     summary_rows = []
     all_output_paths = {}
     prev_ongoing_count = None
 
-    for source_month, pdf_path in reports_to_process:
-        if not pdf_path.exists():
-            log.warning("Report file not found: %s", pdf_path)
+    for source_month, _ in reports_to_process:
+        if source_month not in task_results:
             continue
-
-        with pdfplumber.open(pdf_path) as doc:
-            page_count = len(doc.pages)
-
-        res = ingest_single_report(pdf_path, source_month=source_month)
+        res = task_results[source_month]
         all_output_paths[source_month] = res["output_paths"]
+        row = res["summary_dict"]
 
-        df_ongoing = res["ongoing"]
-        df_completed = res["completed"]
-        df_newly_added = res["newly_added"]
-        t1 = res.get("table1_summary", {})
+        ongoing_count = row["ongoing_row_count"]
+        completed_count = row["completed_row_count"]
+        newly_added_count = row["newly_added_row_count"]
 
-        ongoing_count = len(df_ongoing)
-        completed_count = len(df_completed) if isinstance(df_completed, pd.DataFrame) else 0
-        newly_added_count = len(df_newly_added) if isinstance(df_newly_added, pd.DataFrame) else 0
-
-        # Layout type
-        layout_type = "Early" if source_month in ("2025-07", "2025-08") else "Modern"
-        ongoing_table_title = (
-            "Table 4: All Ongoing Projects"
-            if layout_type == "Early"
-            else "Table 6: All Ongoing Projects"
-        )
-
-        # Check fields
-        has_revised_cost = bool(
-            "revised_cost_cr" in df_ongoing.columns and df_ongoing["revised_cost_cr"].notna().any()
-        )
-        has_revised_doc = bool(
-            "revised_completion_date" in df_ongoing.columns
-            and df_ongoing["revised_completion_date"].notna().any()
-        )
-        has_completed_table = completed_count > 0
-        has_newly_added_table = newly_added_count > 0
-
-        # Aggregates
-        ongoing_orig_cost = (
-            round(float(df_ongoing["original_cost_cr"].sum()), 2) if not df_ongoing.empty else 0.0
-        )
-        ongoing_cum_exp = (
-            round(float(df_ongoing["cumulative_expenditure_cr"].sum()), 2)
-            if not df_ongoing.empty
-            else 0.0
-        )
-
-        t1_count = t1.get("table1_project_count")
-        t1_orig_cost = t1.get("table1_orig_cost_cr")
-        t1_cum_exp = t1.get("table1_cum_exp_cr")
-        morth_count = t1.get("morth_ongoing_count", 0)
-
-        # Drop note if ongoing drops vs prior month
+        # Compute drop notes
         drop_note = "N/A"
         if prev_ongoing_count is not None and ongoing_count < prev_ongoing_count:
             drop_diff = prev_ongoing_count - ongoing_count
@@ -150,42 +243,13 @@ def run(config: dict | None = None) -> dict[str, Any]:
             else:
                 drop_note = f"Drop of {drop_diff} projects; {completed_count} completed vs {newly_added_count} newly added."
 
+        row["drop_note"] = drop_note
         prev_ongoing_count = ongoing_count
-
-        summary_rows.append(
-            {
-                "report_month": source_month,
-                "source_doc": pdf_path.name,
-                "layout_type": layout_type,
-                "ongoing_table_title": ongoing_table_title,
-                "page_count": page_count,
-                "morth_ongoing_count": morth_count,
-                "table1_project_count": t1_count,
-                "ongoing_row_count": ongoing_count,
-                "count_match": (t1_count == ongoing_count) if t1_count is not None else False,
-                "table1_orig_cost_cr": t1_orig_cost,
-                "ongoing_orig_cost_cr": ongoing_orig_cost,
-                "table1_cum_exp_cr": t1_cum_exp,
-                "ongoing_cum_exp_cr": ongoing_cum_exp,
-                "has_revised_cost": has_revised_cost,
-                "has_revised_doc": has_revised_doc,
-                "has_completed_table": has_completed_table,
-                "completed_row_count": completed_count,
-                "has_newly_added_table": has_newly_added_table,
-                "newly_added_row_count": newly_added_count,
-                "columns_found": ";".join(df_ongoing.columns.tolist()),
-                "drop_note": drop_note,
-            }
-        )
+        summary_rows.append(row)
 
     summary_df = pd.DataFrame(summary_rows)
-    summary_path = DATA_INTERIM / "ingestion_summary.csv"
     summary_df.to_csv(summary_path, index=False)
     log.info("Saved ingestion summary to %s (%d months)", summary_path, len(summary_df))
-
-    # For backward compatibility, if single month was processed, return its outputs
-    if "pdf_path" in config:
-        return res["output_paths"]
 
     return {
         "summary_csv": summary_path,

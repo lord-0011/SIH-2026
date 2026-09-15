@@ -1,4 +1,4 @@
-﻿"""Multi-month ingestion test suite across all 13 Flash Reports (July 2025 - July 2026).
+"""Multi-month ingestion test suite across all 13 Flash Reports (July 2025 - July 2026).
 
 Verifies:
 1. Non-circular ground truth: All Ongoing row count == Table 1 Ministry-wise grand total.
@@ -127,6 +127,26 @@ PUBLISHED_GROUND_TRUTH = {
 @pytest.fixture(scope="module")
 def summary_df():
     summary_file = DATA_INTERIM / "ingestion_summary.csv"
+    needs_ingestion = False
+    if not summary_file.exists():
+        needs_ingestion = True
+    else:
+        df_check = pd.read_csv(summary_file)
+        if len(df_check) < 13:
+            needs_ingestion = True
+
+    if not needs_ingestion:
+        for m in PUBLISHED_GROUND_TRUTH.keys():
+            clean_m = m.replace("-", "_")
+            if not (DATA_INTERIM / f"raw_ongoing_{clean_m}.parquet").exists():
+                needs_ingestion = True
+                break
+
+    if needs_ingestion:
+        from src.ingestion.run import run
+
+        run()
+
     assert summary_file.exists(), f"Ingestion summary not found at {summary_file}"
     return pd.read_csv(summary_file)
 
@@ -189,7 +209,7 @@ def test_revised_fields_available_all_months(summary_df):
         ), f"[{month}] Missing revised DoC"
 
 
-def test_parquet_file_integrity():
+def test_parquet_file_integrity(summary_df):
     """Verify all 13 ongoing parquet files exist with valid columns and non-null identifiers."""
     for month in PUBLISHED_GROUND_TRUTH.keys():
         clean_month = month.replace("-", "_")
