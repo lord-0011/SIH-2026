@@ -9,6 +9,28 @@ Format per entry:
 - decisions / notes
 ```
 
+## 2026-09-16 — STEP_06 — Feature Engineering (CUF vs. DERIVED Split & Leakage Invariance)
+- what changed (code):
+  - `src/features/builder.py`: Feature builder computing 25 engineered features per `(project_id, report_month)`: 13 snapshot CUF features and 12 strictly causal DERIVED features. Implements elapsed duration anchored to `elapsed_months_since_anchor` (preventing mid-window MoRTH clock corruption), trailing expenditure and progress velocity/acceleration, provisional progress stagnation (<0.5%) and recent deterioration (>=2 adverse indicators), first revised date trailing population (mirror of STEP_05 exclusion logic), and cross-project historical sector event rate resolved strictly <= T (M <= T - 3).
+  - `src/features/run.py`: Pipeline runner writing `data/processed/features.parquet` (18,860 rows, 27 columns) and `reports/feature_manifest.json` defining independent `cuf_features` and `derived_features` subsets.
+  - `tests/test_no_leakage.py`: Replaced placeholder with non-skipping CI suite (5 tests) asserting mathematical invariance of all derived features to future data (> T), negative control demonstrating test failure under intentional leak, strict cross-project sector rate leakage invariance, schedule variance at T isolation, and first-revised date mirror assertion.
+  - `tests/test_features_fixture.py`: Non-skipping fixture tests (3 tests) validating CUF formulas, mid-window MoRTH anchor clock preservation, and manifest integrity in CI (<1s).
+  - `tests/test_features.py`: Real-data integration tests (3 tests) verifying alignment with panel.parquet, column completeness, and zero infinite values.
+  - `tests/test_no_leakage_placeholder.py`: Removed placeholder test file.
+- what was verified (real output ref):
+  - Total rows in feature table: 18,860 (100% matched with panel keys).
+  - Total features engineered: 25 features (13 CUF, 12 DERIVED).
+  - Null rates: 23 of 25 features have strictly 0.00% null rate. Planned duration has 18 nulls (0.10%), remaining duration has 11 nulls (0.06%) due to unpopulated raw dates.
+  - Leakage invariance: `tests/test_no_leakage.py` passed with 0.0 difference between truncated (<= T) and full (> T) panels.
+  - All 91 repository tests passing (`pytest -v`): 91 passed, 0 skipped, 0 failed in 7.03s.
+  - Black and Ruff: 100% clean across all 49 repository files.
+- docs updated:
+  - `docs/04_DATA_SCHEMA.md`, `docs/steps/STEP_07_features.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Tagging machine-readable in `reports/feature_manifest.json` with helper functions `get_cuf_feature_names()` and `get_derived_feature_names()`.
+  - `progress_stagnation` and `recent_deterioration` flagged as PROVISIONAL / TUNABLE in the manifest.
+  - Ready for STEP_07 / STEP_08 (modeling dataset assembly and baseline training).
+
 ## 2026-09-16 — STEP_05 — EDA Feasibility Gate & Label Specification Finalization
 - what changed (code):
   - `src/eda/eda_gate.py`: Pure EDA analysis engine computing observation depth distributions across baseline vs mid-window cohorts, usable row counts under Scheme A exclusion rule for candidate horizons N in (3, 6, 12), positive event class balances, empirical percentiles for cost escalation and schedule delays, clean Scheme B completed project breakdown, monthly structural breaks, and `compute_schedule_contamination_analysis` decomposing schedule slips into clean transitions vs. administrative first-population artifacts.
