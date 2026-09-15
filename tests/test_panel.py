@@ -138,6 +138,38 @@ def test_trap_c_completed_project_rows_as_realized_anchors(panel_data):
     assert comp_rows["actual_completion_date"].notna().all()
 
 
+def test_direct_query_reversible_completions(panel_data):
+    """Direct query for reversible completions.
+
+    Systematically checks all completed projects that appear in any Ongoing table
+    in a month strictly after their Table 3 completion month.
+    Enforces that exactly 1 project (705635) is reversible, leaving exactly 258 clean
+    irreversible outcomes (~130 concentrated in June 2026 MoRTH road packages -> ~129
+    effective independent outcomes).
+    """
+    panel_df = panel_data["panel_df"]
+
+    completed_rows = panel_df[panel_df["is_completed_this_month"]][
+        ["project_id", "report_month"]
+    ].rename(columns={"report_month": "completion_month"})
+    ongoing_rows = panel_df[~panel_df["is_completed_this_month"]][
+        ["project_id", "report_month"]
+    ].rename(columns={"report_month": "ongoing_month"})
+
+    joined = pd.merge(completed_rows, ongoing_rows, on="project_id")
+    reversibles = joined[joined["ongoing_month"] > joined["completion_month"]]
+
+    distinct_reversibles = reversibles["project_id"].unique().tolist()
+    assert distinct_reversibles == ["705635"], (
+        f"Unexpected reversible completions: {distinct_reversibles}. "
+        "If a data refresh introduces new reversibles, update Scheme B in docs/05_LABEL_SPEC.md."
+    )
+
+    # Clean realized-outcome count
+    clean_realized_outcomes = len(completed_rows) - len(distinct_reversibles)
+    assert clean_realized_outcomes == 258
+
+
 def test_panel_schema_and_columns(panel_data):
     """Verify panel has all columns specified in docs/04_DATA_SCHEMA.md."""
     panel_df = panel_data["panel_df"]
