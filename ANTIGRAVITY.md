@@ -46,10 +46,12 @@ internal) hackathon** with the MVP scope in `docs/00_PROJECT_CHARTER.md`.
    Project Code, Legacy OCMS Code, and PMGID with a confidence field. Never assume
    Project Code is stable. See `src/matching/` and STEP_03.
 
-## 3. Data handling & privacy
+## 3. Data handling & privacy (DVC + Google Drive)
 
-- `data/` is **gitignored**. This is government data. Never commit any file under
-  `data/`, never paste dataset rows into commit messages, docs, or issues.
+- `data/` and large binary reports are **not committed to git**. They are tracked
+  via DVC (`docs/DATA_SHARING.md`) and synced to a shared Google Drive remote.
+- Never commit any `.parquet`, output `.csv`, or raw `.pdf` directly to git. Git
+  stores only the `.dvc` pointer files.
 - Never send raw project rows to any external API. The LLM assistant (later phase)
   operates only over our own computed, non-identifying aggregate outputs unless Adi
   says otherwise.
@@ -86,8 +88,10 @@ internal) hackathon** with the MVP scope in `docs/00_PROJECT_CHARTER.md`.
 - [ ] Scope in the step file is fully implemented, nothing extra
 - [ ] Tests written and passing (leakage test included where applicable)
 - [ ] Real verify-command output pasted, not summarized
+- [ ] Data versioned via DVC if data changed: `dvc add <path>` → `dvc push` (when remote configured) → commit `.dvc` file
 - [ ] Docs synced per `docs/09_DOC_SYNC_RULES.md` (PROGRESS + CHANGELOG + mapped docs)
 - [ ] Walkthrough written for Claude review
+- [ ] Updated root codebase zip (`paimana-risk.zip`) generated
 
 ## 7. What to do when unsure
 

@@ -23,6 +23,7 @@ If you did work and these two are untouched, the work is not finished.
 |---------------------------------|---------------------|
 | A parser in `src/ingestion/` | `docs/03_DATA_INVENTORY.md` (fields/coverage found), `docs/04_DATA_SCHEMA.md` (raw schema if changed) |
 | Anything that reveals real dataset facts (counts, coverage, sample sizes) | `docs/03_DATA_INVENTORY.md` — replace every `TODO(confirm-from-data)` you resolved |
+| Any stage generating/updating data artifacts (`data/`, `reports/`) | `docs/DATA_SHARING.md` (track with DVC pointer, push to remote) |
 | Validation rules in `src/validation/` | `docs/04_DATA_SCHEMA.md` §Validation rules table |
 | Matching logic in `src/matching/` | `docs/steps/STEP_03_matching.md` §Method, and note match-confidence stats in `docs/03_DATA_INVENTORY.md` |
 | Panel builder in `src/panel/` | `docs/04_DATA_SCHEMA.md` §Panel schema (if columns change) |
@@ -73,4 +74,5 @@ Sync Map in the same change.
 [ ] All numbers in docs are sourced (Rule 2)
 [ ] grep confirm-from-data: any I resolved are now removed
 [ ] README nav + this Sync Map still valid (Rule 5)
+[ ] DVC pointers updated & pushed if data changed (docs/DATA_SHARING.md)
 ```

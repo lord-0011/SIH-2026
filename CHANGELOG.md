@@ -11,6 +11,25 @@ Format per entry:
 
 ---
 
+## 2026-09-15 — DATA_SHARING — DVC & Google Drive Data Sharing Workflow
+- what changed (code):
+  - Initialized DVC repository structure (`.dvc/`, `.dvcignore`).
+  - Added `dvc[gdrive]>=3.50` to `requirements.txt`.
+  - Added `docs/DATA_SHARING.md` defining DVC + Google Drive synchronization runbook, setup instructions, and daily workflow.
+  - Updated `ANTIGRAVITY.md` §3 and §6 (Definition of Done) with data sharing rules.
+  - Updated `docs/09_DOC_SYNC_RULES.md` with DVC pointer tracking in the sync map.
+  - Updated `README.md` navigation index and added `## Data setup` guide.
+  - Updated `.gitignore` to prevent accidental tracking of `.pptx` presentation decks.
+- what was verified (real output ref):
+  - `dvc --version` confirmed functional (3.67.1).
+  - `pytest -v`: 6 passed, 1 skipped in 0.45s.
+  - `ruff check .`: all checks passed.
+  - `black --check .`: all files cleanly formatted.
+- docs updated:
+  - `docs/DATA_SHARING.md`, `README.md`, `ANTIGRAVITY.md`, `docs/09_DOC_SYNC_RULES.md`
+- decisions / notes:
+  - Heavy binary artifacts (`reports/*.pdf`, `data/interim/`, `data/processed/`) are shared across team members and Antigravity agents via DVC remote rather than bloating the main code git repository.
+
 ## 2026-09-15 — STEP_01 — Flash Report PDF Ingestion & April Sanity Gate
 - what changed (code):
   - Created `src/ingestion/parser.py`: PDF parser using `pdfplumber` extracting Table 6 (All Ongoing Projects), Table 3 (Completed Projects During Month), and Table 4 (Newly Added Projects).
