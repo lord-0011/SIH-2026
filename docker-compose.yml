@@ -1,0 +1,14 @@
+# Stub — 'db' now; api + frontend services added in STEP_13/14.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${PG_DB:-paimana}
+      POSTGRES_USER: ${PG_USER:-paimana}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-changeme}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+# GOVERNMENT DATA & RAW ARTIFACTS — never commit
+data/
+*.parquet
+*.csv
+*.xlsx
+*.docx
+*.zip
+!docs/**
+.DS_Store
+node_modules/
+frontend/dist/
