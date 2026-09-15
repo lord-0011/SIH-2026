@@ -18,6 +18,8 @@ psycopg[binary]>=3.1
 black>=24.0
 ruff>=0.4
 pytest>=8.0
+# Data Versioning
+dvc[gdrive]>=3.0
 # [STRETCH] (Level 2)
 # shap>=0.45
 # lifelines>=0.28

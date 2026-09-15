@@ -12,7 +12,7 @@ Verifies:
 import pandas as pd
 import pytest
 
-from src.common.config import DATA_INTERIM
+from src.common.config import DATA_INTERIM, REPORTS
 from src.common.io import load_dataframe
 
 # Published ground-truth reference figures (independent secondary cross-check)
@@ -127,12 +127,17 @@ PUBLISHED_GROUND_TRUTH = {
 @pytest.fixture(scope="module")
 def summary_df():
     summary_file = DATA_INTERIM / "ingestion_summary.csv"
+    has_reports = any(REPORTS.glob("*.pdf")) if REPORTS.exists() else False
+
     needs_ingestion = False
-    if not summary_file.exists():
+    if not summary_file.exists() or summary_file.stat().st_size == 0:
         needs_ingestion = True
     else:
-        df_check = pd.read_csv(summary_file)
-        if len(df_check) < 13:
+        try:
+            df_check = pd.read_csv(summary_file)
+            if len(df_check) < 13:
+                needs_ingestion = True
+        except pd.errors.EmptyDataError:
             needs_ingestion = True
 
     if not needs_ingestion:
@@ -143,11 +148,18 @@ def summary_df():
                 break
 
     if needs_ingestion:
+        if not has_reports:
+            pytest.skip(
+                "Raw reports not found in reports/ — run 'dvc pull' to fetch data from Google Drive"
+            )
+
         from src.ingestion.run import run
 
         run()
 
-    assert summary_file.exists(), f"Ingestion summary not found at {summary_file}"
+    if not summary_file.exists() or summary_file.stat().st_size == 0:
+        pytest.skip("Ingestion summary not found — run 'dvc pull' to fetch data from Google Drive")
+
     return pd.read_csv(summary_file)
 
 

@@ -29,7 +29,7 @@ dvc init
 git add .dvc .dvcignore && git commit -m "chore: init DVC"
 
 # Drive folder ID = the part after /folders/ in the folder URL
-dvc remote add -d gdrive gdrive://<DRIVE_FOLDER_ID>
+dvc remote add -d gdrive gdrive://1hcCp1M4Ys0LUvijwGGJqBHhwkPJeuYL5
 git add .dvc/config && git commit -m "chore: add gdrive remote"
 
 dvc add data/interim data/processed reports

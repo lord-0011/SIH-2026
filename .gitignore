@@ -4,8 +4,12 @@ __pycache__/
 .env
 .env.*
 !.env.example
-# GOVERNMENT DATA & RAW ARTIFACTS — never commit
-data/
+# GOVERNMENT DATA & RAW ARTIFACTS — never commit to git; tracked via DVC
+data/*
+!data/.gitignore
+!data/*.dvc
+!data/**/*.dvc
+!data/**/
 *.parquet
 *.csv
 *.xlsx
@@ -17,3 +21,4 @@ data/
 .DS_Store
 node_modules/
 frontend/dist/
+/reports

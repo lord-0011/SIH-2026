@@ -247,6 +247,13 @@ def run(config: dict | None = None) -> dict[str, Any]:
         prev_ongoing_count = ongoing_count
         summary_rows.append(row)
 
+    if not summary_rows:
+        log.warning("No reports were processed. Not writing empty ingestion_summary.csv.")
+        return {
+            "summary_csv": None,
+            "outputs": {},
+        }
+
     summary_df = pd.DataFrame(summary_rows)
     summary_df.to_csv(summary_path, index=False)
     log.info("Saved ingestion summary to %s (%d months)", summary_path, len(summary_df))
