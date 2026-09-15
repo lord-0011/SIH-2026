@@ -44,12 +44,13 @@ See `docs/09_DOC_SYNC_RULES.md`. This is enforced, not optional.
 Data (raw reports + pipeline outputs) is tracked with DVC on a shared Google Drive,
 NOT in git. After cloning:
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt "dvc[gdrive]"
 dvc pull
 ```
-- **Regenerated data?** -> `dvc add <path> && dvc push && git commit <path>.dvc && git push`
+- **Regenerated data?** -> `dvc add <path> && dvc push && git add <path>.dvc && git commit && git push`
 - **Pulling others' work?** -> `git pull && dvc pull`
-See `docs/DATA_SHARING.md` for full instructions.
+
+See `docs/DATA_SHARING.md` for full workflow, remote setup, and troubleshooting.
 
 ## Repo layout
 
