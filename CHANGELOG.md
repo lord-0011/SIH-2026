@@ -11,6 +11,27 @@ Format per entry:
 
 ---
 
+## 2026-09-15 — STEP_02 — Data Validation & Audit Logging
+- what changed (code):
+  - Created `src/validation/rules.py` with pure validation functions for progress bounds (`progress_out_of_range`), non-negative values (`negative_value`), chronological sequence / sentinel checks (`date_inconsistency`), cost reductions (`cost_revised_down`), and expenditure overruns (`exp_exceeds_cost`).
+  - Created `src/validation/run.py` to batch-validate all 35 interim parquet tables across 13 months, attach `data_quality_flag`, and emit `data/interim/validation_report.csv` and `data/interim/validation_log.parquet` (and `.csv`).
+  - Added unit and integration test suite `tests/test_validation.py` covering all rule boundary conditions and end-to-end pipeline execution.
+- what was verified (real output ref):
+  - All 21 tests passed cleanly (`pytest -v`).
+  - 19,596 total records processed; 0 records dropped (zero data loss).
+  - 4,301 records flagged with 4,588 total issues logged:
+    - `cost_revised_down`: 2,767 (known reporting artifact; records preserved)
+    - `date_inconsistency`: 1,053 (temporal sequence checks)
+    - `exp_exceeds_cost`: 764 (sanctioned cost overrun review flag)
+    - `negative_value`: 4 (Jan 2026 MoRTH onboarding negative cumulative expenditures)
+    - `progress_out_of_range`: 0 (all physical progress within [0, 100]%)
+  - `ruff check .` and `black --check .` 100% clean.
+- docs updated:
+  - `docs/steps/STEP_02_validation.md`, `PROGRESS.md`, `CHANGELOG.md`
+- decisions / notes:
+  - Preserved no-deletion rule (Rule 4 of `ANTIGRAVITY.md`). Every anomaly is flagged and logged with human-readable rationale.
+
+
 ## 2026-09-15 — DATA_SHARING — DVC & Google Drive Data Sharing Workflow
 - what changed (code):
   - Initialized DVC repository structure (`.dvc/`, `.dvcignore`).
