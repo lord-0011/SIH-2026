@@ -31,27 +31,9 @@ jobs:
       - name: Run Black Check
         run: black --check .
 
-      - name: Cache interim data
-        uses: actions/cache@v4
-        id: cache-interim
-        with:
-          path: data/interim
-          key: interim-data-${{ hashFiles('reports.dvc', 'data/interim.dvc', 'src/ingestion/**') }}
-          restore-keys: |
-            interim-data-
-
-      - name: Run Multi-Month Ingestion
-        if: steps.cache-interim.outputs.cache-hit != 'true'
-        run: |
-          if compgen -G "reports/*.pdf" > /dev/null; then
-            python -m src.ingestion.run
-          else
-            echo "Raw report PDFs not in git (tracked via DVC); skipping ingestion in clean CI runner"
-          fi
-
-      # Exercises parser on committed synthetic fixture (tests/test_ingestion_fixture.py) on every run
       - name: Run Pytest Test Suite
         run: pytest -v
 
       - name: Validate Docker Compose Config
         run: docker compose config
+

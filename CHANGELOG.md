@@ -11,6 +11,63 @@ Format per entry:
 
 ---
 
+## 2026-09-15 — CI_ARCHITECTURE — Decouple CI from DVC/Cache & Add Committed PDF Fixtures
+- what changed (code):
+  - `.github/workflows/ci.yml`: Removed stale `Cache interim data` and conditional `Run Multi-Month Ingestion` steps. CI now runs clean and deterministically on every runner without stale cache pollution.
+  - Added committed 1-page sample PDF fixture `tests/fixtures/sample_table6_page.pdf` (extracted from actual February 2026 report with 20 real ongoing projects including legacy codes and dash placeholders).
+  - Created `tests/test_ingestion_fixture.py` (9 tests) testing end-to-end table extraction on `sample_table6_page.pdf` and parsing rules across all historical layout patterns (Patterns A, B, C, dashes).
+  - Added clean skip guards in `tests/test_ingestion_multimonth.py` (`summary_df` fixture) and `tests/test_validation.py` (`test_pipeline_integration_real_data`) when full DVC-tracked datasets / 13 PDFs are absent.
+- what was verified (real output ref):
+  - GitHub Actions Run [#35000903149](https://github.com/lord-0011/SIH-2026/actions/runs/35000903149) completed **SUCCESS** (Job 104488750135: all steps green).
+  - In CI: 25 tests PASSED (all fixture and pure rule tests), 14 tests SKIPPED cleanly (April and multimonth data suites).
+  - Locally: all 38 tests PASSED, 1 skipped placeholder (`pytest -v`).
+  - `ruff check .` and `black --check .`: 100% clean across all 34 files.
+- docs updated:
+  - `CHANGELOG.md`, `PROGRESS.md`, `walkthrough.md`
+- decisions / notes:
+  - CI must never assert against cached real data it cannot deterministically reproduce. Code-coupled coverage belongs to committed fixtures; heavy 13-month data tests belong to the local pre-merge gate.
+
+
+
+## 2026-09-15 — STEP_01 & STEP_02 — Parser Project Code Resolution & Granular Validation Refactor
+- what changed (code):
+  - Fixed `src/ingestion/parser.py` (`parse_table6_project_cell`): properly handles single-parenthesized legacy code lines at cell bottom (introduced by MoSPI in Feb/Mar 2026 before PMGID was added in Apr 2026). Swallowed project codes restored across all tables.
+  - Added regression test `test_project_code_completeness_all_months` in `tests/test_ingestion_multimonth.py` asserting strict 0.0% missing-rate on `project_code` across all 13 months.
+  - Refactored `src/validation/rules.py` with granular flag taxonomy:
+    - Split `date_inconsistency` into:
+      - `date_impossible`: chronological impossibilities (`orig < start`, `act < start`, `orig < approval`) and sentinel years (<1970).
+      - `start_before_approval`: administrative reporting convention (work start prior to formal cabinet sanction; kept).
+      - `schedule_advanced`: schedule acceleration signal (revised completion earlier than original; kept as positive signal for STEP_05).
+    - Split downward cost revisions into:
+      - `implausible_cost_revision`: extreme reductions >90% (`revised < 0.1 * original`, e.g. project 618886: 238.66 -> 0.1), flagging potential data-entry/contract unbundling artifact.
+      - `cost_revised_down`: legitimate descoping / tender savings.
+  - Added dedicated fixture test suite `tests/test_validation_fixtures.py` exercising all split rules and boundary conditions.
+- what was verified (real output ref):
+  - All 29 tests passing (`pytest -v`):
+    - `test_ingestion_april.py`: 6 passed
+    - `test_ingestion_multimonth.py`: 7 passed (including 0% project_code missing assertion)
+    - `test_validation.py`: 9 passed
+    - `test_validation_fixtures.py`: 7 passed
+  - Identifier completeness across all 13 months:
+    - `project_code` missing-rate = 0.0% across all 13 months (0 missing rows in Feb/Mar, down from 758 and 752).
+    - Legacy OCMS codes extracted: 1,190 in Feb 2026, 1,189 in Mar 2026, 1,184 in Apr 2026, 1,170 in May 2026.
+    - Zero rows missing all 3 identifiers across entire corpus.
+  - Real validation metrics across 19,596 records (0 dropped):
+    - `cost_revised_down`: 2,738
+    - `exp_exceeds_cost`: 764
+    - `start_before_approval`: 633
+    - `schedule_advanced`: 332
+    - `date_impossible`: 88
+    - `implausible_cost_revision`: 29 (affecting 4 distinct projects including 618886)
+    - `negative_value`: 4
+    - `progress_out_of_range`: 0
+  - `ruff check .` and `black --check .`: 100% clean.
+- docs updated:
+  - `docs/04_DATA_SCHEMA.md`, `docs/steps/STEP_02_validation.md`, `PROGRESS.md`, `CHANGELOG.md`
+- decisions / notes:
+  - Preserved no-deletion rule (Rule 4 of `ANTIGRAVITY.md`). Schedule acceleration (`schedule_advanced`) is recognized as a signal, not a defect. Implausible downward cost crashes (>90%) are separated from standard descoping.
+
+
 ## 2026-09-15 — DATA_SHARING — DVC & Google Drive Data Sharing Workflow
 - what changed (code):
   - Initialized DVC repository structure (`.dvc/`, `.dvcignore`).

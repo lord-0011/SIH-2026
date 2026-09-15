@@ -3,17 +3,17 @@
 > Update this after EVERY implementation (docs/09 Rule 0). Newest status wins.
 > Legend: ⬜ not started · 🟨 in progress · 🟥 blocked · ✅ done
 
-**Current step:** STEP_02 (validation) — ⬜ not started
+**Current step:** STEP_03 (matching) — ⬜ not started
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-15 (STEP_00 & STEP_01 multi-month completed)
+**Last updated:** 2026-09-15 (CI decoupled from cache & verified GREEN on Actions #35000903149; STEP_01 0% missing code; STEP_02 validation done)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
 |------|-------|--------|------------------|
 | STEP_00 repo setup | 0 | ✅ | scaffold, venv, pyproject.toml, docker db service |
-| STEP_01 ingestion | 1 | ✅ | 13 monthly reports parsed; 100% Table 1 non-circular match; 289 completed projects |
-| STEP_02 validation | 2 | ⬜ | Next step |
-| STEP_03 matching | 2 | ⬜ | hardest step — anchor MoRTH to actual approval/start dates, not first appearance |
+| STEP_01 ingestion | 1 | ✅ | 13 monthly reports parsed; 100% Table 1 match; 0% missing project_code across all 13 months |
+| STEP_02 validation | 2 | ✅ | 19,596 records checked; 0 dropped; granular taxonomy (date_impossible, start_before_approval, schedule_advanced, implausible_cost_revision) |
+| STEP_03 matching | 2 | ⬜ | Next step: canonical project_id via PMGID -> Project Code -> Legacy OCMS -> fuzzy |
 | STEP_04 panel | 3 | ⬜ | handle MoRTH onboarding discontinuity |
 | STEP_05 EDA gate | 4 | ⬜ | **GATE: resolves all data TODOs** |
 | STEP_06 labels | 5 | ⬜ | blocked until STEP_05 done |

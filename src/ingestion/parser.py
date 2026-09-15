@@ -83,15 +83,24 @@ def parse_table6_project_cell(
     proj_code = None
     agency = None
 
-    # 1. Bottom line: (Legacy) (PMGID)
+    # 1. Bottom line: can be (Legacy) (PMGID) [Apr 2026+], OR (Legacy Code) / (-) [Feb-Mar 2026]
     if lines:
-        m_legacy = re.match(r"\((.*?)\)\s*\((.*?)\)$", lines[-1])
-        if m_legacy:
-            leg_val = m_legacy.group(1).strip()
-            pmg_val = m_legacy.group(2).strip()
+        m_two = re.match(r"^\((.*?)\)\s*\((.*?)\)$", lines[-1])
+        if m_two:
+            leg_val = m_two.group(1).strip()
+            pmg_val = m_two.group(2).strip()
             legacy_code = None if leg_val in ("-", "--", "") else leg_val
             pmgid = None if pmg_val in ("-", "--", "") else pmg_val
             lines = lines[:-1]
+        elif re.match(r"^\((.*?)\)$", lines[-1]):
+            val = lines[-1][1:-1].strip()
+            # If line above it is parenthesized with digits (Project Code), then bottom line is Legacy Code!
+            if len(lines) >= 2 and re.match(r"^\(\d{4,8}\)$", lines[-2]):
+                legacy_code = None if val in ("-", "--", "") else val
+                lines = lines[:-1]
+            elif val in ("-", "--") or re.match(r"^[A-Za-z]\d{6,}", val):
+                legacy_code = None if val in ("-", "--", "") else val
+                lines = lines[:-1]
 
     # 2. Next line up: (Project Code)
     if lines:
