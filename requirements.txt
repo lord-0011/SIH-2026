@@ -1,0 +1,21 @@
+# Core
+pandas>=2.2
+numpy>=1.26
+pyarrow>=15          # parquet
+python-dotenv>=1.0
+# Ingestion
+pdfplumber>=0.11
+# Models
+scikit-learn>=1.4
+xgboost>=2.0         # OR lightgbm>=4.3 — pick one at STEP_09, remove the other
+# API
+fastapi>=0.110
+uvicorn[standard]>=0.29
+psycopg[binary]>=3.1
+# Quality
+black>=24.0
+ruff>=0.4
+pytest>=8.0
+# [STRETCH] (Level 2)
+# shap>=0.45
+# lifelines>=0.28
