@@ -9,6 +9,41 @@ Format per entry:
 - decisions / notes
 ```
 
+## 2026-09-16 — STEP_05 — EDA Feasibility Gate & Label Specification Finalization
+- what changed (code):
+  - `src/eda/eda_gate.py`: Pure EDA analysis engine computing observation depth distributions across baseline vs mid-window cohorts, usable row counts under Scheme A exclusion rule for candidate horizons N in (3, 6, 12), positive event class balances, empirical percentiles for cost escalation and schedule delays, clean Scheme B completed project breakdown, monthly structural breaks, and `compute_schedule_contamination_analysis` decomposing schedule slips into clean transitions vs. administrative first-population artifacts.
+  - `src/eda/run.py`: Pipeline runner emitting reproducible empirical findings to `reports/eda_gate_summary.json`.
+  - `tests/test_eda_fixture.py`: Dedicated non-skipping CI fixture test suite (4 tests) validating date parsing, observation depth, usable rows, and Scheme B breakdowns on synthetic panel grids.
+  - `tests/test_eda.py`: Real-data integration test suite (5 tests) asserting exact sourced facts from `docs/03_DATA_INVENTORY.md` §C and pinning the contamination decomposition (1,120 first-pop artifacts, 2,744 clean transitions).
+  - `docs/05_LABEL_SPEC.md`: Finalized specification completely: locked Schedule-Risk at N=3, Y=3; explicit first-population exclusion rule; causal trailing feature candidate note for STEP_06; Scheme B model card honesty caveats (~60 independent realized slips outside June road packages). All TODOs eliminated.
+  - `docs/03_DATA_INVENTORY.md`: Resolved all remaining §C TODOs (questions 3 and 6) with sourced reproducible numbers (`grep -rn "confirm-from-data"` returns 0 hits in §C).
+- what was verified (real output ref):
+  - Schedule contamination decomposition:
+    - Out of 3,933 gross forward slips (N=3, Y>=3), 1,120 (28.48%) are first-population artifacts (812 of which occurred in March 2026 alone).
+    - 2,744 clean transition positives (69.77% of gross slips, 22.31% positive rate across all 12,300 rows; 33.27% among established projects).
+  - Observation depth (2,243 projects): >=3 months: 2,138 (95.32%); >=6 months: 1,948 (86.85%); >=9 months: 768 (34.24%); >=12 months: 639 (28.49%); 13 months: 557 (24.83%). Mid-window arrivals (1,341) have median 7 months and 0 >=9 months by construction.
+  - Usable rows & positives under Scheme A:
+    - N=3 months: 12,300 usable rows. Cost-risk positives (>0%): 237 (1.93%). Schedule-risk clean positives (>=3 mo): 2,744 (22.31%).
+    - N=6 months: 6,258 usable rows. Cost-risk positives: 272 (4.35%).
+    - N=12 months: 557 usable rows (drops all 1,341 mid-window arrivals). Non-viable for training.
+  - Empirical event base rates:
+    - Cost escalation delta: p50 to p98 are all 0.00% (p99 is 15.75%). 98% of 3-month project windows experience zero cost escalation.
+    - Schedule delay delta: p50=0.0 mo, p75=4.0 mo, p90=13.0 mo, p95=21.0 mo, p98=36.0 mo, p99=55.0 mo.
+  - Scheme B clean anchor (N = 258, effective independent ~ 128):
+    - Cost overrun (>0 Cr): 97 (37.60%). Schedule slip (>0 mo): 92 (35.66%). Both: 31 (12.02%). Neither: 100 (38.76%).
+  - Structural breaks: In March 2026, revised completion date population jumped from 50.56% to 82.12% (+31.56 percentage points) as MoSPI systematically backfilled revised dates for 616 projects.
+  - All 81 repository tests passing (`pytest -v`): 80 passed, 1 skipped in 4.08s.
+  - Black and Ruff: 100% clean across all 46 repository files.
+- docs updated:
+  - `docs/03_DATA_INVENTORY.md`, `docs/05_LABEL_SPEC.md`, `docs/steps/STEP_05_eda.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - STEP_05 accepted by user. Primary target LOCKED as Schedule-Risk Transition at N=3 months, Y=3 months.
+  - First-population events strictly EXCLUDED from the label and reserved as a causal trailing feature for STEP_06.
+  - Cost-risk demoted to feature and secondary indicator.
+  - Ready to merge STEP_05 and branch STEP_06 from main.
+
+---
+
 ## 2026-09-16 — STEP_04 — Build Project-Month Panel & Enforce Reconciliation Identity
 - what changed (code):
   - `src/panel/builder.py`: Pure functions module for panel assembly (`parse_state_list`, `compute_elapsed_months`, `classify_project_gaps`, `build_panel_df`). Standardizes ongoing and completed rows, computes elapsed months against `trajectory_anchor_date` (Trap A), leaves missing months empty without forward-filling (Trap B), incorporates all Table 3 completed rows as terminal observed records (Trap C), and enforces the computed reconciliation identity `observed_rows + sum(gaps) == n_projects * n_months`.

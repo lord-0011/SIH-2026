@@ -41,8 +41,35 @@ grouped by Ministry → Sector. Both Revised Cost and Revised Completion Date ar
 2. **CONFIRMED**: format consistency vs coverage axes:
    - *Format axis*: 2025-07 and 2025-08 use Early format (Ongoing is Table 4; no Completed/Newly Added tables). From 2025-09 onward, reports use Modern format (Ongoing is Table 6; Completed is Table 3; Newly Added is Table 4).
    - *Coverage axis*: MoRTH (Ministry of Road Transport & Highways) is absent in 2025-07 through 2025-11 (non-MoRTH baseline is ~800–823 projects). MoRTH is incrementally integrated starting in Dec 2025 (584 projects) -> Jan 2026 (863 projects) -> Feb 2026 (1,108 projects) -> peaking at 1,149 in May 2026 -> 993 in July 2026.
-3. `TODO`: observations-per-project distribution — how many projects have long enough trajectories (e.g. >=6 months) for trend features + a forward-window label?
-4. **CONFIRMED**: realized-outcome count — exactly **259** project completions observed across the 11 modern months' Table 3 ("Completed Projects During Month") tables, computed by summing the `completed_row_count` column in `data/interim/ingestion_summary.csv` (6 + 6 + 13 + 17 + 3 + 9 + 25 + 9 + 16 + 130 + 25 = 259; July–August 2025 early layout had no Table 3). *Concentration note*: This set is heavily concentrated in a single month — June 2026 alone accounts for 130 completions (~127 of which are MoRTH road packages), meaning the effective independent validation sample across all other months and sectors is much smaller (129 projects across 10 months) than the gross 259 total suggests.
+3. **CONFIRMED**: observations-per-project distribution (computed by `src/eda/eda_gate.py` off `data/processed/panel.parquet`):
+   - **All 2,243 canonical projects**:
+     - $\ge 3$ observed months: **2,138 projects (95.32%)**
+     - $\ge 6$ observed months: **1,948 projects (86.85%)**
+     - $\ge 9$ observed months: **768 projects (34.24%)**
+     - $\ge 12$ observed months: **639 projects (28.49%)**
+     - Exactly 13 observed months: **557 projects (24.83%)**
+     - Median observed months: **8.0 months** (p10=4, p25=6, p50=8, p75=12, p90=13).
+   - **Baseline cohort (902 projects first observed in Jul/Aug 2025)**:
+     - $\ge 3$ observed months: **855 (94.79%)**
+     - $\ge 6$ observed months: **805 (89.25%)**
+     - $\ge 9$ observed months: **768 (85.14%)**
+     - $\ge 12$ observed months: **639 (70.84%)**
+     - Median observed months: **13.0 months**.
+   - **Mid-window arrivals (1,341 projects arriving Dec 2025+)**:
+     - $\ge 3$ observed months: **1,283 (95.67%)**
+     - $\ge 6$ observed months: **1,143 (85.23%)**
+     - $\ge 9$ observed months: **0 (0.00%)** — *by construction*, since the window has only 8 months remaining after Dec 2025 onboarding.
+     - Median observed months: **7.0 months**.
+   - **Conclusion**: 86.85% of projects have $\ge 6$ observed months, providing strong support for trailing 3-month rolling trend features plus forward-looking windowed labels.
+4. **CONFIRMED**: realized-outcome count — exactly **259** gross completed project records across 11 modern months' Table 3 ("Completed Projects During Month") tables (6 + 6 + 13 + 17 + 3 + 9 + 25 + 9 + 16 + 130 + 25 = 259).
+   - **Reversible completion finding**: Direct cross-month join (`ongoing_month > completion_month`) identified exactly **1** reversible project (`705635`, Southern Railway, Trivandrum-Kanyakumari; completed in Feb 2026, reappeared ongoing Mar–Jul 2026).
+   - **Clean irreversible validation anchor**: exactly **258** completed projects (100% satisfying $\text{Completed} \land \text{Never seen ongoing afterward}$).
+   - **Outcomes breakdown (N = 258)**:
+     - Cost overrun (>0 Cr): **97 projects (37.60%)**
+     - Schedule slip (>0 months): **92 projects (35.66%)** (22 with unpopulated/dash dates in Table 3)
+     - Both cost overrun & schedule slip: **31 projects (12.02%)**
+     - Neither (on-time and on-budget): **100 projects (38.76%)**
+   - **Concentration caveat**: June 2026 alone accounts for 130 completions (121 of which are NHAI/MoRTH road packages), meaning the effective independent validation sample across all other months and sectors is **128 projects** (or 137 projects outside June road packages).
 5. **CONFIRMED**: entity stability & canonical resolution:
    - `project_code` is **100.00% populated** across all 18,601 ongoing records, 259 completed records, and 736 newly added records (0 null project codes).
    - **Per-month uniqueness**: 100% unique per month (`nunique(project_code) == len(df)` across all 13 months; 0 intra-month duplicates).
@@ -50,7 +77,23 @@ grouped by Ministry → Sector. Both Revised Cost and Revised Completion Date ar
    - **Corpus-wide distinct canonical projects**: exactly **2,243** distinct projects across the 13-month window.
    - **Umbrella legacy codes reconciled**: exactly **26** single-month concurrent umbrella legacy codes (e.g. NHAI corridor EPC package splits); exactly **30** corpus-wide umbrella legacy codes. The 4-code difference (`N12000133`, `N12000134`, `N12000135`, `N22000602`) reflects source reporting swaps across distinct physical steel/rail projects (Bokaro, Bhilai, Battery Cyclon, Dallirajhara) between Feb and Mar 2026, while `project_code`s remained 100% stable.
    - **Mid-window arrivals (>= 2025-12)**: **1,341** total projects (1,187 MoRTH + 154 other ministries). All 1,341 have `trajectory_anchor_date` populated from their actual sanction/start date for STEP_04 trajectory anchoring.
-6. `TODO`: usable rows per candidate horizon (N=3,6,12 months) — determines which horizon is even viable (see LABEL_SPEC).
+6. **CONFIRMED**: usable rows per candidate horizon (computed by `src/eda/eda_gate.py` applying Scheme A exclusion rule: row at month $T$ is usable only if project has $\ge N$ future observed months after $T$):
+   - **$N = 3$ months (Optimal / Viable)**:
+     - Usable labeled rows: **12,300 rows** (65.2% of panel).
+     - Cost-risk positives ($\Delta \text{cost\_escalation} > 0\%$): **237 rows (1.93% class rate)**; at $\ge 5\%$: **188 rows (1.53%)**.
+     - Schedule-risk positives ($\Delta \text{delay} \ge 1\text{ mo}$): **4,531 rows (36.84% class rate)**; at $\ge 3\text{ mo}$: **3,933 rows (31.98%)**; at $\ge 6\text{ mo}$: **2,708 rows (22.02%)**.
+   - **$N = 6$ months (Secondary / Restricted)**:
+     - Usable labeled rows: **6,258 rows** (33.2% of panel).
+     - Cost-risk positives ($>0\%$): **272 rows (4.35%)**; at $\ge 5\%$: **220 rows (3.52%)**.
+     - Schedule-risk positives ($\ge 1\text{ mo}$): **2,638 rows (42.15%)**; at $\ge 3\text{ mo}$: **2,510 rows (40.11%)**.
+   - **$N = 12$ months (Non-viable)**:
+     - Usable labeled rows: **557 rows** (2.95% of panel; restricted exclusively to baseline projects from July 2025; completely drops all 1,341 mid-window arrivals).
+     - Cost-risk positives: **115 rows (20.65%)**.
+     - Schedule-risk positives ($\ge 1\text{ mo}$): **265 rows (47.58%)**.
+   - **Structural Break Finding for Target Fields**:
+     - *Cost revision downward spike*: Dec 2025 onwards, downward cost revisions jump from 4.25% to ~17% due to MoRTH road packages tendering below initial administrative estimates.
+     - *Revised completion date reporting surge*: In March 2026, `revised_completion_date` population jumps from 50.56% to **82.12%** (+31.56 percentage points) as MoSPI systematically backfilled revised target dates for 616 projects.
+   - **Target Recommendation**: Recommend **Schedule-Risk** at **Horizon $N = 3$ months** as the primary prediction target for Level 1 MVP. Schedule revisions occur actively and continuously with balanced class distributions (32%–37%), whereas cost escalation is rare (1.9% at N=3) because cost revisions require formal cabinet/CCEA approvals.
 7. **CONFIRMED**: structural breaks — large jump in project count (823 -> 1,987) between Nov 2025 and May 2026 is proven to be MoRTH onboarding integration, not a change in reporting convention of other sectors.
 
 ## D. Known data-quality caveats (source: April report notes)
