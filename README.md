@@ -19,14 +19,14 @@ items are marked `[STRETCH]` everywhere and are NOT required to win Level 1.
 | 1 | `docs/01_TECH_STACK.md` | Every tool, version, and why; local setup |
 | 2 | `docs/02_ARCHITECTURE.md` | System diagram + how the `src/` folders map to the pipeline |
 | 3 | `docs/03_DATA_INVENTORY.md` | **What data we actually hold** (fill from real files before Phase 4) |
-| 4 | `docs/04_DATA_SCHEMA.md` | Panel dataset schema + MVP feature catalogue |
-| 5 | `docs/05_LABEL_SPEC.md` | Target definition, censoring & leakage rules |
-| 6 | `docs/06_PHASES.md` | Phase plan for Level 1 with exit criteria |
-| 7 | `docs/steps/STEP_*.md` | One granular, actionable spec per build step |
-| 8 | `docs/08_EVALUATION.md` | Metrics + the comparison tables we must fill |
-| 9 | `docs/09_DOC_SYNC_RULES.md` | **The rule: update docs after every implementation** |
-| 10| `docs/10_DEMO_SCRIPT.md` | The Level-1 pitch + live demo run sheet |
-| 11| `docs/DATA_SHARING.md` | Data sharing protocol with DVC + Google Drive |
+| 4 | `docs/DATA_SHARING.md` | **Data sharing via DVC + Google Drive** (how team shares heavy artifacts) |
+| 5 | `docs/04_DATA_SCHEMA.md` | Panel dataset schema + MVP feature catalogue |
+| 6 | `docs/05_LABEL_SPEC.md` | Target definition, censoring & leakage rules |
+| 7 | `docs/06_PHASES.md` | Phase plan for Level 1 with exit criteria |
+| 8 | `docs/steps/STEP_*.md` | One granular, actionable spec per build step |
+| 9 | `docs/08_EVALUATION.md` | Metrics + the comparison tables we must fill |
+| 10| `docs/09_DOC_SYNC_RULES.md` | **The rule: update docs after every implementation** |
+| 11| `docs/10_DEMO_SCRIPT.md` | The Level-1 pitch + live demo run sheet |
 
 ## Live-state files (updated constantly, not just at milestones)
 
@@ -63,6 +63,7 @@ paimana-risk/
 ├── requirements.txt        ← Python deps
 ├── docker-compose.yml      ← Postgres + api + frontend (stub for now)
 ├── docs/                   ← all specifications (see table above)
+│   ├── DATA_SHARING.md     ← DVC + Google Drive sharing guide
 │   └── steps/              ← STEP_00 .. STEP_16
 ├── src/                    ← pipeline code, one folder per stage
 │   ├── ingestion/          ← PDF/extract → raw tables      (Phase 1)
@@ -80,6 +81,7 @@ paimana-risk/
 │   ├── raw/                ← original monthly reports as received
 │   ├── interim/            ← parsed/cleaned intermediate tables
 │   └── processed/          ← panel, features, labels, scores
+├── reports/                ← raw Flash Report PDFs (tracked via DVC)
 ├── notebooks/              ← EDA only; findings graduate into docs
 ├── tests/                  ← pytest; leakage + parsing tests live here
 └── frontend/               ← React dashboard (Phase 15)
