@@ -80,30 +80,37 @@ def test_validate_dates():
     }
     assert len(validate_dates(clean_dates)) == 0
 
-    # start before approval
+    # start before approval -> start_before_approval
     issues1 = validate_dates({"start_date": "01/2019", "date_of_approval": "06/2020"})
-    assert any("before date_of_approval" in i.reason for i in issues1)
+    assert any(
+        i.flag == "start_before_approval" and "before date_of_approval" in i.reason for i in issues1
+    )
 
-    # revised completion before original completion
+    # revised completion before original completion -> schedule_advanced
     issues2 = validate_dates(
         {
             "original_completion_date": "12/2024",
             "revised_completion_date": "06/2024",
         }
     )
-    assert any("before original_completion_date" in i.reason for i in issues2)
+    assert any(
+        i.flag == "schedule_advanced" and "before original_completion_date" in i.reason
+        for i in issues2
+    )
 
-    # original completion before start
+    # original completion before start -> date_impossible
     issues3 = validate_dates({"start_date": "06/2023", "original_completion_date": "01/2023"})
-    assert any("before start_date" in i.reason for i in issues3)
+    assert any(i.flag == "date_impossible" and "before start_date" in i.reason for i in issues3)
 
-    # sentinel year 1900
+    # sentinel year 1900 -> date_impossible
     issues4 = validate_dates({"start_date": "01/1900"})
-    assert any("sentinel/uninitialized" in i.reason for i in issues4)
+    assert any(
+        i.flag == "date_impossible" and "sentinel/uninitialized" in i.reason for i in issues4
+    )
 
 
 def test_validate_cost_revision():
-    """Verify revised < original flags cost_revised_down (known artifact)."""
+    """Verify revised < original flags cost_revised_down (known artifact) or implausible_cost_revision."""
     assert len(validate_cost_revision({"original_cost_cr": 100, "revised_cost_cr": 120})) == 0
     assert len(validate_cost_revision({"original_cost_cr": 100, "revised_cost_cr": 100})) == 0
 
@@ -111,6 +118,10 @@ def test_validate_cost_revision():
     assert len(issues) == 1
     assert issues[0].flag == "cost_revised_down"
     assert "known reporting artifact" in issues[0].reason
+
+    issues_crash = validate_cost_revision({"original_cost_cr": 238.66, "revised_cost_cr": 0.1})
+    assert len(issues_crash) == 1
+    assert issues_crash[0].flag == "implausible_cost_revision"
 
 
 def test_validate_expenditure_vs_cost():
@@ -139,7 +150,7 @@ def test_validate_record_combined():
     bad_record = {
         "project_name": "Test Anomaly Project",
         "date_of_approval": "06/2020",
-        "start_date": "01/2019",  # date_inconsistency
+        "start_date": "01/2019",  # start_before_approval
         "original_cost_cr": 100.0,
         "revised_cost_cr": 80.0,  # cost_revised_down
         "cumulative_expenditure_cr": 95.0,  # exp_exceeds_cost
@@ -148,7 +159,7 @@ def test_validate_record_combined():
     issues = validate_record(bad_record)
     flags = {i.flag for i in issues}
     assert flags == {
-        "date_inconsistency",
+        "start_before_approval",
         "cost_revised_down",
         "exp_exceeds_cost",
         "progress_out_of_range",

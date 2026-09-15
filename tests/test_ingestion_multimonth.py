@@ -243,4 +243,3 @@ def test_project_code_completeness_all_months(summary_df):
         assert (
             null_rate == 0.0
         ), f"[{month}] project_code missing on {null_count}/{len(df)} rows ({null_rate:.2%})"
-
