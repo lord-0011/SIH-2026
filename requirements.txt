@@ -9,7 +9,7 @@ dvc[gdrive]>=3.50
 pdfplumber>=0.11
 # Models
 scikit-learn>=1.4
-xgboost>=2.0         # OR lightgbm>=4.3 — pick one at STEP_09, remove the other
+lightgbm>=4.3         # Picked at STEP_09 (LightGBM 4.7.0)
 # API
 fastapi>=0.110
 uvicorn[standard]>=0.29
