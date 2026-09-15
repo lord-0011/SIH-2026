@@ -3,9 +3,9 @@
 > Update this after EVERY implementation (docs/09 Rule 0). Newest status wins.
 > Legend: ⬜ not started · 🟨 in progress · 🟥 blocked · ✅ done
 
-**Current step:** STEP_05 accepted & closed — ready to branch STEP_06 (labels)
+**Current step:** STEP_06 feature engineering completed (ready for modeling baseline / labels)
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-16 (STEP_05 EDA gate accepted; target=Schedule-Risk, N=3, Y=3, first-population excluded from label; docs/05_LABEL_SPEC.md finalized)
+**Last updated:** 2026-09-16 (STEP_06 features engineered: 25 features [13 CUF, 12 DERIVED], 18,860 rows, 0% leakage, tests 100% green)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
@@ -16,10 +16,10 @@
 | STEP_03 matching | 2 | ✅ | 2,243 canonical projects; 100% exact code matches; 0 cross-month renames; 1,341 mid-window arrivals anchored |
 | STEP_04 panel | 3 | ✅ | 18,860 observed rows; 10,299 gaps explicitly classified; Traps A/B/C resolved; reconciliation identity enforced |
 | STEP_05 EDA gate | 4 | ✅ | **ACCEPTED**: Target=Schedule-Risk, N=3, Y=3; 2,744 clean transitions (22.3%); 1,120 first-pop artifacts excluded; Scheme B anchor=258 |
-| STEP_06 labels | 5 | ⬜ | Ready to start on feature/step-06-labels |
-| STEP_07 features | 6 | ⬜ | |
+| STEP_06 features | 6 | ✅ | 25 features (13 CUF, 12 DERIVED); 18,860 rows; strict leakage tests passed; manifest emitted |
+| STEP_07 labels/dataset | 5 | ⬜ | Assemble final train/val matrices with locked Schedule-Risk label |
 | STEP_08 baseline | 7 | ⬜ | |
-| STEP_09 ML | 8 | ⬜ | pick XGB/LGBM here |
+| STEP_09 ML | 8 | ⬜ | pick XGB/LGBM here; evaluate CUF-only vs CUF+DERIVED |
 | STEP_10 eval | 9 | ⬜ | fills the PS comparison table |
 | STEP_11 risk score | 11 | ⬜ | |
 | STEP_12 early warning | 12 | ⬜ | |
