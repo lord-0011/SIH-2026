@@ -22,7 +22,7 @@ Format per entry:
   - Ingested 13 consecutive monthly reports (July 2025 to July 2026):
     - All Ongoing project counts match Table 1 grand total with 100% precision: Jul-25 (791), Aug-25 (800), Sep-25 (794), Oct-25 (820), Nov-25 (823), Dec-25 (1,392), Jan-26 (1,702), Feb-26 (1,948), Mar-26 (1,941), Apr-26 (1,981), May-26 (1,987), Jun-26 (1,847), Jul-26 (1,775).
     - Original Cost sums match Table 1 published numbers exact to 2 decimal places for all 13 months.
-    - Completed tables parsed across all 11 modern months (total 289 realized completions, including 130 in June 2026).
+    - Completed tables parsed across all 11 modern months (total 259 realized completions, including 130 in June 2026).
     - Newly Added tables parsed across all 11 modern months (including 203 in Jan-26, 268 in Feb-26).
     - Both Revised Cost and Revised Completion Date confirmed available across all 13 months.
   - `python -m pytest tests/ -v`: 12 passed, 1 skipped in 0.93s.
