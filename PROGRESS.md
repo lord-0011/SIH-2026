@@ -3,9 +3,9 @@
 > Update this after EVERY implementation (docs/09 Rule 0). Newest status wins.
 > Legend: ⬜ not started · 🟨 in progress · 🟥 blocked · ✅ done
 
-**Current step:** STEP_07/08/09/10 baseline & ML modeling completed with locked headline benchmark
+**Current step:** STEP_11 risk scoring & probability calibration completed; ready for STEP_12 early warning flags
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-16 (Models trained: Config 1 Stats Baseline, Config 2 Logistic CUF, Config 3 LightGBM CUF, Config 4 LightGBM Full; headline Non-Roads PR-AUC=0.4180; Near-label ablation passed [PR-AUC=0.4656]; 100 tests 100% green)
+**Last updated:** 2026-09-16 (STEP_11 complete: Platt calibration reduces ECE 67.0% [0.2077->0.0685]; monotonic bands [1.65% -> 6.75% -> 18.90% -> 55.42%]; 18,860 rows scored with data sufficiency flags; 110 tests 100% green)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
@@ -21,7 +21,7 @@
 | STEP_08 baseline | 7 | ✅ | Baseline PR-AUC=0.1895; Logistic CUF PR-AUC=0.2956 (Q1 answered: CUF has strong predictive power) |
 | STEP_09 ML | 8 | ✅ | LightGBM chosen; CUF PR-AUC=0.4180, Full PR-AUC=0.4100; Near-label ablation PR-AUC=0.4656 (Q2 answered: ML beats baseline 2.2x) |
 | STEP_10 eval | 9 | ✅ | Fills comparison table on headline Non-Roads test set (N=1,373, Pos=116); secondary transfer on Roads (N=1,901, Pos=827) |
-| STEP_11 risk score | 11 | ⬜ | |
+| STEP_11 risk score | 11 | ✅ | Platt calibration (ECE -67.0%, Brier -51.1%); monotonic bands (1.65%->6.75%->18.90%->55.42%); 18,860 rows scored |
 | STEP_12 early warning | 12 | ⬜ | |
 | STEP_13 API | 14 | ⬜ | |
 | STEP_14 dashboard | 15 | ⬜ | |
