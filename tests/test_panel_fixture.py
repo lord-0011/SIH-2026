@@ -268,3 +268,54 @@ def test_synthetic_panel_assembly_and_reconciliation_identity():
     assert gap_breakdown["not_yet_onboarded"] == 2  # P200 at m1, m2
     assert gap_breakdown["completed"] == 2  # P300 at m3, m4
     assert gap_breakdown["unexplained_gap"] == 1  # P100 at m2
+
+
+def test_synthetic_direct_query_reversible_completion():
+    """Verify direct query logic correctly isolates reversible completions from irreversible ones."""
+    # Synthetic panel with one reversible project (P400) and one clean completed project (P300)
+    panel_df = pd.DataFrame(
+        [
+            # P300: clean completion at m2, never seen after
+            {
+                "project_id": "P300",
+                "report_month": "2025-07",
+                "is_completed_this_month": False,
+            },
+            {
+                "project_id": "P300",
+                "report_month": "2025-08",
+                "is_completed_this_month": True,
+            },
+            # P400: reversible completion at m2, reappears ongoing at m3
+            {
+                "project_id": "P400",
+                "report_month": "2025-07",
+                "is_completed_this_month": False,
+            },
+            {
+                "project_id": "P400",
+                "report_month": "2025-08",
+                "is_completed_this_month": True,
+            },
+            {
+                "project_id": "P400",
+                "report_month": "2025-09",
+                "is_completed_this_month": False,
+            },
+        ]
+    )
+
+    completed_rows = panel_df[panel_df["is_completed_this_month"]][
+        ["project_id", "report_month"]
+    ].rename(columns={"report_month": "completion_month"})
+    ongoing_rows = panel_df[~panel_df["is_completed_this_month"]][
+        ["project_id", "report_month"]
+    ].rename(columns={"report_month": "ongoing_month"})
+
+    joined = pd.merge(completed_rows, ongoing_rows, on="project_id")
+    reversibles = joined[joined["ongoing_month"] > joined["completion_month"]]
+
+    distinct_reversibles = reversibles["project_id"].unique().tolist()
+    assert distinct_reversibles == ["P400"]
+    assert len(completed_rows) == 2
+    assert len(completed_rows) - len(distinct_reversibles) == 1  # Clean anchor is P300 only
