@@ -86,6 +86,10 @@ internal) hackathon** with the MVP scope in `docs/00_PROJECT_CHARTER.md`.
 - [ ] Scope in the step file is fully implemented, nothing extra
 - [ ] Tests written and passing (leakage test included where applicable)
 - [ ] Before claiming done, run `black .` (not just `--check`) and `ruff check .`, and confirm CI is green on the pushed branch — a claim of "quality checks pass" must reference an actual green CI run, not a local assumption
+- [ ] **Data sharing & DVC tracking** (`docs/DATA_SHARING.md`):
+  - Any step that produces or changes data under `data/` or `reports/` must: `dvc add <path>` → `dvc push` → commit the updated `.dvc` pointer file. A step is not done if new data exists only locally.
+  - Never `git add` a `.parquet`, output `.csv`, or a raw PDF.
+  - In the walkthrough/report, state the data version: which `.dvc` files changed and confirm `dvc push` status alongside green-CI evidence.
 - [ ] Real verify-command output pasted, not summarized
 - [ ] Docs synced per `docs/09_DOC_SYNC_RULES.md` (PROGRESS + CHANGELOG + mapped docs)
 - [ ] Walkthrough written for Claude review

@@ -33,6 +33,7 @@ If you did work and these two are untouched, the work is not finished.
 | Early-warning rules in `src/early_warning/` | `docs/steps/STEP_13_early_warning.md` §Trigger logic |
 | API endpoints in `src/api/` | `docs/02_ARCHITECTURE.md` §Endpoints |
 | Tech/dependency/version change | `docs/01_TECH_STACK.md` + `requirements.txt` |
+| Data / reports / pipeline outputs | `docs/DATA_SHARING.md` (track with DVC, run `dvc push`, commit `.dvc` files) |
 | A phase's exit criteria met | `docs/06_PHASES.md` (mark phase complete) + `PROGRESS.md` |
 | A decision that contradicts a doc | Change the DOC FIRST (with Adi's ok), then the code. Never leave code that silently disagrees with a doc. |
 

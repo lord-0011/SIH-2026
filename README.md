@@ -26,6 +26,7 @@ items are marked `[STRETCH]` everywhere and are NOT required to win Level 1.
 | 8 | `docs/08_EVALUATION.md` | Metrics + the comparison tables we must fill |
 | 9 | `docs/09_DOC_SYNC_RULES.md` | **The rule: update docs after every implementation** |
 | 10| `docs/10_DEMO_SCRIPT.md` | The Level-1 pitch + live demo run sheet |
+| 11| `docs/DATA_SHARING.md` | Data sharing protocol with DVC + Google Drive |
 
 ## Live-state files (updated constantly, not just at milestones)
 
@@ -37,6 +38,19 @@ items are marked `[STRETCH]` everywhere and are NOT required to win Level 1.
 
 **No implementation is "done" until its related docs are updated in the same change.**
 See `docs/09_DOC_SYNC_RULES.md`. This is enforced, not optional.
+
+## Data setup
+
+Data (raw reports + pipeline outputs) is tracked with DVC on a shared Google Drive,
+NOT in git. After cloning:
+```bash
+pip install -r requirements.txt "dvc[gdrive]"
+dvc pull
+```
+- **Regenerated data?** -> `dvc add <path> && dvc push && git add <path>.dvc && git commit && git push`
+- **Pulling others' work?** -> `git pull && dvc pull`
+
+See `docs/DATA_SHARING.md` for full workflow, remote setup, and troubleshooting.
 
 ## Repo layout
 
