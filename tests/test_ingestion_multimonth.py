@@ -223,3 +223,24 @@ def test_parquet_file_integrity(summary_df):
         assert df["project_name"].notna().all(), f"[{month}] Missing project name"
         assert df["original_cost_cr"].notna().all(), f"[{month}] Missing original cost"
         assert (df["report_month"] == month).all(), f"[{month}] Incorrect report_month tag"
+        assert (
+            df["project_code"].notna().all()
+        ), f"[{month}] Missing project_code on {df['project_code'].isna().sum()} rows"
+
+
+def test_project_code_completeness_all_months(summary_df):
+    """Regression test: assert project_code missing rate is 0.0% across all 13 months.
+
+    Guards against the Feb/Mar parser bug where single-paren legacy codes swallowed
+    project codes.
+    """
+    for month in PUBLISHED_GROUND_TRUTH.keys():
+        clean_month = month.replace("-", "_")
+        parquet_file = DATA_INTERIM / f"raw_ongoing_{clean_month}.parquet"
+        df = load_dataframe(parquet_file)
+        null_count = df["project_code"].isna().sum()
+        null_rate = null_count / len(df)
+        assert (
+            null_rate == 0.0
+        ), f"[{month}] project_code missing on {null_count}/{len(df)} rows ({null_rate:.2%})"
+
