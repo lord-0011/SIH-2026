@@ -9,6 +9,36 @@ Format per entry:
 - decisions / notes
 ```
 
+## 2026-09-16 — STEP_05 — EDA Feasibility Gate & Horizon/Target Evaluation
+- what changed (code):
+  - `src/eda/eda_gate.py`: Pure EDA analysis engine computing observation depth distributions across baseline vs mid-window cohorts, usable row counts under Scheme A exclusion rule for candidate horizons N in (3, 6, 12), positive event class balances, empirical percentiles for cost escalation and schedule delays, clean Scheme B completed project breakdown, and monthly structural breaks.
+  - `src/eda/run.py`: Pipeline runner emitting reproducible empirical findings to `reports/eda_gate_summary.json`.
+  - `tests/test_eda_fixture.py`: Dedicated non-skipping CI fixture test suite (4 tests) validating date parsing, observation depth, usable rows, and Scheme B breakdowns on synthetic panel grids.
+  - `tests/test_eda.py`: Real-data integration test suite (4 tests) that skips cleanly in clean CI runners, asserting exact sourced facts from `docs/03_DATA_INVENTORY.md` §C.
+  - `docs/05_LABEL_SPEC.md`: Corrected stale "~19 months" window span to "13 consecutive months (July 2025 – July 2026)".
+  - `docs/03_DATA_INVENTORY.md`: Resolved all remaining §C TODOs (questions 3 and 6) with sourced reproducible numbers (`grep -rn "confirm-from-data"` returns 0 hits in §C).
+- what was verified (real output ref):
+  - Observation depth (2,243 projects): >=3 months: 2,138 (95.32%); >=6 months: 1,948 (86.85%); >=9 months: 768 (34.24%); >=12 months: 639 (28.49%); 13 months: 557 (24.83%). Mid-window arrivals (1,341) have median 7 months and 0 >=9 months by construction.
+  - Usable rows & positives under Scheme A:
+    - N=3 months: 12,300 usable rows. Cost-risk positives (>0%): 237 (1.93%). Schedule-risk positives (>=1 mo): 4,531 (36.84%); >=3 mo: 3,933 (31.98%).
+    - N=6 months: 6,258 usable rows. Cost-risk positives: 272 (4.35%). Schedule-risk positives (>=1 mo): 2,638 (42.15%).
+    - N=12 months: 557 usable rows (drops all 1,341 mid-window arrivals). Cost positives: 115 (20.65%). Schedule positives: 265 (47.58%). Non-viable for training.
+  - Empirical event base rates:
+    - Cost escalation delta: p50 to p98 are all 0.00% (p99 is 15.75%). 98% of 3-month project windows experience zero cost escalation.
+    - Schedule delay delta: p50=0.0 mo, p75=4.0 mo, p90=13.0 mo, p95=21.0 mo, p98=36.0 mo, p99=55.0 mo.
+  - Scheme B clean anchor (N = 258, effective independent ~ 128):
+    - Cost overrun (>0 Cr): 97 (37.60%). Schedule slip (>0 mo): 92 (35.66%). Both: 31 (12.02%). Neither: 100 (38.76%).
+  - Structural breaks: In March 2026, revised completion date population jumped from 50.56% to 82.12% (+31.56 percentage points) as MoSPI systematically backfilled revised dates for 616 projects.
+  - All 80 repository tests passing (`pytest -v`): 79 passed, 1 skipped in 3.97s.
+  - Black and Ruff: 100% clean across all 46 repository files.
+- docs updated:
+  - `docs/03_DATA_INVENTORY.md`, `docs/05_LABEL_SPEC.md`, `docs/steps/STEP_05_eda.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Recommended Schedule-Risk at Horizon N = 3 months as primary target based on 4,531 positives (36.84% balance) vs Cost-Risk's 237 positives (1.93% balance).
+  - Target, horizon, and threshold decisions presented with empirical distributions for human review and joint decision before Phase 5.
+
+---
+
 ## 2026-09-16 — STEP_04 — Build Project-Month Panel & Enforce Reconciliation Identity
 - what changed (code):
   - `src/panel/builder.py`: Pure functions module for panel assembly (`parse_state_list`, `compute_elapsed_months`, `classify_project_gaps`, `build_panel_df`). Standardizes ongoing and completed rows, computes elapsed months against `trajectory_anchor_date` (Trap A), leaves missing months empty without forward-filling (Trap B), incorporates all Table 3 completed rows as terminal observed records (Trap C), and enforces the computed reconciliation identity `observed_rows + sum(gaps) == n_projects * n_months`.

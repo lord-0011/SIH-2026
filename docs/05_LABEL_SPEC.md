@@ -5,7 +5,7 @@
 > 4 hasn't shown to have enough rows.
 
 ## The censoring problem (why we can't use "final outcome")
-Our data is ~19 months of *ongoing* projects. Most have not finished, so "no overrun
+Our data is 13 consecutive months (July 2025 – July 2026) of *ongoing* projects. Most have not finished, so "no overrun
 observed yet" is NOT "will never overrun" — it's right-censored (unknown). A naive
 "overrun=1 if revised>original at last snapshot" label mislabels unresolved projects as
 negatives and biases the model to under-predict risk.
