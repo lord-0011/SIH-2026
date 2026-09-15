@@ -12,7 +12,7 @@ Verifies:
 import pandas as pd
 import pytest
 
-from src.common.config import DATA_INTERIM
+from src.common.config import DATA_INTERIM, REPORTS
 from src.common.io import load_dataframe
 
 # Published ground-truth reference figures (independent secondary cross-check)
@@ -126,6 +126,13 @@ PUBLISHED_GROUND_TRUTH = {
 
 @pytest.fixture(scope="module")
 def summary_df():
+    pdf_count = len(list(REPORTS.glob("FlashReport_*.pdf")))
+    if pdf_count < 13:
+        pytest.skip(
+            f"Flash report PDFs not found in {REPORTS} ({pdf_count}/13 found). "
+            "Multi-month real-data tests run locally pre-merge."
+        )
+
     summary_file = DATA_INTERIM / "ingestion_summary.csv"
     needs_ingestion = False
     if not summary_file.exists():
