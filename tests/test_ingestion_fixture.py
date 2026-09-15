@@ -138,17 +138,19 @@ def test_adversarial_null_token_normalization(fixture_data):
     df = fixture_data["ongoing"]
     row1 = df[df["sl_no"] == 2].iloc[0]
 
-    # Must be None, NEVER the literal string '-'
-    assert row1["legacy_ocms_code"] is None, f"Expected None, got {repr(row1['legacy_ocms_code'])}"
-    assert row1["pmgid"] is None, f"Expected None, got {repr(row1['pmgid'])}"
+    # Must be null/NaN (pd.isna), NEVER the literal string '-'
+    assert pd.isna(
+        row1["legacy_ocms_code"]
+    ), f"Expected null/NaN, got {repr(row1['legacy_ocms_code'])}"
+    assert pd.isna(row1["pmgid"]), f"Expected null/NaN, got {repr(row1['pmgid'])}"
     assert row1["legacy_ocms_code"] != "-"
     assert row1["pmgid"] != "-"
 
     row2 = df[df["sl_no"] == 3].iloc[0]
-    assert row2["start_date"] is None, f"Expected None, got {repr(row2['start_date'])}"
-    assert (
-        row2["revised_completion_date"] is None
-    ), f"Expected None, got {repr(row2['revised_completion_date'])}"
+    assert pd.isna(row2["start_date"]), f"Expected null/NaN, got {repr(row2['start_date'])}"
+    assert pd.isna(
+        row2["revised_completion_date"]
+    ), f"Expected null/NaN, got {repr(row2['revised_completion_date'])}"
     assert row2["start_date"] != "-"
     assert row2["revised_completion_date"] != "-"
 
