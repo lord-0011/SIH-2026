@@ -25,15 +25,16 @@ reads interim/processed, never mutates raw. No stage reaches into a later stage'
 (this enforces the leakage boundary architecturally).
 
 ## Endpoints (fill/adjust as built — keep synced per Rule 1)
-| Method | Path | Returns |
-|--------|------|---------|
-| GET | `/national/summary` | Level-1 dashboard data |
-| GET | `/sectors/{sector}/summary` | Level-2 (sector) |
-| GET | `/ministries/{ministry}/summary` | Level-2 (ministry) |
-| GET | `/projects/{project_id}` | Level-3: fields + score + trend + top factors |
-| GET | `/watchlist` | `[STRETCH]` deteriorating projects |
-| GET | `/health` | liveness |
-| GET | `/pipeline/last-run` | "data as of <month>" so UI shows real freshness |
+| Method | Path | Returns / Purpose |
+|--------|------|-------------------|
+| GET | `/health` | Liveness health check (`status`, `service`, `version`) |
+| GET | `/pipeline/last-run` | Pipeline metadata & data freshness (`latest_data_month="2026-07"`, project & row counts) |
+| GET | `/national/summary` | Level-1 dashboard: Non-Roads headline KPIs, Roads transfer regime, combined totals, 13-month trend |
+| GET | `/sectors/{sector}/summary` | Level-2 sector KPIs, top risk projects, national benchmarks, transfer regime tag |
+| GET | `/ministries/{ministry}/summary` | Level-2 ministry KPIs, cost/exp totals, constituent sector breakdown |
+| GET | `/projects` | Filterable, paginated project catalog (`report_month`, `band`, `sector`, `ministry`, `state`, `early_warning_only`, `sort_by`, `order`, `page`, `page_size`) |
+| GET | `/projects/{project_id}` | Level-3 full project dossier: static metadata, latest risk score & band, early warning causal trail, 13-month history |
+| GET | `/watchlist` | Deteriorating projects (`early_warning == True`), sorted by `warning_strength` desc then `risk_score` desc |
 
 ## Repo ↔ pipeline map
 See README layout table. One folder per stage, matching the flow above.
