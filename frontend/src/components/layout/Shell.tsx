@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Activity,
   AlertTriangle,
-  Building2,
-  FolderGit2,
   HelpCircle,
   Moon,
   Sparkles,
@@ -16,7 +14,8 @@ import {
 
 interface ShellProps {
   children: React.ReactNode;
-  activeNav?: string;
+  activeNav?: 'national-overview' | 'watchlist' | 'assistant';
+  onNavigate?: (screen: 'national-overview' | 'watchlist' | 'assistant') => void;
   activeWarningsCount?: number;
   reportMonth?: string;
 }
@@ -24,6 +23,7 @@ interface ShellProps {
 export const Shell: React.FC<ShellProps> = ({
   children,
   activeNav = 'national-overview',
+  onNavigate,
   activeWarningsCount = 311,
   reportMonth = 'July 2026',
 }) => {
@@ -66,9 +66,10 @@ export const Shell: React.FC<ShellProps> = ({
           </div>
 
           <nav className="flex flex-col gap-1 px-2">
-            <a
-              href="#national-overview"
-              className={`flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors ${
+            <button
+              type="button"
+              onClick={() => onNavigate?.('national-overview')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors text-left ${
                 activeNav === 'national-overview'
                   ? 'bg-brand-primary text-white font-semibold'
                   : 'text-text-secondary hover:bg-bg-subtle hover:text-text-primary'
@@ -78,39 +79,12 @@ export const Shell: React.FC<ShellProps> = ({
                 <Activity className="w-4 h-4 shrink-0" />
                 <span className="truncate">National Overview</span>
               </div>
-            </a>
+            </button>
 
-            <a
-              href="#sectors-and-ministries"
-              className={`flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors ${
-                activeNav === 'sectors'
-                  ? 'bg-brand-primary text-white font-semibold'
-                  : 'text-text-secondary hover:bg-bg-subtle hover:text-text-primary'
-              }`}
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <Building2 className="w-4 h-4 shrink-0" />
-                <span className="truncate">Sectors & Ministries</span>
-              </div>
-            </a>
-
-            <a
-              href="#projects"
-              className={`flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors ${
-                activeNav === 'projects'
-                  ? 'bg-brand-primary text-white font-semibold'
-                  : 'text-text-secondary hover:bg-bg-subtle hover:text-text-primary'
-              }`}
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <FolderGit2 className="w-4 h-4 shrink-0" />
-                <span className="truncate">Projects Master</span>
-              </div>
-            </a>
-
-            <a
-              href="#watchlist"
-              className={`flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors ${
+            <button
+              type="button"
+              onClick={() => onNavigate?.('watchlist')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors text-left ${
                 activeNav === 'watchlist'
                   ? 'bg-brand-primary text-white font-semibold'
                   : 'text-text-secondary hover:bg-bg-subtle hover:text-text-primary'
@@ -123,11 +97,12 @@ export const Shell: React.FC<ShellProps> = ({
               <span className="bg-risk-critical-bg text-risk-critical text-[10px] font-bold px-1.5 py-0.5 rounded tabular-nums">
                 {activeWarningsCount}
               </span>
-            </a>
+            </button>
 
-            <a
-              href="#assistant"
-              className={`flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors ${
+            <button
+              type="button"
+              onClick={() => onNavigate?.('assistant')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded text-[13px] font-medium transition-colors text-left ${
                 activeNav === 'assistant'
                   ? 'bg-brand-primary text-white font-semibold'
                   : 'text-text-secondary hover:bg-bg-subtle hover:text-text-primary'
@@ -138,9 +113,9 @@ export const Shell: React.FC<ShellProps> = ({
                 <span className="truncate">Analyst Assistant</span>
               </div>
               <span className="bg-blue-100 text-brand-primary text-[9px] font-bold px-1 py-0.5 rounded uppercase">
-                AI
+                Query
               </span>
-            </a>
+            </button>
           </nav>
         </div>
 
@@ -149,7 +124,7 @@ export const Shell: React.FC<ShellProps> = ({
           <div className="px-3 py-2 bg-bg-subtle/70 border-b border-border-hairline flex items-center justify-between text-[11px]">
             <span className="flex items-center gap-1.5 text-text-muted truncate">
               <span className="w-1.5 h-1.5 rounded-full bg-risk-low shrink-0"></span>
-              Model v4.2.1 • Validated
+              Pipeline: 2026-07 • Calibrated
             </span>
             <ShieldCheck className="w-3.5 h-3.5 text-brand-primary shrink-0" />
           </div>

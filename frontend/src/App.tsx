@@ -8,6 +8,8 @@ import { SectorDistributionCard } from './components/national/SectorDistribution
 import { MinistryRankingCard } from './components/national/MinistryRankingCard';
 import { WatchlistTable } from './components/national/WatchlistTable';
 import { HonestFooter } from './components/national/HonestFooter';
+import { WatchlistScreen } from './components/watchlist/WatchlistScreen';
+import { AssistantScreen } from './components/assistant/AssistantScreen';
 import { fetchNationalSummary, fetchWatchlist } from './api/client';
 import type {
   NationalSummaryResponse,
@@ -20,6 +22,7 @@ import type {
 import { AlertCircle, RefreshCw } from 'lucide-react';
 
 export const App: React.FC = () => {
+  const [activeScreen, setActiveScreen] = useState<'national-overview' | 'watchlist' | 'assistant'>('national-overview');
   const [currentRegime, setCurrentRegime] = useState<RegimeFilter>('non_roads');
   const [nationalData, setNationalData] = useState<NationalSummaryResponse | null>(null);
   const [watchlistData, setWatchlistData] = useState<WatchlistResponse | null>(null);
@@ -157,94 +160,115 @@ export const App: React.FC = () => {
 
   return (
     <Shell
-      activeNav="national-overview"
-      activeWarningsCount={activeSummary.active_warnings_count}
+      activeNav={activeScreen}
+      onNavigate={setActiveScreen}
+      activeWarningsCount={nationalData.non_roads.active_warnings_count}
       reportMonth={nationalData.report_month}
     >
-      <div className="space-y-6">
-        {/* Page Header / Triage Banner */}
-        <div className="bg-bg-surface p-5 rounded-lg border border-border-hairline shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-[22px] font-bold text-text-primary tracking-tight">
-                National Infrastructure Project Risk Overview
-              </h1>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-brand-primary text-[11px] font-bold tracking-wide uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></span>
-                Coverage: 100% IPMD Monitored
-              </span>
+      {/* 1. National Overview Screen */}
+      {activeScreen === 'national-overview' && (
+        <div className="space-y-6">
+          {/* Page Header / Triage Banner */}
+          <div className="bg-bg-surface p-5 rounded-lg border border-border-hairline shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-[22px] font-bold text-text-primary tracking-tight">
+                  National Infrastructure Project Risk Overview
+                </h1>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-brand-primary text-[11px] font-bold tracking-wide uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></span>
+                  Coverage: 100% IPMD Monitored
+                </span>
+              </div>
+              <p className="text-[13px] text-text-secondary">
+                Predictive early-warning surveillance across central sector infrastructure projects (≥ ₹150 Cr threshold).
+              </p>
             </div>
-            <p className="text-[13px] text-text-secondary">
-              Predictive early-warning surveillance across central sector infrastructure projects (≥ ₹150 Cr threshold).
-            </p>
+
+            {/* 3-Way Regime Filter */}
+            <RegimeToggle
+              currentRegime={currentRegime}
+              onRegimeChange={handleRegimeChange}
+              nonRoadsCount={nationalData.non_roads.total_projects}
+              roadsCount={nationalData.roads.total_projects}
+              totalCount={nationalData.total_projects}
+            />
           </div>
 
-          {/* 3-Way Regime Filter */}
-          <RegimeToggle
-            currentRegime={currentRegime}
-            onRegimeChange={handleRegimeChange}
-            nonRoadsCount={nationalData.non_roads.total_projects}
-            roadsCount={nationalData.roads.total_projects}
-            totalCount={nationalData.total_projects}
+          {/* 5 KPI Stat Cards Row */}
+          <KpiRow
+            summary={activeSummary}
+            combinedBands={nationalData.combined_band_distribution}
+            isCombined={currentRegime === 'combined'}
           />
-        </div>
 
-        {/* 5 KPI Stat Cards Row */}
-        <KpiRow
-          summary={activeSummary}
-          combinedBands={nationalData.combined_band_distribution}
-          isCombined={currentRegime === 'combined'}
+          {/* Second Row: 7 Cols (Risk Split + Trend) & 5 Cols (Sector + Ministry) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Column (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              <RiskSplitCard
+                bands={activeSummary.band_distribution}
+                totalProjects={activeSummary.total_projects}
+                totalCostCr={activeSummary.total_cost_cr}
+                regimeTitle={regimeTitle}
+              />
+
+              <MonthlyTrendChart
+                trendData={nationalData.monthly_trend}
+                currentRegime={currentRegime}
+              />
+            </div>
+
+            {/* Right Column (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              <SectorDistributionCard
+                sectors={activeSummary.sectors}
+                currentRegime={currentRegime}
+              />
+
+              <MinistryRankingCard
+                ministries={activeSummary.ministries}
+                currentRegime={currentRegime}
+              />
+            </div>
+          </div>
+
+          {/* Third Row: Priority Triage Watchlist */}
+          <div className="relative">
+            {watchlistLoading && (
+              <div className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-lg">
+                <RefreshCw className="w-6 h-6 animate-spin text-brand-primary" />
+              </div>
+            )}
+            <WatchlistTable
+              items={watchlistData?.items || []}
+              totalActiveWarnings={watchlistData?.total_active_warnings || activeSummary.active_warnings_count}
+              reportMonth={nationalData.report_month}
+              onSelectProject={(id) => {
+                console.log('Selected project dossier:', id);
+                setActiveScreen('watchlist');
+              }}
+            />
+          </div>
+
+          {/* Bottom Footnote / Verified Methodology */}
+          <HonestFooter />
+        </div>
+      )}
+
+      {/* 2. Standalone Watchlist Screen */}
+      {activeScreen === 'watchlist' && (
+        <WatchlistScreen
+          initialRegime={currentRegime}
+          reportMonth={nationalData.report_month}
+          onSelectProject={(id) => {
+            console.log('Selected project from watchlist:', id);
+          }}
         />
+      )}
 
-        {/* Second Row: 7 Cols (Risk Split + Trend) & 5 Cols (Sector + Ministry) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
-            <RiskSplitCard
-              bands={activeSummary.band_distribution}
-              totalProjects={activeSummary.total_projects}
-              totalCostCr={activeSummary.total_cost_cr}
-              regimeTitle={regimeTitle}
-            />
-
-            <MonthlyTrendChart
-              trendData={nationalData.monthly_trend}
-              currentRegime={currentRegime}
-            />
-          </div>
-
-          {/* Right Column (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <SectorDistributionCard
-              sectors={activeSummary.sectors}
-              currentRegime={currentRegime}
-            />
-
-            <MinistryRankingCard
-              ministries={activeSummary.ministries}
-              currentRegime={currentRegime}
-            />
-          </div>
-        </div>
-
-        {/* Third Row: Priority Triage Watchlist */}
-        <div className="relative">
-          {watchlistLoading && (
-            <div className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-lg">
-              <RefreshCw className="w-6 h-6 animate-spin text-brand-primary" />
-            </div>
-          )}
-          <WatchlistTable
-            items={watchlistData?.items || []}
-            totalActiveWarnings={watchlistData?.total_active_warnings || activeSummary.active_warnings_count}
-            reportMonth={nationalData.report_month}
-            onSelectProject={(id) => console.log('Selected project dossier:', id)}
-          />
-        </div>
-
-        {/* Bottom Footnote / Verified Methodology */}
-        <HonestFooter />
-      </div>
+      {/* 3. Analyst Assistant Screen */}
+      {activeScreen === 'assistant' && <AssistantScreen />}
     </Shell>
   );
 };

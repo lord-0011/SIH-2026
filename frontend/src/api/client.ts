@@ -1,4 +1,11 @@
-﻿import type { NationalSummaryResponse, WatchlistResponse, PipelineLastRun } from '../types/api';
+import type {
+  NationalSummaryResponse,
+  WatchlistResponse,
+  PipelineLastRun,
+  ProjectDetailResponse,
+  SectorSummaryResponse,
+  MinistrySummaryResponse,
+} from '../types/api';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
@@ -44,6 +51,18 @@ export async function fetchWatchlist(params?: {
   min_strength?: number;
 }): Promise<WatchlistResponse> {
   return request<WatchlistResponse>('/watchlist', params);
+}
+
+export async function fetchProjectDetail(projectId: string): Promise<ProjectDetailResponse> {
+  return request<ProjectDetailResponse>(`/projects/${encodeURIComponent(projectId)}`);
+}
+
+export async function fetchSectorSummary(sector: string): Promise<SectorSummaryResponse> {
+  return request<SectorSummaryResponse>(`/sectors/${encodeURIComponent(sector)}/summary`);
+}
+
+export async function fetchMinistrySummary(ministry: string): Promise<MinistrySummaryResponse> {
+  return request<MinistrySummaryResponse>(`/ministries/${encodeURIComponent(ministry)}/summary`);
 }
 
 export async function fetchPipelineLastRun(): Promise<PipelineLastRun> {
