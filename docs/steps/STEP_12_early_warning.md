@@ -63,17 +63,24 @@ Total Active Warnings: 846 (47.00%)
   - velocity_divergence_2m: 283
 ```
 
-### 3. Negative Control: Concrete Steady-HIGH Project (400145)
+### 3. Concrete Trajectory Nuance: Project 400145 (Score-Trend Negative Control vs. Driver Trigger)
 ```
 Project 400145 trajectory:
-  - 2025-07: 44.8 (HIGH)
-  - 2025-08: 44.8 (HIGH)
-  - 2025-09: 44.3 (HIGH)
-  - 2025-10: 42.4 (HIGH)
-  - 2025-11: 42.4 (HIGH)
-  - 2025-12: 43.6 (HIGH)
-Result: score_rising_fired = False in ALL months.
-Verified that high snapshot score without upward momentum does NOT fire.
+  - 2025-07: Risk Score 44.8 (HIGH) | Progress Vel 0.00 | Exp Vel 0.70 | Early Warning: False
+  - 2025-08: Risk Score 44.8 (HIGH) | Progress Vel 0.00 | Exp Vel 0.70 | Early Warning: False
+  - 2025-09: Risk Score 44.3 (HIGH) | Progress Vel 0.00 | Exp Vel 0.70 | Early Warning: False
+  - 2025-10: Risk Score 42.4 (HIGH) | Progress Vel 0.00 | Exp Vel 0.79 | Early Warning: True  (velocity_divergence_2m)
+  - 2025-11: Risk Score 42.4 (HIGH) | Progress Vel 0.00 | Exp Vel 1.03 | Early Warning: True  (velocity_divergence_2m)
+  - 2025-12: Risk Score 43.6 (HIGH) | Progress Vel 5.00 | Exp Vel 0.88 | Early Warning: False (STABLE_OR_IMPROVING)
+
+Key Takeaways:
+1. Flat/declining score NEVER fires the score-trend trigger (score_rising_fired = False in 100% of months).
+   A project sitting at HIGH or falling does not generate false alarms from its static risk band alone.
+2. Driver triggers legitimately catch spend-without-progress episodes: in Oct-Nov, construction was stalled
+   (progress velocity = 0.0%) while expenditures continued, legitimately firing velocity_divergence_2m.
+3. Once physical progress resumed in Dec (+5.0% velocity), the alert cleanly de-escalated to STABLE_OR_IMPROVING.
+This proves the early-warning engine catches operational deterioration before the risk score or completion date slips,
+and clears alerts as soon as physical progress recovers.
 ```
 
 ### 4. Example Multi-Trigger Trace

@@ -65,17 +65,34 @@ def test_early_warning_parquet_completeness(early_warning_df: pd.DataFrame):
 
 
 def test_steady_high_concrete_real_project(early_warning_df: pd.DataFrame):
-    """Concrete real-world project 400145 in steady/declining HIGH band must NEVER fire score_rising."""
+    """Concrete real-world project 400145 demonstrates the trend-not-level principle:
+
+    1. A flat/declining score NEVER fires the score-trend trigger (score_rising_2m is False in 100% of months).
+    2. Driver triggers legitimately fire when physical progress stalls (progress_velocity <= 0) while
+       expenditure continues (velocity_divergence fires in Oct-Nov 2025).
+    3. Once progress resumes (Dec 2025), the warning de-escalates cleanly to STABLE_OR_IMPROVING.
+    """
     p400145 = early_warning_df[early_warning_df["project_id"] == "400145"].sort_values(
         "report_month"
     )
-    assert len(p400145) >= 3, "Project 400145 must have at least 3 months history"
+    assert len(p400145) >= 6, "Project 400145 must have at least 6 months history"
 
-    # In every observed month, its score was flat or falling (44.8, 44.8, 44.3, 42.4, 42.4, 43.6)
+    # 1. Flat/declining risk score (44.8 -> 44.8 -> 44.3 -> 42.4 -> 42.4 -> 43.6)
     # score_rising_2m must NEVER fire for project 400145
     assert not p400145[
         "score_rising_fired"
     ].any(), "Project 400145 unexpectedly fired score_rising_2m"
+
+    # 2. Driver triggers catch genuine deterioration: in Oct-Nov 2025, physical progress stalled at 0%
+    # while expenditures continued, legitimately firing velocity_divergence_2m
+    oct_nov = p400145[p400145["report_month"].isin(["2025-10", "2025-11"])]
+    assert (oct_nov["velocity_divergence_fired"]).all()
+    assert (oct_nov["warning_status"] == "ACTIVE_WARNING").all()
+
+    # 3. In Dec 2025, progress resumed (velocity +5.0%), clearing the alert to STABLE_OR_IMPROVING
+    dec_row = p400145[p400145["report_month"] == "2025-12"].iloc[0]
+    assert not dec_row["early_warning"]
+    assert dec_row["warning_status"] == "STABLE_OR_IMPROVING"
 
 
 def test_real_data_causal_leakage_invariance(
