@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"risk-medium-text":"#C99A06","on-secondary-fixed-variant":"#683c00","on-tertiary-fixed":"#001a40","on-background":"#131b2c","on-tertiary-fixed-variant":"#164589","on-error-container":"#93000a","bg-subtle":"#EEF2F7","tertiary-fixed-dim":"#acc7ff","on-primary-container":"#a7c2ff","risk-critical-bg":"#FBE0DE","tertiary-fixed":"#d7e2ff","risk-low-bg":"#E7F5EC","inverse-surface":"#283042","tertiary-container":"#234f93","risk-high-text":"#E8730C","bg-page":"#F5F7FA","surface-variant":"#dae2fa","data-provisional":"#8A94A6","on-secondary-container":"#693d00","surface":"#f9f9ff","primary-container":"#0b4da2","on-secondary":"#ffffff","surface-container-low":"#f1f3ff","text-muted":"#8A94A6","primary":"#00377a","on-tertiary":"#ffffff","tertiary":"#003779","bg-surface":"#FFFFFF","primary-fixed-dim":"#adc6ff","on-secondary-fixed":"#2c1700","error-container":"#ffdad6","outline-variant":"#c3c6d4","secondary-fixed":"#ffdcbc","surface-bright":"#f9f9ff","border-hairline":"#DCE3EC","on-surface":"#131b2c","primary-fixed":"#d8e2ff","secondary":"#895100","inverse-on-surface":"#edf0ff","risk-high-bg":"#FCE9D6","surface-tint":"#255cb1","inverse-primary":"#adc6ff","background":"#f9f9ff","surface-container":"#e9edff","focus-ring":"#2E7CE4","on-error":"#ffffff","outline":"#737783","risk-critical-text":"#C6362F","on-primary-fixed":"#001a41","on-primary":"#ffffff","text-secondary":"#5A6472","on-primary-fixed-variant":"#004494","surface-container-lowest":"#ffffff","error":"#ba1a1a","secondary-fixed-dim":"#ffb86c","risk-low-text":"#2E9E5B","risk-medium-bg":"#FBF3D6","surface-container-high":"#e0e8ff","surface-dim":"#d2daf1","secondary-container":"#ffa026","on-tertiary-container":"#a7c3ff","on-surface-variant":"#424752","surface-container-highest":"#dae2fa"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"1.75rem","space-xs":"0.25rem","gutter-desktop":"1.25rem","margin-tablet":"1.5rem","space-md":"0.75rem","margin":"1rem","gutter":"1rem","margin-desktop":"2rem","space-lg":"1.25rem","space-sm":"0.5rem"},"fontFamily":{"headline-page-mobile":["Inter"],"headline-page":["Inter"],"caption":["Inter"],"headline-subsection":["Inter"],"table-numeric":["Inter"],"label-card-metric":["Inter"],"body-emphasis":["Inter"],"caption-bold":["Inter"],"display-kpi":["Inter"],"badge-label":["Inter"],"body-default":["Inter"],"headline-section":["Inter"]},"fontSize":{"headline-page-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-page":["28px",{"lineHeight":"34px","letterSpacing":"-0.015em","fontWeight":"600"}],"caption":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-subsection":["16px",{"lineHeight":"22px","fontWeight":"600"}],"table-numeric":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-card-metric":["13px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],"body-emphasis":["14px",{"lineHeight":"20px","fontWeight":"500"}],"caption-bold":["12px",{"lineHeight":"16px","fontWeight":"600"}],"display-kpi":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"badge-label":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-default":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-section":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-bg-page font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-bg-surface border-r border-border-hairline z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-14 px-4 flex items-center gap-3 border-b border-border-hairline bg-bg-surface"><div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[20px]">account_balance</span></div><div class="flex flex-col min-w-0 leading-tight"><span class="font-headline-subsection text-headline-subsection text-primary font-bold tracking-tight truncate">PAIMANA</span><span class="font-caption text-caption text-text-muted truncate text-[10px]">MoSPI IPMD Risk Cockpit</span></div></div><div class="px-3 py-2"><span class="font-badge-label text-badge-label uppercase text-text-muted px-2 py-1 block tracking-wider text-[10px]">Monitoring Modules</span></div><nav class="flex flex-col gap-1 px-2" data-active-classes="bg-primary-container text-on-primary font-body-emphasis"><a aria-current="page" class="flex items-center justify-between px-3 py-2 rounded transition-colors bg-primary-container text-on-primary font-body-emphasis" data-path="national-overview" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">query_stats</span><span class="font-body-emphasis text-body-emphasis truncate">National Overview</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="sectors-and-ministries" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">apartment</span><span class="font-body-emphasis text-body-emphasis truncate">Sectors &amp; Ministries</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="projects-master" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">view_kanban</span><span class="font-body-emphasis text-body-emphasis truncate">Projects Master</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="early-warning-watchlist" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0 text-risk-high-text">warning</span><span class="font-body-emphasis text-body-emphasis truncate">Early-Warning Watchlist</span></div><span class="bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label px-1.5 py-0.5 rounded text-[10px] tabular-nums font-bold">312</span></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="analyst-assistant" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">psychology</span><span class="font-body-emphasis text-body-emphasis truncate">Analyst Assistant</span></div><span class="bg-tertiary-fixed text-on-tertiary-fixed font-badge-label text-badge-label px-1 py-0.5 rounded text-[9px] uppercase font-bold tracking-tight">AI</span></a></nav></div><div class="flex flex-col border-t border-border-hairline bg-bg-surface"><div class="px-3 py-2 bg-bg-subtle/60 border-b border-border-hairline flex items-center justify-between text-[11px]"><span class="flex items-center gap-1.5 font-caption text-caption text-text-muted truncate"><span class="w-1.5 h-1.5 rounded-full bg-risk-low-text shrink-0"></span>Model v4.2.1 • Validated</span><span class="material-symbols-outlined text-text-muted text-[14px]">verified</span></div><div class="p-3 flex items-center gap-2.5"><div class="w-8 h-8 rounded bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0 leading-tight"><span class="font-body-emphasis text-body-emphasis text-on-surface truncate text-[13px]">V. Ramanathan</span><span class="font-caption text-caption text-text-muted truncate text-[11px]">Senior Analyst, IPMD</span></div></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-14 bg-bg-surface border-b border-border-hairline z-40 px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><span class="font-caption text-caption text-text-muted uppercase tracking-wider text-[11px]">MoSPI IPMD</span><span class="text-text-muted text-[11px]">/</span><span class="font-body-emphasis text-body-emphasis text-on-surface truncate text-[13px]">National Infrastructure Overview</span></div><div class="flex items-center gap-space-md"><div class="flex items-center bg-bg-subtle rounded border border-border-hairline p-0.5 text-text-secondary text-[11px] font-caption-bold"><button class="px-1.5 py-0.5 hover:text-on-surface hover:bg-bg-surface rounded transition-colors" title="Decrease text scale" type="button">A-</button><button class="px-1.5 py-0.5 bg-bg-surface text-on-surface rounded shadow-sm" title="Default text scale" type="button">A</button><button class="px-1.5 py-0.5 hover:text-on-surface hover:bg-bg-surface rounded transition-colors" title="Increase text scale" type="button">A+</button></div><button class="p-1 text-text-secondary hover:text-on-surface hover:bg-bg-subtle rounded transition-colors" title="Toggle high contrast" type="button"><span class="material-symbols-outlined text-[18px]">contrast</span></button><div class="h-4 w-[1px] bg-border-hairline"></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-bg-subtle border border-border-hairline"><span class="material-symbols-outlined text-text-muted text-[16px]">schedule</span><span class="font-caption text-caption text-text-secondary text-[11px]">Data: <span class="font-caption-bold text-caption-bold text-on-surface">July 2026</span> (Provisional)</span></div><button class="flex items-center gap-1.5 px-2.5 py-1 bg-bg-surface border border-primary text-primary rounded font-caption-bold text-caption-bold hover:bg-bg-subtle transition-colors text-[12px]" type="button"><span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>Export Briefing</button><a class="flex items-center text-text-secondary hover:text-primary transition-colors" href="#" title="Documentation"><span class="material-symbols-outlined text-[20px]">help_outline</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 w-full bg-bg-page min-h-screen"><div class="flex flex-col w-full">
+<div class="p-gutter-desktop space-y-space-lg">
+<!-- PAGE HEADER / TRIAGE BANNER -->
+<div class="bg-bg-surface p-space-lg rounded-lg border border-border-hairline shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-2.5">
+<h1 class="font-headline-page text-headline-page text-on-surface">National Infrastructure Project Risk Overview</h1>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-surface-container text-primary text-[11px] font-caption-bold tracking-wide uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            Coverage: 100% IPMD Monitored
+          </span>
+</div>
+<p class="font-caption text-caption text-text-secondary">
+          Predictive early-warning surveillance across <span class="font-semibold text-on-surface">2,243 central sector infrastructure projects</span> (≥ ₹150 Cr threshold).
+        </p>
+</div>
+<!-- Quick Filter Bar -->
+<div class="flex flex-wrap items-center gap-2 shrink-0">
+<div class="relative">
+<select class="h-9 pl-2.5 pr-8 bg-bg-surface border border-border-hairline rounded text-caption font-body-emphasis text-on-surface focus:outline-none focus:border-focus-ring focus:ring-1 focus:ring-focus-ring appearance-none cursor-pointer">
+<option>All Central Projects (2,243)</option>
+<option>Mega Projects (≥ ₹1,000 Cr)</option>
+<option>Strategic Border Corridors</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 text-[18px] text-text-muted pointer-events-none">expand_more</span>
+</div>
+<div class="relative">
+<select class="h-9 pl-2.5 pr-8 bg-bg-surface border border-border-hairline rounded text-caption font-body-emphasis text-on-surface focus:outline-none focus:border-focus-ring focus:ring-1 focus:ring-focus-ring appearance-none cursor-pointer">
+<option>Trajectory: Last 12 Months</option>
+<option>Trajectory: Q1-Q4 FY26</option>
+<option>Trailing 90 Days</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 text-[18px] text-text-muted pointer-events-none">expand_more</span>
+</div>
+<label class="h-9 px-3 bg-bg-subtle/80 hover:bg-bg-subtle border border-border-hairline rounded flex items-center gap-2 cursor-pointer transition-colors select-none">
+<input checked="" class="w-3.5 h-3.5 accent-primary-container rounded cursor-pointer" type="checkbox"/>
+<span class="font-caption-bold text-caption-bold text-on-surface">High &amp; Critical Only</span>
+</label>
+<button class="h-9 px-3 bg-primary text-on-primary rounded font-caption-bold text-caption-bold flex items-center gap-1.5 hover:bg-primary-container transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">filter_alt</span>
+          Apply Slice
+        </button>
+</div>
+</div>
+<!-- KPI STAT CARDS ROW (5 COLUMNS) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-gutter-desktop">
+<!-- Card 1 -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric uppercase text-text-secondary tracking-wider">Total Ongoing Projects</span>
+<span class="material-symbols-outlined text-text-muted text-[18px]">account_tree</span>
+</div>
+<div class="my-2">
+<div class="font-display-kpi text-display-kpi text-on-surface tabular-nums">2,243</div>
+</div>
+<div class="flex items-center gap-1 text-[12px] font-caption text-text-secondary">
+<span class="font-semibold text-risk-low-text">+18</span> vs last month (net active)
+        </div>
+</div>
+<!-- Card 2 -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric uppercase text-text-secondary tracking-wider">High-Risk Projects</span>
+<span class="material-symbols-outlined text-risk-high-text text-[18px]">warning</span>
+</div>
+<div class="my-2">
+<div class="font-display-kpi text-display-kpi text-risk-high-text tabular-nums">418</div>
+</div>
+<div class="flex items-center gap-1 text-[12px] font-caption-bold text-risk-critical-text">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+          +24 vs last month
+        </div>
+</div>
+<!-- Card 3 -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric uppercase text-text-secondary tracking-wider">Critical-Risk Projects</span>
+<span class="material-symbols-outlined text-risk-critical-text text-[18px]">report</span>
+</div>
+<div class="my-2">
+<div class="font-display-kpi text-display-kpi text-risk-critical-text tabular-nums">142</div>
+</div>
+<div class="flex items-center gap-1 text-[12px] font-caption-bold text-risk-critical-text">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+          +9 vs last month
+        </div>
+</div>
+<!-- Card 4 -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric uppercase text-text-secondary tracking-wider">Deteriorating This Month</span>
+<span class="w-2 h-2 rounded-full bg-risk-critical-text animate-ping"></span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<div class="font-display-kpi text-display-kpi text-on-surface tabular-nums">312</div>
+<span class="font-badge-label text-badge-label px-1.5 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text uppercase">Surge</span>
+</div>
+<div class="flex items-center gap-1.5 text-[12px] font-caption-bold text-risk-critical-text">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+          Early-Warning Triggered
+        </div>
+</div>
+<!-- Card 5 -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric uppercase text-text-secondary tracking-wider">Total Portfolio Exposure</span>
+<span class="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+</div>
+<div class="my-2">
+<div class="font-display-kpi text-display-kpi text-on-surface tabular-nums">₹ 31.42 <span class="text-[18px] font-normal text-text-secondary">L Cr</span></div>
+</div>
+<div class="flex items-center gap-1 text-[12px] font-caption text-text-secondary truncate">
+<span class="font-semibold text-risk-critical-text">₹ 4.86 L Cr</span> at High/Critical
+        </div>
+</div>
+</div>
+<!-- SECOND ROW (2 COLUMNS: 60% Left, 40% Right) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop">
+<!-- LEFT COLUMN (60% -> 7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-gutter-desktop">
+<!-- Risk Split Card -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg">
+<div class="flex items-center justify-between pb-3 border-b border-border-hairline mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">pie_chart</span>
+<h2 class="font-headline-subsection text-headline-subsection text-on-surface">Portfolio Risk Split (2,243 Projects)</h2>
+</div>
+<span class="text-caption font-caption text-text-muted">Provisional Classifications</span>
+</div>
+<!-- Stacked Segmented Bar -->
+<div class="w-full h-7 rounded bg-bg-subtle overflow-hidden flex border border-border-hairline mb-4">
+<div class="h-full bg-risk-low-text flex items-center justify-center text-white text-[11px] font-bold tabular-nums" style="width: 51.1%" title="Low Risk: 1,145 (51.1%)">51.1%</div>
+<div class="h-full bg-risk-medium-text flex items-center justify-center text-white text-[11px] font-bold tabular-nums" style="width: 24.0%" title="Medium Risk: 538 (24.0%)">24.0%</div>
+<div class="h-full bg-risk-high-text flex items-center justify-center text-white text-[11px] font-bold tabular-nums" style="width: 18.6%" title="High Risk: 418 (18.6%)">18.6%</div>
+<div class="h-full bg-risk-critical-text flex items-center justify-center text-white text-[10px] font-bold tabular-nums" style="width: 6.3%" title="Critical Risk: 142 (6.3%)">6.3%</div>
+</div>
+<!-- Detailed Legend Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+<div class="p-2.5 rounded bg-bg-subtle/50 border border-border-hairline flex flex-col">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-risk-low-text shrink-0"></span>
+<span class="font-caption-bold text-caption-bold text-on-surface uppercase text-[11px]">Low Risk</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface tabular-nums font-bold">1,145 <span class="text-text-muted font-normal text-[11px]">(51.1%)</span></span>
+<span class="text-[11px] font-caption text-text-secondary mt-0.5">₹ 14.82 L Cr alloc.</span>
+</div>
+<div class="p-2.5 rounded bg-bg-subtle/50 border border-border-hairline flex flex-col">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-risk-medium-text shrink-0"></span>
+<span class="font-caption-bold text-caption-bold text-on-surface uppercase text-[11px]">Medium</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface tabular-nums font-bold">538 <span class="text-text-muted font-normal text-[11px]">(24.0%)</span></span>
+<span class="text-[11px] font-caption text-text-secondary mt-0.5">₹ 11.74 L Cr alloc.</span>
+</div>
+<div class="p-2.5 rounded bg-bg-subtle/50 border border-border-hairline flex flex-col">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-risk-high-text shrink-0"></span>
+<span class="font-caption-bold text-caption-bold text-on-surface uppercase text-[11px]">High</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface tabular-nums font-bold">418 <span class="text-text-muted font-normal text-[11px]">(18.6%)</span></span>
+<span class="text-[11px] font-caption text-text-secondary mt-0.5">₹ 3.42 L Cr alloc.</span>
+</div>
+<div class="p-2.5 rounded bg-bg-subtle/50 border border-border-hairline flex flex-col">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-risk-critical-text shrink-0"></span>
+<span class="font-caption-bold text-caption-bold text-on-surface uppercase text-[11px]">Critical</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface tabular-nums font-bold">142 <span class="text-text-muted font-normal text-[11px]">(6.3%)</span></span>
+<span class="text-[11px] font-caption text-text-secondary mt-0.5">₹ 1.44 L Cr alloc.</span>
+</div>
+</div>
+</div>
+<!-- 12-Month Trajectory SVG Chart Card -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex-1">
+<div class="flex items-center justify-between pb-3 border-b border-border-hairline mb-4">
+<div>
+<h2 class="font-headline-subsection text-headline-subsection text-on-surface">National Risk Trend — 12-Month Trajectory</h2>
+<p class="font-caption text-caption text-text-secondary">Share of high + critical risk capital projects (Aug '25 – Jul '26)</p>
+</div>
+<div class="flex items-center gap-3 text-[11px] font-caption-bold">
+<span class="flex items-center gap-1 text-on-surface">
+<span class="w-3 h-0.5 bg-risk-critical-text inline-block"></span> High + Critical %
+              </span>
+<span class="flex items-center gap-1 text-text-muted">
+<span class="w-3 h-0.5 bg-primary inline-block"></span> Portfolio Baseline
+              </span>
+</div>
+</div>
+<!-- Recharts-style SVG Chart -->
+<div class="w-full h-56 relative pt-2">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 200">
+<!-- Gridlines -->
+<line stroke="#DCE3EC" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="690" y1="20" y2="20"></line>
+<line stroke="#DCE3EC" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="690" y1="65" y2="65"></line>
+<line stroke="#DCE3EC" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="690" y1="110" y2="110"></line>
+<line stroke="#DCE3EC" stroke-width="1" x1="40" x2="690" y1="155" y2="155"></line>
+<!-- Y Axis Labels -->
+<text fill="#8A94A6" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="24">28%</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="69">24%</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="114">20%</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="159">16%</text>
+<!-- Portfolio Baseline Ref (Gradual flatline around 19.5%) -->
+<path d="M 50 120 L 108 119 L 166 121 L 224 120 L 282 118 L 340 119 L 398 118 L 456 117 L 514 117 L 572 116 L 630 116 L 680 115" fill="none" opacity="0.6" stroke="#0B4DA2" stroke-dasharray="4 4" stroke-width="1.5"></path>
+<!-- Gradient under curve -->
+<defs>
+<lineargradient id="riskGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#C6362F" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#C6362F" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#riskGrad)" points="50,135 108,131 166,128 224,122 282,118 340,111 398,102 456,92 514,81 572,68 630,59 680,54 680,155 50,155"></polygon>
+<!-- Risk Trajectory Curve (18.2% to 24.9%) -->
+<polyline fill="none" points="50,135 108,131 166,128 224,122 282,118 340,111 398,102 456,92 514,81 572,68 630,59 680,54" stroke="#C6362F" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<!-- Data Dots -->
+<circle cx="50" cy="135" fill="#FFFFFF" r="3.5" stroke="#C6362F" stroke-width="2"></circle>
+<circle cx="224" cy="122" fill="#FFFFFF" r="3.5" stroke="#C6362F" stroke-width="2"></circle>
+<circle cx="398" cy="102" fill="#FFFFFF" r="3.5" stroke="#C6362F" stroke-width="2"></circle>
+<circle cx="572" cy="68" fill="#FFFFFF" r="3.5" stroke="#C6362F" stroke-width="2"></circle>
+<circle cx="680" cy="54" fill="#C6362F" r="5" stroke="#FFFFFF" stroke-width="2"></circle>
+<!-- End Callout Badge -->
+<rect fill="#C6362F" height="20" rx="3" width="56" x="625" y="24"></rect>
+<text fill="#FFFFFF" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle" x="653" y="38">24.9%</text>
+<!-- X Axis Labels -->
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="50" y="176">Aug '25</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="108" y="176">Sep</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="166" y="176">Oct</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="224" y="176">Nov</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="282" y="176">Dec</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="340" y="176">Jan '26</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="398" y="176">Feb</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="456" y="176">Mar</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="514" y="176">Apr</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="572" y="176">May</text>
+<text fill="#8A94A6" font-family="Inter" font-size="10" text-anchor="middle" x="630" y="176">Jun</text>
+<text fill="#131B2C" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle" x="680" y="176">Jul '26</text>
+</svg>
+</div>
+<div class="mt-2 text-right">
+<span class="text-[11px] font-caption text-text-secondary">
+              Net portfolio deterioration acceleration: <span class="font-caption-bold text-risk-critical-text">+6.7% pts</span> over trailing 12-month horizon
+            </span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN (40% -> 5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-gutter-desktop">
+<!-- Risk Distribution By Sector -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg">
+<div class="flex items-center justify-between pb-3 border-b border-border-hairline mb-3">
+<h2 class="font-headline-subsection text-headline-subsection text-on-surface">Risk Distribution by Sector</h2>
+<span class="text-caption font-caption text-text-muted">High + Critical Count</span>
+</div>
+<div class="space-y-3.5">
+<!-- Sector 1: Road Transport & Highways -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[13px]">
+<span class="font-body-emphasis text-on-surface">Road Transport &amp; Highways</span>
+<span class="font-caption-bold text-caption-bold text-risk-critical-text tabular-nums">164 <span class="text-text-muted font-normal text-[11px]">/ 742</span></span>
+</div>
+<div class="h-2 w-full bg-bg-subtle rounded overflow-hidden flex">
+<div class="bg-risk-critical-text h-full" style="width: 22.1%"></div>
+<div class="bg-risk-medium-text h-full" style="width: 32%"></div>
+<div class="bg-risk-low-text h-full" style="width: 45.9%"></div>
+</div>
+</div>
+<!-- Sector 2: Railways -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[13px]">
+<span class="font-body-emphasis text-on-surface">Railways</span>
+<span class="font-caption-bold text-caption-bold text-risk-critical-text tabular-nums">78 <span class="text-text-muted font-normal text-[11px]">/ 412</span></span>
+</div>
+<div class="h-2 w-full bg-bg-subtle rounded overflow-hidden flex">
+<div class="bg-risk-critical-text h-full" style="width: 18.9%"></div>
+<div class="bg-risk-medium-text h-full" style="width: 28.5%"></div>
+<div class="bg-risk-low-text h-full" style="width: 52.6%"></div>
+</div>
+</div>
+<!-- Sector 3: Power & Renewable -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[13px]">
+<span class="font-body-emphasis text-on-surface">Power &amp; Renewable</span>
+<span class="font-caption-bold text-caption-bold text-risk-high-text tabular-nums">92 <span class="text-text-muted font-normal text-[11px]">/ 380</span></span>
+</div>
+<div class="h-2 w-full bg-bg-subtle rounded overflow-hidden flex">
+<div class="bg-risk-critical-text h-full" style="width: 24.2%"></div>
+<div class="bg-risk-medium-text h-full" style="width: 25.1%"></div>
+<div class="bg-risk-low-text h-full" style="width: 50.7%"></div>
+</div>
+</div>
+<!-- Sector 4: Petroleum & Natural Gas -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[13px]">
+<span class="font-body-emphasis text-on-surface">Petroleum &amp; Natural Gas</span>
+<span class="font-caption-bold text-caption-bold text-risk-high-text tabular-nums">48 <span class="text-text-muted font-normal text-[11px]">/ 262</span></span>
+</div>
+<div class="h-2 w-full bg-bg-subtle rounded overflow-hidden flex">
+<div class="bg-risk-critical-text h-full" style="width: 18.3%"></div>
+<div class="bg-risk-medium-text h-full" style="width: 21.0%"></div>
+<div class="bg-risk-low-text h-full" style="width: 60.7%"></div>
+</div>
+</div>
+<!-- Sector 5: Urban Development -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[13px]">
+<span class="font-body-emphasis text-on-surface">Urban Development</span>
+<span class="font-caption-bold text-caption-bold text-on-surface tabular-nums">39 <span class="text-text-muted font-normal text-[11px]">/ 184</span></span>
+</div>
+<div class="h-2 w-full bg-bg-subtle rounded overflow-hidden flex">
+<div class="bg-risk-critical-text h-full" style="width: 21.2%"></div>
+<div class="bg-risk-medium-text h-full" style="width: 19.8%"></div>
+<div class="bg-risk-low-text h-full" style="width: 59.0%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Ministry Escalation Index Panel -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg p-space-lg flex-1">
+<div class="flex items-center justify-between pb-3 border-b border-border-hairline mb-3">
+<div>
+<h2 class="font-headline-subsection text-headline-subsection text-on-surface">Ministry Escalation Index</h2>
+<p class="font-caption text-caption text-text-secondary">Ranked by aggregate project deterioration velocity</p>
+</div>
+<span class="px-2 py-0.5 rounded bg-bg-subtle text-text-secondary text-[11px] font-caption-bold">Index 0-100</span>
+</div>
+<div class="divide-y divide-border-hairline">
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 text-center font-caption-bold text-caption-bold text-text-muted">1</span>
+<div class="min-w-0">
+<div class="font-body-emphasis text-body-emphasis text-on-surface truncate">MoRTH</div>
+<div class="font-caption text-caption text-text-muted truncate text-[11px]">Road Transport &amp; Highways</div>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="font-caption text-caption text-risk-critical-text font-bold">▲ +4.2</span>
+<span class="px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-bold text-[13px] tabular-nums">78.4</span>
+</div>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 text-center font-caption-bold text-caption-bold text-text-muted">2</span>
+<div class="min-w-0">
+<div class="font-body-emphasis text-body-emphasis text-on-surface truncate">MoR</div>
+<div class="font-caption text-caption text-text-muted truncate text-[11px]">Ministry of Railways</div>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="font-caption text-caption text-risk-critical-text font-bold">▲ +3.8</span>
+<span class="px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-bold text-[13px] tabular-nums">74.2</span>
+</div>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 text-center font-caption-bold text-caption-bold text-text-muted">3</span>
+<div class="min-w-0">
+<div class="font-body-emphasis text-body-emphasis text-on-surface truncate">MoP</div>
+<div class="font-caption text-caption text-text-muted truncate text-[11px]">Ministry of Power</div>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="font-caption text-caption text-risk-high-text font-bold">▲ +1.9</span>
+<span class="px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-bold text-[13px] tabular-nums">68.1</span>
+</div>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 text-center font-caption-bold text-caption-bold text-text-muted">4</span>
+<div class="min-w-0">
+<div class="font-body-emphasis text-body-emphasis text-on-surface truncate">MoPNG</div>
+<div class="font-caption text-caption text-text-muted truncate text-[11px]">Petroleum &amp; Natural Gas</div>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="font-caption text-caption text-risk-medium-text font-bold">▲ +0.6</span>
+<span class="px-2 py-0.5 rounded bg-risk-medium-bg text-risk-medium-text font-bold text-[13px] tabular-nums">61.5</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- THIRD ROW — TOP EARLY-WARNING WATCHLIST PREVIEW TABLE -->
+<div class="bg-bg-surface border border-border-hairline rounded-lg shadow-sm overflow-hidden">
+<!-- Table Action Header -->
+<div class="p-space-lg border-b border-border-hairline flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-risk-critical-text"></span>
+<h2 class="font-headline-section text-headline-section text-on-surface">Priority Triage Watchlist — Highest Deterioration Velocity</h2>
+</div>
+<p class="font-caption text-caption text-text-secondary mt-0.5">Showing top 8 flagged projects of 312 early-warning alerts requiring direct ministry liaison</p>
+</div>
+<div class="flex items-center gap-2.5 shrink-0">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[18px] text-text-muted">search</span>
+<input class="h-8 pl-8 pr-3 bg-bg-surface border border-border-hairline rounded text-[12px] font-body-default placeholder:text-text-muted focus:outline-none focus:border-focus-ring focus:ring-1 focus:ring-focus-ring w-64" placeholder="Search project, ministry, driver..." type="text"/>
+</div>
+<div class="relative">
+<select class="h-8 pl-2.5 pr-7 bg-bg-surface border border-border-hairline rounded text-[12px] font-body-emphasis text-on-surface focus:outline-none focus:border-focus-ring cursor-pointer appearance-none">
+<option>All Ministries</option>
+<option>Railways</option>
+<option>MoRTH</option>
+<option>Power</option>
+<option>Jal Shakti</option>
+</select>
+<span class="material-symbols-outlined absolute right-1.5 top-1.5 text-[16px] text-text-muted pointer-events-none">arrow_drop_down</span>
+</div>
+<a class="h-8 px-3 rounded bg-bg-subtle hover:bg-surface-container border border-border-hairline text-primary font-caption-bold text-caption-bold flex items-center gap-1 transition-colors" href="#">
+            View Complete Watchlist (312)
+            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Dense Table View -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-bg-subtle text-text-secondary text-[11px] font-bold uppercase tracking-wider border-b border-border-hairline sticky top-0 z-10">
+<th class="py-2.5 px-4 font-caption-bold">Project Name &amp; Corridor</th>
+<th class="py-2.5 px-3 font-caption-bold">Nodal Ministry</th>
+<th class="py-2.5 px-3 font-caption-bold">Sector</th>
+<th class="py-2.5 px-3 font-caption-bold text-right">Risk Score</th>
+<th class="py-2.5 px-3 font-caption-bold text-right">MoM Δ</th>
+<th class="py-2.5 px-4 font-caption-bold">Primary Predictive Risk Driver</th>
+<th class="py-2.5 px-4 font-caption-bold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-hairline text-[13px] bg-bg-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Udhampur-Srinagar-Baramulla Rail Link (USBRL)</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-NR-2002-0041 • ₹ 37,012 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Ministry of Railways</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Railways</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-critical-text text-[14px]">94</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label font-bold">CRITICAL</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +12
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Geological delays, tunnel seepage package 7; critical safety cert lag
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Mumbai-Ahmedabad High Speed Rail (Bullet Train)</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-MAHSR-2016 • ₹ 1,08,000 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Ministry of Railways</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Railways</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-critical-text text-[14px]">88</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label font-bold">CRITICAL</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +8
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Right of way clearance in Palghar dist; undersea tunnel civil bid delay
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Polavaram Irrigation Project (National Project)</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-AP-2014-0012 • ₹ 55,548 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Ministry of Jal Shakti</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Water Resources</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-critical-text text-[14px]">86</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label font-bold">CRITICAL</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +15
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Diaphragm wall structural remediation; R&amp;R compensation backlog
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Delhi-Amritsar-Katra Expressway (Pkg 4-8)</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-NH-2019-0894 • ₹ 35,000 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">MoRTH</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Road Transport</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-high-text text-[14px]">79</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-badge-label font-bold">HIGH</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +6
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Land compensation dispute arbitration across 4 Punjab districts
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Dibang Multipurpose Hydroelectric Project 2880MW</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-HY-2020-0031 • ₹ 31,876 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Ministry of Power</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Power</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-high-text text-[14px]">76</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-badge-label font-bold">HIGH</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +11
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Forest clearance stage-II compliance and community asset settlement
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Chennai Metro Rail Phase II (Corridor 3 &amp; 5)</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-MR-2020-0118 • ₹ 63,246 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">MoHUA</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Urban Development</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-high-text text-[14px]">72</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-badge-label font-bold">HIGH</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +4
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                TBM shaft intervention &amp; critical high-voltage utility diversion delays
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Paradip-Hyderabad Petroleum Pipeline Extension</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-PL-2019-0411 • ₹ 3,338 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">MoPNG</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Petroleum</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-high-text text-[14px]">68</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-badge-label font-bold">HIGH</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-low-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_downward</span> -3
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Pressure testing station defect remediation; valve procurement resolved
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group">
+<td class="py-3 px-4 min-w-[240px]">
+<div class="font-body-emphasis text-on-surface font-semibold group-hover:text-primary transition-colors">Gorakhpur Nuclear Power Plant Units 1 &amp; 2</div>
+<div class="font-caption text-caption text-text-muted text-[11px]">ID: PRJ-NP-2018-0002 • ₹ 20,594 Cr</div>
+</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Dept of Atomic Energy</td>
+<td class="py-3 px-3 text-text-secondary whitespace-nowrap">Power</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5">
+<span class="font-bold tabular-nums text-risk-high-text text-[14px]">64</span>
+<span class="px-1.5 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-badge-label font-bold">HIGH</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right whitespace-nowrap">
+<span class="font-caption-bold text-risk-critical-text inline-flex items-center gap-0.5 tabular-nums">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +7
+                </span>
+</td>
+<td class="py-3 px-4 text-text-secondary text-[12px] max-w-xs">
+                Heavy component specialized forging supply chain lag; steam generator fabrication
+              </td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1 rounded border border-border-hairline hover:border-primary hover:text-primary font-caption-bold text-caption-bold text-on-surface bg-bg-surface hover:bg-bg-subtle transition-colors text-[11px]" type="button">
+                  Triage Dossier
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Quick Stats -->
+<div class="bg-bg-subtle/50 px-4 py-2.5 border-t border-border-hairline flex items-center justify-between text-[11px] font-caption text-text-secondary">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-risk-critical-text"></span>
+<span>8 items displayed in triage fold. Escalations synchronized via IPMD OCMS API.</span>
+</div>
+<div class="tabular-nums">
+          Page 1 of 39 (312 records)
+        </div>
+</div>
+</div>
+<!-- BOTTOM FOOTNOTE / METHODOLOGY DISCLAIMER -->
+<div class="p-3 bg-bg-surface rounded border border-border-hairline flex items-start gap-2.5 text-text-muted">
+<span class="material-symbols-outlined text-[18px] text-text-muted shrink-0 mt-0.5">info</span>
+<p class="font-caption text-caption text-text-muted leading-relaxed">
+        Predictions validated on 116 held-out historical IPMD outcomes (AUC-ROC: 0.892). Risk scores represent triage early-warning signals derived from monthly milestone delays, contractor disbursement lag, and clearance timelines, not statutory project audits. All financial figures denote sanctioned capital outlays unless marked revised.
+      </p>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive filter toggle simulator
+  document.addEventListener('DOMContentLoaded', () => {
+    const tableRows = document.querySelectorAll('tbody tr');
+    const filterInput = document.querySelector('input[placeholder*="Search"]');
+    
+    if (filterInput) {
+      filterInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        tableRows.forEach(row => {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(query) ? '' : 'none';
+        });
+      });
+    }
+  });
+</script></main></div></body></html>
