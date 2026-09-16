@@ -8,6 +8,28 @@ Format per entry:
 - docs updated: <list>
 - decisions / notes
 ```
+## 2026-09-16 — STEP_12 — Early Warning Trend Detection & Evidence Logging
+- what changed (code):
+  - `src/early_warning/detector.py`: Pure functional early-warning engine detecting project deterioration across consecutive observed months (trend, not snapshot level). Evaluates 3 triggers over project's trailing observed rows: `score_rising_2m` ($S_0 > S_1 > S_2$), `gap_widening_2m` ($G_0 > G_1 > G_2$), and `velocity_divergence_2m` ($V_{\text{prog}} \le 0$ while $V_{\text{exp}} > 0$). Incorporates freshness span guard ($\text{span} \le 4$ calendar months), tolerating short gaps while rejecting wide gaps as `STALE_HISTORY`. Guards `PROVISIONAL` projects ($\le 2$ observed months) as `INSUFFICIENT_HISTORY`. Emits `early_warning` (bool), `warning_status`, `warning_strength` (0..3 conviction score), and complete causal evidence trails (deltas and velocities).
+  - `src/early_warning/run.py`: Pipeline runner writing `data/processed/early_warning.parquet` (18,860 rows, 0 nulls across critical indicator/evidence fields) and `reports/early_warning_summary.json`.
+  - `tests/test_early_warning_fixture.py`: Non-skipping fixture test suite (7 tests) verifying rising trend trigger, steady-HIGH negative control, 1-month gap tolerance within span, large gap rejection (`STALE_HISTORY`), provisional data sufficiency, multi-trigger combination, and synthetic causal leakage invariance.
+  - `tests/test_early_warning.py`: Real data integration suite (4 tests) asserting row counts, 0 nulls, real-data causal leakage invariance at $T=\text{2026-02}$, concrete real-world steady-HIGH negative control (Project 400145), and latest month (2026-07) sector separation (Non-Roads vs Roads).
+- what was verified (real output ref):
+  - Total panel rows processed: 18,860 (5,862 active warnings across corpus).
+  - Latest month (2026-07) metrics: 1,800 total projects, 846 active warnings (47.00%).
+    - Non-Roads primary validation regime: 311 active warnings out of 787 projects (39.52%); Strength 1: 237, Strength 2: 69, Strength 3: 5.
+    - Roads caveated transfer regime: 535 active warnings out of 1,013 projects (52.81%); Strength 1: 358, Strength 2: 154, Strength 3: 23.
+    - Latest month triggers: score_rising_2m: 428, gap_widening_2m: 414, velocity_divergence_2m: 283.
+  - Steady-HIGH negative control: Project 400145 evaluated across 6 months in HIGH band; `score_rising_fired` = False in 100% of months (proves trend detection is distinct from snapshot level).
+  - Causal leakage invariance: warnings at month $T$ strictly identical whether future records ($> T$) exist or are omitted.
+  - Full test suite: 124 passed (`pytest` in 6.74s); fixture tests: 7 passed in 0.65s.
+  - Linting & formatting: `ruff check` and `black --check` 100% clean.
+- docs updated:
+  - `docs/steps/STEP_12_early_warning.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Gap handling allows short missing reporting intervals (last 3 observed rows with total span $\le 4$ calendar months), preventing reporting gaps from blinding the alert system.
+  - `ACTIVE_WARNING` triggers on ANY condition, with `warning_strength` (0..3) enabling conviction ranking on the dashboard.
+
 ## 2026-09-16 — STEP_11 — Project Risk Scoring, Probability Calibration & Data Sufficiency
 - what changed (code):
   - `src/risk/scorer.py`: Implements Platt scaling calibration (`fit_platt_calibrator`, `calibrate_probabilities`) trained strictly on Validation block ($T \in [\text{2026-01}, \text{2026-02}]$); monotonic mapping to 0–100 scale ($S = \text{round}(100 \times p_{\text{calibrated}}, 1)$); quantile-derived risk band cutoffs (`LOW` < 4.6, `MEDIUM` 4.6–36.1, `HIGH` 36.1–55.9, `CRITICAL` >= 55.9); and cumulative observation counting for Data Sufficiency tagging (`PROVISIONAL` if $\le 2$ observed months, `SUFFICIENT` if $\ge 3$).
