@@ -3,9 +3,9 @@
 > Update this after EVERY implementation (docs/09 Rule 0). Newest status wins.
 > Legend: ⬜ not started · 🟨 in progress · 🟥 blocked · ✅ done
 
-**Current step:** STEP_12 early warning trend detection completed; ready for STEP_13 API
+**Current step:** STEP_13 Backend API completed; ready for STEP_14 Dashboard
 **Level-1 target:** LPU internal hackathon (September 2026)
-**Last updated:** 2026-09-16 (STEP_12 complete: Trend-based early warning engine with gap-aware consecutive observed matching [span <= 4 mo]; 846 active warnings in latest month 2026-07 [311 Non-Roads, 535 Roads]; full evidence logged; 124 tests 100% green)
+**Last updated:** 2026-09-16 (STEP_13 complete: FastAPI read-only serving layer serving National Level-1, Sector Level-2, Ministry Level-2, and Project Level-3 deep dives + Early Warning Watchlist; Pydantic v2 schemas; auto OpenAPI; CORS configured; 13/13 API fixture tests & 83 repository tests 100% green)
 
 ## Step board
 | Step | Phase | Status | Notes / blockers |
@@ -23,7 +23,7 @@
 | STEP_10 eval | 9 | ✅ | Fills comparison table on headline Non-Roads test set (N=1,373, Pos=116); secondary transfer on Roads (N=1,901, Pos=827) |
 | STEP_11 risk score | 11 | ✅ | Platt calibration (ECE -67.0%, Brier -51.1%); monotonic bands (1.65%->6.75%->18.90%->55.42%); 18,860 rows scored |
 | STEP_12 early warning | 12 | ✅ | Trend detection across observed rows (span <= 4 mo); 846 warnings latest month (311 Non-Roads, 535 Roads); steady-HIGH control verified |
-| STEP_13 API | 14 | ⬜ | |
+| STEP_13 API | 14 | ✅ | FastAPI serving layer: /health, /pipeline/last-run, /national/summary, /sectors, /ministries, /projects/{id}, /watchlist |
 | STEP_14 dashboard | 15 | ⬜ | |
 | STEP_15 demo prep | 18 | ⬜ | |
 | STEP_16 pitch | 18 | ⬜ | |

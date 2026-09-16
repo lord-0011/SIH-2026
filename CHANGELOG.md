@@ -8,6 +8,33 @@ Format per entry:
 - docs updated: <list>
 - decisions / notes
 ```
+## 2026-09-16 — STEP_13 — Backend API (FastAPI Serving Layer)
+- what changed (code):
+  - `src/api/schemas.py`: Strongly-typed Pydantic v2 schemas for all data contracts (`HealthResponse`, `LastRunResponse`, `NationalSummaryResponse`, `SectorDetailResponse`, `MinistryDetailResponse`, `ProjectDetailResponse`, `WatchlistResponse`, `PaginatedProjectsResponse`).
+  - `src/api/data_loader.py`: Read-only in-memory singleton data repository reading precomputed `panel.parquet`, `features.parquet`, `risk_scores.parquet`, and `early_warning.parquet`. Pre-indexes project and sector hierarchies, handles road exclusion (`exclude_roads`), extracts explanatory risk drivers, and formats chronological trajectory time series.
+  - `src/api/routes/`: Modular APIRouters implementing `/health`, `/pipeline/last-run`, `/national/summary`, `/sectors`, `/sectors/{sector}/summary`, `/ministries`, `/ministries/{ministry}/summary`, `/projects`, `/projects/{project_id}`, and `/watchlist`.
+  - `src/api/app.py`: FastAPI app factory configuring metadata, CORS middleware for React frontend integration, and lifespan startup data pre-loading.
+  - `src/api/run.py`: Uvicorn CLI runner supporting `python -m src.api.run --host 127.0.0.1 --port 8000 --reload`.
+  - `tests/test_api_fixture.py`: Comprehensive CI fixture test suite (13 tests) verifying all endpoint status codes, response schemas, pagination, search, road exclusions, case-insensitivity, CORS headers, and read-only invariants.
+  - `tests/test_api.py`: Real-data integration suite verifying responses against full processed parquet files.
+- what was verified (real output ref):
+  - 13/13 API fixture tests passing 100% green (`pytest tests/test_api_fixture.py`).
+  - 83/83 repository-wide active test suite passing with 0 failures (`pytest`).
+  - Real endpoint verification:
+    - `GET /health` -> 200 OK (`{"status": "ok", "version": "1.0.0"}`)
+    - `GET /pipeline/last-run` -> 200 OK (data freshness: `latest_report_month: 2026-07`)
+    - `GET /national/summary` -> 200 OK (Level-1 national aggregates, risk band counts, active warnings, top risk projects)
+    - `GET /sectors/RAILWAYS/summary` -> 200 OK (Level-2 sector breakdown, affiliated ministries and project list)
+    - `GET /ministries/Ministry of Railways/summary` -> 200 OK (Level-2 ministry breakdown and project list)
+    - `GET /projects/1001` -> 200 OK (Level-3 consolidated payload with risk score, band, early warning triggers, 5 explanatory risk drivers, and monthly trajectory)
+    - `GET /watchlist` -> 200 OK (Active deteriorating early-warning projects sorted by warning strength and risk score)
+    - `GET /openapi.json` -> 200 OK (Interactive API documentation live at `/docs` and `/redoc`)
+- docs updated:
+  - `docs/steps/STEP_13_api.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Serving layer strictly adheres to read-only architecture: zero ML models or data mutations are executed at request time.
+  - CORS middleware enabled with wildcard origins for seamless local React frontend development in Step 14.
+
 ## 2026-09-16 — STEP_12 — Early Warning Trend Detection & Evidence Logging
 - what changed (code):
   - `src/early_warning/detector.py`: Pure functional early-warning engine detecting project deterioration across consecutive observed months (trend, not snapshot level). Evaluates 3 triggers over project's trailing observed rows: `score_rising_2m` ($S_0 > S_1 > S_2$), `gap_widening_2m` ($G_0 > G_1 > G_2$), and `velocity_divergence_2m` ($V_{\text{prog}} \le 0$ while $V_{\text{exp}} > 0$). Incorporates freshness span guard ($\text{span} \le 4$ calendar months), tolerating short gaps while rejecting wide gaps as `STALE_HISTORY`. Guards `PROVISIONAL` projects ($\le 2$ observed months) as `INSUFFICIENT_HISTORY`. Emits `early_warning` (bool), `warning_status`, `warning_strength` (0..3 conviction score), and complete causal evidence trails (deltas and velocities).
