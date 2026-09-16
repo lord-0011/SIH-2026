@@ -59,23 +59,74 @@ def test_calibration_reduces_ece(calibration_summary: dict):
     assert metrics["ece_reduction_pct"] >= 50.0  # Expect ~67% reduction
 
 
-def test_per_band_realized_rate_strict_monotonicity(calibration_summary: dict):
-    """INVARIANT: Higher risk bands must have strictly higher realized slip rates on held-out test set."""
-    val_data = calibration_summary["nonroads_test_band_validation"]
-    assert val_data["is_strictly_monotonic_increasing"] is True
+def test_per_band_realized_rate_strict_monotonicity(risk_scores_df: pd.DataFrame):
+    """INVARIANT (must hold forever): Higher risk bands have strictly higher realized slip rates.
 
-    bands = val_data["bands"]
-    rate_low = bands["LOW"]["realized_event_rate_pct"]
-    rate_med = bands["MEDIUM"]["realized_event_rate_pct"]
-    rate_high = bands["HIGH"]["realized_event_rate_pct"]
-    rate_crit = bands["CRITICAL"]["realized_event_rate_pct"]
+    Recomputes realized rates directly from raw parquet columns on held-out Non-Roads test set.
+    Guards the core operational guarantee without relying on static summary JSONs:
+    - Every band non-empty
+    - Strictly monotonic ordering: LOW < MEDIUM < HIGH < CRITICAL
+    - CRITICAL tier achieves marked lift (>= 3x) over the dynamically computed base rate
+    """
+    test_nonroads = risk_scores_df[
+        (risk_scores_df["split"] == "test")
+        & (risk_scores_df["is_usable_filtered"])
+        & (~risk_scores_df["sector"].str.lower().str.contains("road"))
+    ]
+    assert len(test_nonroads) > 0, "Non-roads test subset must not be empty"
 
+    base_rate = float(test_nonroads["target_slip_3m_ge3m"].mean() * 100.0)
+
+    rates = {}
+    for band in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]:
+        sub = test_nonroads[test_nonroads["risk_band"] == band]
+        assert len(sub) > 0, f"Risk band {band} must have non-zero project count"
+        rate = float((sub["target_slip_3m_ge3m"].sum() / len(sub)) * 100.0)
+        rates[band] = rate
+
+    # Invariant 1: Strict monotonic ordering
     assert (
-        rate_low < rate_med < rate_high < rate_crit
-    ), f"Monotonicity broken: LOW={rate_low}% < MED={rate_med}% < HIGH={rate_high}% < CRIT={rate_crit}%"
+        rates["LOW"] < rates["MEDIUM"] < rates["HIGH"] < rates["CRITICAL"]
+    ), f"Monotonicity invariant broken: {rates}"
 
-    # CRITICAL band must exhibit marked lift over base rate (base ~8.45%)
-    assert rate_crit >= 45.0
+    # Invariant 2: CRITICAL band must achieve at least 3x lift over dynamically computed base rate
+    assert (
+        rates["CRITICAL"] >= 3.0 * base_rate
+    ), f"CRITICAL rate ({rates['CRITICAL']:.2f}%) did not achieve 3x lift over base ({base_rate:.2f}%)"
+
+
+def test_per_band_snapshot_regression(risk_scores_df: pd.DataFrame):
+    """SNAPSHOT of current dataset; update deliberately when the model/data legitimately changes.
+
+    This is a tripwire, not an invariant. Pinned to the 2026-09-16 baseline release:
+    - 1,373 non-roads test rows, 116 clean positives (8.45% base rate)
+    - LOW ~1.65%, MEDIUM ~6.75%, HIGH ~18.90%, CRITICAL ~55.42%
+    """
+    test_nonroads = risk_scores_df[
+        (risk_scores_df["split"] == "test")
+        & (risk_scores_df["is_usable_filtered"])
+        & (~risk_scores_df["sector"].str.lower().str.contains("road"))
+    ]
+
+    # Sample size snapshot
+    assert len(test_nonroads) == 1373
+    assert int(test_nonroads["target_slip_3m_ge3m"].sum()) == 116
+
+    counts = test_nonroads["risk_band"].value_counts().to_dict()
+    assert counts["LOW"] == 726
+    assert counts["MEDIUM"] == 400
+    assert counts["HIGH"] == 164
+    assert counts["CRITICAL"] == 83
+
+    # Per-band realized rate snapshot
+    def get_rate(band: str) -> float:
+        sub = test_nonroads[test_nonroads["risk_band"] == band]
+        return round(float((sub["target_slip_3m_ge3m"].sum() / len(sub)) * 100.0), 2)
+
+    assert get_rate("LOW") == 1.65
+    assert get_rate("MEDIUM") == 6.75
+    assert get_rate("HIGH") == 18.90
+    assert get_rate("CRITICAL") == 55.42
 
 
 def test_data_sufficiency_partitioning(risk_scores_df: pd.DataFrame):
