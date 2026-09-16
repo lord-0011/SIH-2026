@@ -26,6 +26,8 @@ from src.api.models import (
     ProjectDetailResponse,
     ProjectSummaryItem,
     ProjectTrajectoryPoint,
+    RegimeMinistryItem,
+    RegimeSectorItem,
     SectorSummaryResponse,
     WatchlistItem,
     WatchlistResponse,
@@ -131,11 +133,22 @@ class DataRepository:
             self.latest_month,
         )
 
+    def _ensure_loaded(self) -> None:
+        """Ensure data is loaded; auto-load if empty or raise informative error."""
+        if self.df.empty or not self._is_loaded:
+            log.warning("DataRepository queried before explicit load. Attempting auto-load...")
+            self.load_data()
+            if self.df.empty or not self._is_loaded:
+                raise RuntimeError(
+                    "DataRepository datasets not loaded. Did the FastAPI lifespan startup run or do processed parquet files exist?"
+                )
+
     def is_loaded(self) -> bool:
         return self._is_loaded
 
     def get_last_run_metadata(self) -> PipelineLastRunResponse:
         """Return pipeline metadata and data freshness."""
+        self._ensure_loaded()
         total_projects = self.df["project_id"].nunique() if not self.df.empty else 0
         latest_active = (
             len(self.df[self.df["report_month"] == self.latest_month]) if not self.df.empty else 0
@@ -154,6 +167,7 @@ class DataRepository:
 
     def get_national_summary(self, report_month: str | None = None) -> NationalSummaryResponse:
         """Level-1 National Dashboard Summary."""
+        self._ensure_loaded()
         target_month = report_month or self.latest_month
         m_df = self.df[self.df["report_month"] == target_month]
 
@@ -177,6 +191,8 @@ class DataRepository:
                         if is_roads
                         else None
                     ),
+                    sectors=[],
+                    ministries=[],
                 )
             bands = sub["risk_band"].value_counts().to_dict()
             str_dist = {
@@ -188,8 +204,57 @@ class DataRepository:
                 "SUFFICIENT": int((sub["data_sufficiency"] == "SUFFICIENT").sum()),
                 "PROVISIONAL": int((sub["data_sufficiency"] == "PROVISIONAL").sum()),
             }
+
+            sub_cost = round(float(sub["original_cost_cr"].sum()), 2) if len(sub) > 0 else 0.0
+            sub_exp = (
+                round(float(sub["cumulative_expenditure_cr"].sum()), 2) if len(sub) > 0 else 0.0
+            )
+
+            # Sector breakdowns inside regime
+            sec_list = []
+            for sec_name, s_df in sub.groupby("sector"):
+                crit_cnt = int((s_df["risk_band"] == "CRITICAL").sum())
+                high_cnt = int((s_df["risk_band"] == "HIGH").sum())
+                warn_cnt = int(s_df["early_warning"].sum())
+                hc_cnt = crit_cnt + high_cnt
+                sec_list.append(
+                    RegimeSectorItem(
+                        sector=str(sec_name),
+                        total_projects=len(s_df),
+                        high_critical_count=hc_cnt,
+                        critical_count=crit_cnt,
+                        high_count=high_cnt,
+                        active_warnings=warn_cnt,
+                        avg_risk_score=round(float(s_df["risk_score"].mean()), 1),
+                        is_road=is_roads,
+                        transfer_regime=is_roads,
+                    )
+                )
+            sec_list.sort(key=lambda x: (x.high_critical_count, x.avg_risk_score), reverse=True)
+
+            # Ministry breakdowns inside regime
+            min_list = []
+            for min_name, m_sub_df in sub.groupby("ministry"):
+                warn_cnt = int(m_sub_df["early_warning"].sum())
+                crit_cnt = int((m_sub_df["risk_band"] == "CRITICAL").sum())
+                d1_val = m_sub_df["risk_score_delta_1m"].dropna()
+                d1_mean = round(float(d1_val.mean()), 1) if len(d1_val) > 0 else None
+                min_list.append(
+                    RegimeMinistryItem(
+                        ministry=str(min_name),
+                        total_projects=len(m_sub_df),
+                        avg_risk_score=round(float(m_sub_df["risk_score"].mean()), 1),
+                        critical_count=crit_cnt,
+                        active_warnings=warn_cnt,
+                        score_delta_1m=d1_mean,
+                    )
+                )
+            min_list.sort(key=lambda x: (x.active_warnings, x.avg_risk_score), reverse=True)
+
             return NationalSubSummary(
                 total_projects=cnt,
+                total_cost_cr=sub_cost,
+                total_expenditure_cr=sub_exp,
                 avg_risk_score=round(float(sub["risk_score"].mean()), 1),
                 band_distribution=BandDistribution(
                     LOW=int(bands.get("LOW", 0)),
@@ -206,6 +271,8 @@ class DataRepository:
                     if is_roads
                     else None
                 ),
+                sectors=sec_list,
+                ministries=min_list,
             )
 
         nr_sub = _compute_regime_sub(nr_df, is_roads=False)
@@ -224,6 +291,16 @@ class DataRepository:
             high = int((sub_m["risk_band"] == "HIGH").sum())
             warn = int(sub_m["early_warning"].sum())
             avg_s = round(float(sub_m["risk_score"].mean()), 1) if len(sub_m) > 0 else 0.0
+
+            sub_nr = sub_m[~sub_m["is_road"]]
+            sub_r = sub_m[sub_m["is_road"]]
+            nr_avg = round(float(sub_nr["risk_score"].mean()), 1) if len(sub_nr) > 0 else None
+            nr_crit = int((sub_nr["risk_band"] == "CRITICAL").sum()) if len(sub_nr) > 0 else None
+            nr_warn = int(sub_nr["early_warning"].sum()) if len(sub_nr) > 0 else None
+            r_avg = round(float(sub_r["risk_score"].mean()), 1) if len(sub_r) > 0 else None
+            r_crit = int((sub_r["risk_band"] == "CRITICAL").sum()) if len(sub_r) > 0 else None
+            r_warn = int(sub_r["early_warning"].sum()) if len(sub_r) > 0 else None
+
             trend_points.append(
                 MonthlyTrendPoint(
                     report_month=m,
@@ -232,6 +309,12 @@ class DataRepository:
                     critical_count=crit,
                     high_count=high,
                     active_warnings_count=warn,
+                    non_roads_avg_risk_score=nr_avg,
+                    non_roads_critical_count=nr_crit,
+                    non_roads_active_warnings=nr_warn,
+                    roads_avg_risk_score=r_avg,
+                    roads_critical_count=r_crit,
+                    roads_active_warnings=r_warn,
                 )
             )
 
@@ -257,6 +340,7 @@ class DataRepository:
         self, sector: str, report_month: str | None = None
     ) -> SectorSummaryResponse | None:
         """Level-2 Sector Summary."""
+        self._ensure_loaded()
         target_month = report_month or self.latest_month
         m_df = self.df[self.df["report_month"] == target_month]
         sec_clean = sector.strip().lower()
@@ -298,19 +382,16 @@ class DataRepository:
             for _, row in top_projects_df.iterrows()
         ]
 
-        # National non-roads benchmarks for comparison
-        nr_all = m_df[~m_df["is_road"]]
+        # National benchmarks for comparison
+        all_month_df = m_df
         benchmarks = {
-            "national_non_roads_avg_score": (
-                round(float(nr_all["risk_score"].mean()), 1) if len(nr_all) > 0 else 0.0
+            "national_avg_risk_score": (
+                round(float(all_month_df["risk_score"].mean()), 1) if len(all_month_df) > 0 else 0.0
             ),
-            "national_non_roads_critical_pct": (
-                round(float((nr_all["risk_band"] == "CRITICAL").mean() * 100.0), 1)
-                if len(nr_all) > 0
+            "national_critical_pct": (
+                round(float((all_month_df["risk_band"] == "CRITICAL").mean() * 100), 1)
+                if len(all_month_df) > 0
                 else 0.0
-            ),
-            "national_non_roads_active_warning_pct": (
-                round(float(nr_all["early_warning"].mean() * 100.0), 1) if len(nr_all) > 0 else 0.0
             ),
         }
 
@@ -344,6 +425,7 @@ class DataRepository:
         self, ministry: str, report_month: str | None = None
     ) -> MinistrySummaryResponse | None:
         """Level-2 Ministry Summary."""
+        self._ensure_loaded()
         target_month = report_month or self.latest_month
         m_df = self.df[self.df["report_month"] == target_month]
         min_clean = ministry.strip().lower()
@@ -404,6 +486,7 @@ class DataRepository:
         page_size: int = 50,
     ) -> PaginatedProjectsResponse:
         """Filterable and paginated project list."""
+        self._ensure_loaded()
         target_month = report_month or self.latest_month
         sub = self.df[self.df["report_month"] == target_month].copy()
 
@@ -479,6 +562,7 @@ class DataRepository:
 
     def get_project_detail(self, project_id: str) -> ProjectDetailResponse | None:
         """Level-3 Full Project Dossier."""
+        self._ensure_loaded()
         p_history = self.df[self.df["project_id"] == str(project_id).strip()].sort_values(
             "report_month"
         )
@@ -626,14 +710,23 @@ class DataRepository:
         report_month: str | None = None,
         sector: str | None = None,
         ministry: str | None = None,
+        regime: str | None = None,
         min_strength: int = 1,
     ) -> WatchlistResponse:
         """Watchlist of deteriorating projects (early_warning == True)."""
+        self._ensure_loaded()
         target_month = report_month or self.latest_month
         m_df = self.df[self.df["report_month"] == target_month]
 
         # Filter strictly to active warnings
         w_df = m_df[m_df["early_warning"] & (m_df["warning_strength"] >= min_strength)].copy()
+
+        if regime:
+            reg_clean = regime.strip().lower()
+            if reg_clean in ["non_roads", "non-roads", "nonroads"]:
+                w_df = w_df[~w_df["is_road"]]
+            elif reg_clean in ["roads", "road"]:
+                w_df = w_df[w_df["is_road"]]
 
         if sector:
             w_df = w_df[w_df["sector"].astype(str).str.lower() == sector.strip().lower()]
