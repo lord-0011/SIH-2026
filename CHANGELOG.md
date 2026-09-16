@@ -8,6 +8,33 @@ Format per entry:
 - docs updated: <list>
 - decisions / notes
 ```
+## 2026-09-16 — STEP_13 — Backend Serving API (FastAPI & Precomputed Parquet Repository)
+- what changed (code):
+  - `src/api/config.py`: Environment configuration for host, port, CORS origins, and paths to processed parquet tables (`panel.parquet`, `risk_scores.parquet`, `early_warning.parquet`, `features.parquet`).
+  - `src/api/models.py`: Complete Pydantic v2 schemas for all request/response models: `HealthResponse`, `PipelineLastRunResponse`, `NationalSummaryResponse`, `SectorSummaryResponse`, `MinistrySummaryResponse`, `PaginatedProjectsResponse`, `ProjectDetailResponse`, `WatchlistResponse`, and constituent sub-models (`BandDistribution`, `MonthlyTrendPoint`, `EarlyWarningEvidence`, `ProjectTrajectoryPoint`, `ProjectCurrentMetrics`).
+  - `src/api/repository.py`: High-performance in-memory `DataRepository` loading all 4 precomputed tables into a unified dataframe (18,860 rows, 2,243 canonical projects, 13 report months) on startup. Serves pure slice queries with zero model inference or feature recomputation, guaranteeing exact parity with pipeline parquet outputs. Provides fuzzy/substring matching fallback for sectors and ministries, and supports cross-filtering/sorting across the catalog.
+  - `src/api/routes/meta.py`: Endpoints for `GET /health` (liveness probe) and `GET /pipeline/last-run` (data freshness and ingestion counts).
+  - `src/api/routes/national.py`: Endpoint for `GET /national/summary` (Level-1 overview separating Non-Roads primary validation regime from Roads caveated transfer regime, combined KPIs, and 13-month historical trend).
+  - `src/api/routes/sectors.py`: Endpoint for `GET /sectors/{sector}/summary` (Level-2 sector KPIs, top risk projects, national benchmarks, transfer regime tag).
+  - `src/api/routes/ministries.py`: Endpoint for `GET /ministries/{ministry}/summary` (Level-2 ministry aggregates, cost/expenditure totals, constituent sector breakdown).
+  - `src/api/routes/projects.py`: Endpoints for `GET /projects` (filterable, paginated catalog supporting band, sector, ministry, state, data sufficiency, and early warning filters) and `GET /projects/{project_id}` (Level-3 dossier with static metadata, latest risk score & band, early warning causal trail, and 13-month historical trajectory).
+  - `src/api/routes/watchlist.py`: Endpoint for `GET /watchlist` (early warning deteriorating projects sorted by warning strength desc then risk score desc).
+  - `src/api/app.py`: FastAPI app initialization with lifespan startup loader, CORS middleware, and route mounting.
+  - `src/api/run.py`: Server runner via `uvicorn.run("src.api.app:app")`.
+  - `tests/test_api_fixture.py`: Non-skipping fixture test suite (8 tests) running on synthetic datasets covering all routes, regime separation, 404 handling, pagination, and zero recomputation.
+  - `tests/test_api.py`: Real-data integration test suite (7 tests) verifying exact parquet parity for known projects (`400145`, `400142`), steady-HIGH negative control assertions, watchlist ordering invariants, and regime separation.
+- what was verified (real output ref):
+  - 15/15 tests passing across `tests/test_api_fixture.py` and `tests/test_api.py`.
+  - Full project test suite: 139 passed, 0 failed in 22.22s.
+  - Parquet parity: Project 400145 verified identical to parquet (score: 43.6, band: HIGH, status: STABLE_OR_IMPROVING, warning: False); Project 400142 verified identical to raw parquet.
+  - Non-Roads vs Roads regime separation verified: Non-roads (787 projects, transfer_regime=False), Roads (1,013 projects, transfer_regime=True, note="Onboarded Dec 2025 with expired backlog dates; interpret with caution").
+  - Code hygiene: `ruff check` and `black --check` passed with 0 errors.
+- docs updated:
+  - `docs/02_ARCHITECTURE.md`, `docs/steps/STEP_13_api.md`, `PROGRESS.md`, `CHANGELOG.md`, `walkthrough.md`.
+- decisions / notes:
+  - Strict read-only serving layer: endpoints never re-evaluate LightGBM models, Platt calibrator, or windowed feature transformations.
+  - API acts as the decoupling seam between analytical data engineering and the upcoming frontend dashboard (STEP_14).
+
 ## 2026-09-16 — STEP_12 — Early Warning Trend Detection & Evidence Logging
 - what changed (code):
   - `src/early_warning/detector.py`: Pure functional early-warning engine detecting project deterioration across consecutive observed months (trend, not snapshot level). Evaluates 3 triggers over project's trailing observed rows: `score_rising_2m` ($S_0 > S_1 > S_2$), `gap_widening_2m` ($G_0 > G_1 > G_2$), and `velocity_divergence_2m` ($V_{\text{prog}} \le 0$ while $V_{\text{exp}} > 0$). Incorporates freshness span guard ($\text{span} \le 4$ calendar months), tolerating short gaps while rejecting wide gaps as `STALE_HISTORY`. Guards `PROVISIONAL` projects ($\le 2$ observed months) as `INSUFFICIENT_HISTORY`. Emits `early_warning` (bool), `warning_status`, `warning_strength` (0..3 conviction score), and complete causal evidence trails (deltas and velocities).
