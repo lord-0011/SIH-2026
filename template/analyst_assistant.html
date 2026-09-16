@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"risk-medium-text":"#C99A06","on-secondary-fixed-variant":"#683c00","on-tertiary-fixed":"#001a40","on-background":"#131b2c","on-tertiary-fixed-variant":"#164589","on-error-container":"#93000a","bg-subtle":"#EEF2F7","tertiary-fixed-dim":"#acc7ff","on-primary-container":"#a7c2ff","risk-critical-bg":"#FBE0DE","tertiary-fixed":"#d7e2ff","risk-low-bg":"#E7F5EC","inverse-surface":"#283042","tertiary-container":"#234f93","risk-high-text":"#E8730C","bg-page":"#F5F7FA","surface-variant":"#dae2fa","data-provisional":"#8A94A6","on-secondary-container":"#693d00","surface":"#f9f9ff","primary-container":"#0b4da2","on-secondary":"#ffffff","surface-container-low":"#f1f3ff","text-muted":"#8A94A6","primary":"#00377a","on-tertiary":"#ffffff","tertiary":"#003779","bg-surface":"#FFFFFF","primary-fixed-dim":"#adc6ff","on-secondary-fixed":"#2c1700","error-container":"#ffdad6","outline-variant":"#c3c6d4","secondary-fixed":"#ffdcbc","surface-bright":"#f9f9ff","border-hairline":"#DCE3EC","on-surface":"#131b2c","primary-fixed":"#d8e2ff","secondary":"#895100","inverse-on-surface":"#edf0ff","risk-high-bg":"#FCE9D6","surface-tint":"#255cb1","inverse-primary":"#adc6ff","background":"#f9f9ff","surface-container":"#e9edff","focus-ring":"#2E7CE4","on-error":"#ffffff","outline":"#737783","risk-critical-text":"#C6362F","on-primary-fixed":"#001a41","on-primary":"#ffffff","text-secondary":"#5A6472","on-primary-fixed-variant":"#004494","surface-container-lowest":"#ffffff","error":"#ba1a1a","secondary-fixed-dim":"#ffb86c","risk-low-text":"#2E9E5B","risk-medium-bg":"#FBF3D6","surface-container-high":"#e0e8ff","surface-dim":"#d2daf1","secondary-container":"#ffa026","on-tertiary-container":"#a7c3ff","on-surface-variant":"#424752","surface-container-highest":"#dae2fa"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"1.75rem","space-xs":"0.25rem","gutter-desktop":"1.25rem","margin-tablet":"1.5rem","space-md":"0.75rem","margin":"1rem","gutter":"1rem","margin-desktop":"2rem","space-lg":"1.25rem","space-sm":"0.5rem"},"fontFamily":{"headline-page-mobile":["Inter"],"headline-page":["Inter"],"caption":["Inter"],"headline-subsection":["Inter"],"table-numeric":["Inter"],"label-card-metric":["Inter"],"body-emphasis":["Inter"],"caption-bold":["Inter"],"display-kpi":["Inter"],"badge-label":["Inter"],"body-default":["Inter"],"headline-section":["Inter"]},"fontSize":{"headline-page-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-page":["28px",{"lineHeight":"34px","letterSpacing":"-0.015em","fontWeight":"600"}],"caption":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-subsection":["16px",{"lineHeight":"22px","fontWeight":"600"}],"table-numeric":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-card-metric":["13px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],"body-emphasis":["14px",{"lineHeight":"20px","fontWeight":"500"}],"caption-bold":["12px",{"lineHeight":"16px","fontWeight":"600"}],"display-kpi":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"badge-label":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-default":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-section":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-bg-page font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-bg-surface border-r border-border-hairline z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-14 px-4 flex items-center gap-3 border-b border-border-hairline bg-bg-surface"><div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[20px]">account_balance</span></div><div class="flex flex-col min-w-0 leading-tight"><span class="font-headline-subsection text-headline-subsection text-primary font-bold tracking-tight truncate">PAIMANA</span><span class="font-caption text-caption text-text-muted truncate text-[10px]">MoSPI IPMD Risk Cockpit</span></div></div><div class="px-3 py-2"><span class="font-badge-label text-badge-label uppercase text-text-muted px-2 py-1 block tracking-wider text-[10px]">Monitoring Modules</span></div><nav class="flex flex-col gap-1 px-2" data-active-classes="bg-primary-container text-on-primary font-body-emphasis"><a aria-current="page" class="flex items-center justify-between px-3 py-2 rounded transition-colors bg-primary-container text-on-primary font-body-emphasis" data-path="national-overview" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">query_stats</span><span class="font-body-emphasis text-body-emphasis truncate">National Overview</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="sectors-and-ministries" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">apartment</span><span class="font-body-emphasis text-body-emphasis truncate">Sectors &amp; Ministries</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="projects-master" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">view_kanban</span><span class="font-body-emphasis text-body-emphasis truncate">Projects Master</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="early-warning-watchlist" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0 text-risk-high-text">warning</span><span class="font-body-emphasis text-body-emphasis truncate">Early-Warning Watchlist</span></div><span class="bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label px-1.5 py-0.5 rounded text-[10px] tabular-nums font-bold">312</span></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="analyst-assistant" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">psychology</span><span class="font-body-emphasis text-body-emphasis truncate">Analyst Assistant</span></div><span class="bg-tertiary-fixed text-on-tertiary-fixed font-badge-label text-badge-label px-1 py-0.5 rounded text-[9px] uppercase font-bold tracking-tight">AI</span></a></nav></div><div class="flex flex-col border-t border-border-hairline bg-bg-surface"><div class="px-3 py-2 bg-bg-subtle/60 border-b border-border-hairline flex items-center justify-between text-[11px]"><span class="flex items-center gap-1.5 font-caption text-caption text-text-muted truncate"><span class="w-1.5 h-1.5 rounded-full bg-risk-low-text shrink-0"></span>Model v4.2.1 • Validated</span><span class="material-symbols-outlined text-text-muted text-[14px]">verified</span></div><div class="p-3 flex items-center gap-2.5"><div class="w-8 h-8 rounded bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0 leading-tight"><span class="font-body-emphasis text-body-emphasis text-on-surface truncate text-[13px]">V. Ramanathan</span><span class="font-caption text-caption text-text-muted truncate text-[11px]">Senior Analyst, IPMD</span></div></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-14 bg-bg-surface border-b border-border-hairline z-40 px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><span class="font-caption text-caption text-text-muted uppercase tracking-wider text-[11px]">MoSPI IPMD</span><span class="text-text-muted text-[11px]">/</span><span class="font-body-emphasis text-body-emphasis text-on-surface truncate text-[13px]">National Infrastructure Overview</span></div><div class="flex items-center gap-space-md"><div class="flex items-center bg-bg-subtle rounded border border-border-hairline p-0.5 text-text-secondary text-[11px] font-caption-bold"><button class="px-1.5 py-0.5 hover:text-on-surface hover:bg-bg-surface rounded transition-colors" title="Decrease text scale" type="button">A-</button><button class="px-1.5 py-0.5 bg-bg-surface text-on-surface rounded shadow-sm" title="Default text scale" type="button">A</button><button class="px-1.5 py-0.5 hover:text-on-surface hover:bg-bg-surface rounded transition-colors" title="Increase text scale" type="button">A+</button></div><button class="p-1 text-text-secondary hover:text-on-surface hover:bg-bg-subtle rounded transition-colors" title="Toggle high contrast" type="button"><span class="material-symbols-outlined text-[18px]">contrast</span></button><div class="h-4 w-[1px] bg-border-hairline"></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-bg-subtle border border-border-hairline"><span class="material-symbols-outlined text-text-muted text-[16px]">schedule</span><span class="font-caption text-caption text-text-secondary text-[11px]">Data: <span class="font-caption-bold text-caption-bold text-on-surface">July 2026</span> (Provisional)</span></div><button class="flex items-center gap-1.5 px-2.5 py-1 bg-bg-surface border border-primary text-primary rounded font-caption-bold text-caption-bold hover:bg-bg-subtle transition-colors text-[12px]" type="button"><span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>Export Briefing</button><a class="flex items-center text-text-secondary hover:text-primary transition-colors" href="#" title="Documentation"><span class="material-symbols-outlined text-[20px]">help_outline</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 w-full bg-bg-page min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Style Hooks & Tabular Formatting -->
+<style>
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .code-mask { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+<!-- Architectural Guardrail / Sovereign Telemetry Banner -->
+<section class="w-full bg-surface-container-high px-gutter-desktop py-3 flex flex-col gap-2">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<span class="font-caption-bold text-caption-bold text-primary uppercase tracking-wider">Deterministic Retrieval Architecture</span>
+<span class="bg-primary text-on-primary font-badge-label text-badge-label px-2 py-0.5 rounded uppercase tracking-widest font-bold">Strict Retrieval Mode</span>
+</div>
+<div class="flex items-center gap-3 font-caption text-caption text-text-secondary">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-risk-low-text inline-block"></span>
+<strong class="text-on-surface">OCMS Feed:</strong> Online (Synchronous)
+        </span>
+<span class="text-border-hairline">|</span>
+<span><strong>Validation:</strong> AUC-ROC 0.892 (116 Non-Roads held-out)</span>
+<span class="text-border-hairline">|</span>
+<span class="code-mask bg-bg-surface px-1.5 py-0.5 rounded text-text-secondary text-[11px]">GROUNDING: STRICT_RETRIEVAL_ONLY</span>
+</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant leading-relaxed">
+<strong>Zero-Hallucination Retrieval Framework:</strong> Analyst Assistant executes deterministically bounded tool calls strictly against validated IPMD OCMS endpoints (<code class="code-mask bg-bg-surface px-1 text-primary">/national/summary</code>, <code class="code-mask bg-bg-surface px-1 text-primary">/watchlist</code>, <code class="code-mask bg-bg-surface px-1 text-primary">/projects/{id}</code>, <code class="code-mask bg-bg-surface px-1 text-primary">/sectors/{s}/summary</code>). Free-parameter parametric factual generation is hard-disabled at the inference layer. Every score, milestone integer, and causal metric carries cryptographically verified API attribution.
+    </p>
+</section>
+<!-- Main Institutional Decision Workspace: 65% Workspace / 35% Telemetry & Audit -->
+<div class="w-full p-gutter-desktop grid grid-cols-1 xl:grid-cols-12 gap-gutter-desktop items-start">
+<!-- LEFT COLUMN: Main Dialogue & Retrieval Evidence Canvas (8 Cols ~66%) -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- Preset Prompt Dispatch Bar (Mandatory MoSPI Inquiry Profiles) -->
+<div class="bg-bg-surface p-space-md rounded-lg shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric text-text-secondary uppercase">Institutional Query Profiles (Retrieval Primitives)</span>
+<span class="font-caption text-caption text-text-muted">Direct Function Dispatch</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-bg-subtle hover:bg-surface-container-high transition-colors text-left text-on-surface group" onclick="setQuery('Which railway projects have the highest delay risk in the current surveillance cycle?')" type="button">
+<span class="material-symbols-outlined text-primary text-[15px] group-hover:scale-110 transition-transform">low_priority</span>
+<span class="font-caption-bold text-caption-bold text-primary">Ranking:</span>
+<span class="font-caption text-caption truncate max-w-xs">Railways top delay risk</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-bg-subtle hover:bg-surface-container-high transition-colors text-left text-on-surface group" onclick="setQuery('Why is Dimapur-Kohima Rail Link flagged with Level 3 conviction?')" type="button">
+<span class="material-symbols-outlined text-risk-high-text text-[15px] group-hover:scale-110 transition-transform">manage_search</span>
+<span class="font-caption-bold text-caption-bold text-risk-high-text">Explanation:</span>
+<span class="font-caption text-caption truncate max-w-xs">Dimapur-Kohima Causal Drivers</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-bg-subtle hover:bg-surface-container-high transition-colors text-left text-on-surface group" onclick="setQuery('What is current risk score of Gorakhpur Nuclear Plant (PRJ-AEC-2015-0012)?')" type="button">
+<span class="material-symbols-outlined text-text-secondary text-[15px] group-hover:scale-110 transition-transform">pin</span>
+<span class="font-caption-bold text-caption-bold text-text-secondary">Factual:</span>
+<span class="font-caption text-caption truncate max-w-xs">Gorakhpur Atomic Telemetry</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-bg-subtle hover:bg-surface-container-high transition-colors text-left text-on-surface group" onclick="setQuery('How does Railways sector risk compare to National Baseline?')" type="button">
+<span class="material-symbols-outlined text-primary text-[15px] group-hover:scale-110 transition-transform">balance</span>
+<span class="font-caption-bold text-caption-bold text-primary">Comparative:</span>
+<span class="font-caption text-caption truncate max-w-xs">Railways vs National Aggregates</span>
+</button>
+</div>
+</div>
+<!-- Dialogue History Thread -->
+<div class="flex flex-col gap-space-lg">
+<!-- TURN 1: User Query -->
+<div class="flex items-start gap-3 pl-8">
+<div class="flex-1 bg-bg-surface p-space-md rounded-lg shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between text-text-muted">
+<span class="font-caption-bold text-caption-bold text-primary">V. Ramanathan (Senior Analyst, IPMD)</span>
+<span class="font-caption text-caption">10:41 AM • Session ID: #IPMD-2026-07-TRC4</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+              Which railway projects have the highest delay risk in the current surveillance cycle?
+            </p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary">
+<span class="material-symbols-outlined text-[16px]">person</span>
+</div>
+</div>
+<!-- TURN 1: Grounded System Response -->
+<div class="flex items-start gap-3 pr-4">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0 text-on-primary">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-md bg-bg-surface p-space-lg rounded-lg shadow-sm">
+<!-- Tool Execution Ribbon -->
+<div class="flex flex-wrap items-center justify-between gap-2 p-2 rounded bg-surface-container font-caption text-caption">
+<div class="flex items-center gap-2 code-mask text-primary font-caption-bold">
+<span class="material-symbols-outlined text-[16px] text-risk-low-text">check_circle</span>
+<span>EXECUTED: GET /projects?sector=Railways&amp;sort=risk_score&amp;order=desc&amp;limit=3</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-risk-low-bg text-risk-low-text font-badge-label text-badge-label px-1.5 py-0.5 rounded font-bold">HTTP 200 • 14ms</span>
+<button class="text-primary hover:underline flex items-center gap-0.5 text-[11px]" onclick="document.getElementById('raw-trace-modal').classList.toggle('hidden')" type="button">
+<span class="material-symbols-outlined text-[13px]">data_object</span>Payload
+                </button>
+</div>
+</div>
+<!-- Descriptive Prelude -->
+<p class="font-body-default text-body-default text-on-surface">
+              Queried live IPMD OCMS project database. Filtered by sector <code>Railways</code> sorted by non-road empirical risk gradient. Three capital assets meet priority triage thresholds (Risk Score ≥ 85):
+            </p>
+<!-- Structured Grounded Table -->
+<div class="overflow-x-auto rounded bg-bg-surface shadow-sm">
+<table class="w-full text-left font-body-default text-body-default">
+<thead class="bg-bg-subtle text-text-secondary uppercase font-caption-bold text-caption">
+<tr>
+<th class="py-2.5 px-3">Project Asset / ID</th>
+<th class="py-2.5 px-3 text-right">Outlay (₹ Cr)</th>
+<th class="py-2.5 px-3 text-center">Score / Band</th>
+<th class="py-2.5 px-3 text-center">Conviction</th>
+<th class="py-2.5 px-3">Primary Grounded Driver</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-hairline text-on-surface text-[13px]">
+<!-- Row 1 -->
+<tr class="hover:bg-bg-subtle transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-primary">Dimapur-Kohima New Broad Gauge Link</span>
+<span class="font-caption text-caption text-text-muted code-mask">PRJ-RLY-2016-0089 (NEFR)</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right font-table-numeric text-table-numeric tabular-nums">
+                      ₹6,648 Cr
+                    </td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label px-2 py-0.5 rounded font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>89 · CRITICAL
+                      </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption-bold text-caption text-[11px]">
+<span class="material-symbols-outlined text-[13px] text-risk-critical-text">local_fire_department</span>
+                        3 / 3
+                      </span>
+</td>
+<td class="py-2.5 px-3 text-text-secondary">
+                      Contractor claim arbitration &amp; rock slope stabilization (km 48).
+                    </td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-bg-subtle transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-primary">Taranga Hill-Ambaji-Abu Road Broad Gauge</span>
+<span class="font-caption text-caption text-text-muted code-mask">PRJ-RLY-2022-0144 (WR)</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right font-table-numeric text-table-numeric tabular-nums">
+                      ₹2,798 Cr
+                    </td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label px-2 py-0.5 rounded font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>91 · CRITICAL
+                      </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption-bold text-caption text-[11px]">
+<span class="material-symbols-outlined text-[13px] text-risk-high-text">warning</span>
+                        2 / 3
+                      </span>
+</td>
+<td class="py-2.5 px-3 text-text-secondary">
+                      MoEFCC Stage-II corridor clearance &amp; RoW civil injunctions in 3 tehsils.
+                    </td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-bg-subtle transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-primary">Mumbai-Ahmedabad High Speed Rail (MAHSR)</span>
+<span class="font-caption text-caption text-text-muted code-mask">PRJ-NR-2016-0041 (NHSRCL)</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right font-table-numeric text-table-numeric tabular-nums">
+                      ₹1,08,000 Cr
+                    </td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label px-2 py-0.5 rounded font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>88 · CRITICAL
+                      </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption-bold text-caption text-[11px]">
+<span class="material-symbols-outlined text-[13px] text-risk-high-text">warning</span>
+                        2 / 3
+                      </span>
+</td>
+<td class="py-2.5 px-3 text-text-secondary">
+                      Sub-sea tunnel package alignment re-tendering &amp; Palghar RoW handover.
+                    </td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Provenance Footer Pill & Regulatory Scope Caveat -->
+<div class="flex flex-col gap-1.5 pt-1">
+<div class="flex items-center justify-between text-text-muted font-caption text-caption">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">link</span>
+                  Source: <span class="code-mask text-on-surface">/projects?sector=Railways&amp;sort=risk_score</span> (Records: 38 examined)
+                </span>
+<span class="font-caption text-caption text-text-secondary">Cryptographic Digest: <code class="code-mask text-[10px]">sha256:7f4c9...</code></span>
+</div>
+<div class="p-2 rounded bg-surface-container-low text-text-secondary font-caption text-caption flex items-start gap-1.5">
+<span class="material-symbols-outlined text-primary text-[16px] shrink-0">info</span>
+<span><strong>Regime Caveat:</strong> Highway/Road packages operate under MoRTH transferred metrics. All railway and non-road assets displayed above are calculated under the Empirical Hazard Validation engine.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- TURN 2: User In-Depth Probing Query -->
+<div class="flex items-start gap-3 pl-8">
+<div class="flex-1 bg-bg-surface p-space-md rounded-lg shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between text-text-muted">
+<span class="font-caption-bold text-caption-bold text-primary">V. Ramanathan (Senior Analyst, IPMD)</span>
+<span class="font-caption text-caption">10:44 AM • Session ID: #IPMD-2026-07-TRC4</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+              Why is Dimapur-Kohima Rail Link flagged with Level 3 conviction? Will this project definitely fail before its target commissioning?
+            </p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary">
+<span class="material-symbols-outlined text-[16px]">person</span>
+</div>
+</div>
+<!-- TURN 2: Deep Grounded System Response & Epistemic Honesty -->
+<div class="flex items-start gap-3 pr-4">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0 text-on-primary">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-md bg-bg-surface p-space-lg rounded-lg shadow-sm">
+<!-- Tool Invocation Tag -->
+<div class="flex flex-wrap items-center justify-between gap-2 p-2 rounded bg-surface-container font-caption text-caption">
+<div class="flex items-center gap-2 code-mask text-primary font-caption-bold">
+<span class="material-symbols-outlined text-[16px] text-risk-low-text">check_circle</span>
+<span>EXECUTED: GET /projects/PRJ-RLY-2016-0089</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-risk-low-bg text-risk-low-text font-badge-label text-badge-label px-1.5 py-0.5 rounded font-bold">HTTP 200 • 19ms [Cached: 2026-07-12]</span>
+</div>
+</div>
+<!-- Causal Factor Breakdown Header -->
+<div class="flex items-center justify-between">
+<h3 class="font-headline-subsection text-headline-subsection text-on-surface">
+                Causal Trigger Attribution: Dimapur-Kohima (PRJ-RLY-2016-0089)
+              </h3>
+<span class="font-caption text-caption text-text-muted">3 of 3 Multi-Period Triggers Active</span>
+</div>
+<!-- Causal Factor Grid (3 Critical Triggers) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<!-- Trigger 1 -->
+<div class="p-3 bg-surface-container-low rounded flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-caption-bold text-caption-bold text-risk-critical-text uppercase">Trigger 1 / 3</span>
+<span class="material-symbols-outlined text-[16px] text-risk-critical-text">trending_up</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface">Score Velocity Surge</span>
+<p class="font-caption text-caption text-text-secondary">
+<strong>+14 pts</strong> over rolling 60-day window (75 → 89). Non-linear transition into the CRITICAL risk threshold.
+                </p>
+<div class="mt-auto pt-1 font-caption text-caption text-text-muted code-mask text-[11px]">
+                  trigger: <span class="text-risk-critical-text">score_rising_2m</span>
+</div>
+</div>
+<!-- Trigger 2 -->
+<div class="p-3 bg-surface-container-low rounded flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-caption-bold text-caption-bold text-risk-critical-text uppercase">Trigger 2 / 3</span>
+<span class="material-symbols-outlined text-[16px] text-risk-critical-text">call_split</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface">Capital Outlay Divergence</span>
+<p class="font-caption text-caption text-text-secondary">
+                  Expenditure divergence widened to <strong>+51.3%</strong>. Sanctioned funds ₹6,280 Cr expended (94.3%) while physical progress rests at <strong>43.0%</strong>.
+                </p>
+<div class="mt-auto pt-1 font-caption text-caption text-text-muted code-mask text-[11px]">
+                  trigger: <span class="text-risk-critical-text">gap_widening_2m</span>
+</div>
+</div>
+<!-- Trigger 3 -->
+<div class="p-3 bg-surface-container-low rounded flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-caption-bold text-caption-bold text-risk-critical-text uppercase">Trigger 3 / 3</span>
+<span class="material-symbols-outlined text-[16px] text-risk-critical-text">hourglass_disabled</span>
+</div>
+<span class="font-body-emphasis text-body-emphasis text-on-surface">Physical Stagnation</span>
+<p class="font-caption text-caption text-text-secondary">
+                  Rolling 90-day velocity recorded at <strong>0.18%/month</strong> (Threshold &lt;0.5%). Stalled at km 48 rock slope and package 5 contract dispute.
+                </p>
+<div class="mt-auto pt-1 font-caption text-caption text-text-muted code-mask text-[11px]">
+                  trigger: <span class="text-risk-critical-text">velocity_stalled</span>
+</div>
+</div>
+</div>
+<!-- Core Mathematical Honesty & Epistemic Uncertainty Box -->
+<div class="p-space-md rounded-lg bg-surface-container-high flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">shield</span>
+<span class="font-caption-bold text-caption-bold text-secondary uppercase tracking-wider">Epistemic Uncertainty &amp; Refusal Bound</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface leading-relaxed">
+<strong>Refusal / Uncertainty Bound:</strong> The platform explicitly declines to state that this project will "definitely fail." Deterministic outcomes are methodologically unsupported. Under empirical survival curves calibrated on 1,842 historic MoSPI railway assets:
+              </p>
+<ul class="list-disc pl-5 font-body-default text-body-default text-on-surface-variant space-y-1">
+<li>Assets possessing a <strong>Level 3 Conviction</strong> flag exhibit an empirical <strong>54.8% probability</strong> of formal milestone target revision within 6 months.</li>
+<li>They exhibit a <strong>31.2% probability</strong> of resolving disputes via inter-ministerial mediation without contract cancellation.</li>
+<li>This signal is an <strong>operational triage trigger</strong> for IPMD inter-ministerial liaison, NOT an inevitable terminal failure decree.</li>
+</ul>
+</div>
+<!-- Provenance & Trace Metadata Footer -->
+<div class="flex items-center justify-between text-text-muted font-caption text-caption pt-1">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">history_edu</span>
+                Validated via OCMS Record: <code class="code-mask text-on-surface">PRJ-RLY-2016-0089</code>
+</span>
+<span class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-low-text"></span>
+<span>Cryptographic Digest verified by IPMD Audit Core</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Institutional Prompt Dispatch & Input Bar -->
+<div class="bg-bg-surface p-space-md rounded-lg shadow-sm flex flex-col gap-3 sticky bottom-4 z-20">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-risk-low-text animate-pulse"></span>
+<span class="font-caption-bold text-caption-bold text-on-surface">Retrieval Pipeline Ready</span>
+<span class="font-caption text-caption text-text-muted">(Grounded in OCMS 4 Endpoints)</span>
+</div>
+<div class="flex items-center gap-2 font-caption text-caption text-text-secondary">
+<span class="material-symbols-outlined text-[15px] text-primary">lock</span>
+<span>Hallucination Guardrail: <strong>ENFORCED</strong></span>
+</div>
+</div>
+<form class="flex items-center gap-2" id="assistant-form" onsubmit="event.preventDefault(); simulateQuery();">
+<div class="relative flex-1">
+<input class="w-full h-11 pl-10 pr-28 rounded bg-bg-subtle text-on-surface font-body-default text-body-default placeholder:text-text-muted focus:outline-none focus:bg-bg-surface transition-all" id="query-input" placeholder="Query IPMD infrastructure database via retrieval functions (/projects, /watchlist, /sectors)..." type="text" value=""/>
+<span class="material-symbols-outlined text-text-muted absolute left-3 top-3 text-[18px]">terminal</span>
+<span class="absolute right-2 top-2 px-2 py-1 rounded bg-bg-surface text-text-muted font-caption text-caption text-[11px] code-mask">
+              Ctrl + K
+            </span>
+</div>
+<button class="h-11 px-5 bg-primary-container hover:bg-primary text-on-primary rounded font-body-emphasis text-body-emphasis flex items-center gap-2 shadow-sm transition-colors shrink-0" type="submit">
+<span>Execute</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<div class="flex items-center justify-between text-text-muted font-caption text-caption px-1">
+<span>Supported primitives: ranking queries, project causal breakdown, cross-sector benchmarking, anomaly flags.</span>
+<span class="code-mask">REST Protocol v2.4</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Retrieval Telemetry, Endpoints & Audit Guarantee (4 Cols ~34%) -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- Panel 1: Deterministic Endpoints Telemetry -->
+<div class="bg-bg-surface p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">api</span>
+<h3 class="font-headline-subsection text-headline-subsection text-on-surface">Registered API Endpoints</h3>
+</div>
+<span class="bg-risk-low-bg text-risk-low-text font-badge-label text-badge-label px-1.5 py-0.5 rounded font-bold">4 CONNECTED</span>
+</div>
+<p class="font-caption text-caption text-text-secondary">
+          Assistant is bounded to make tool-calls strictly to these pre-authorized OpenAPI 3.1 endpoints.
+        </p>
+<div class="flex flex-col gap-2">
+<!-- Endpoint 1 -->
+<div class="p-2.5 rounded bg-bg-subtle hover:bg-surface-container transition-colors flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="code-mask font-caption-bold text-caption-bold text-primary">GET /national/summary</span>
+<span class="font-caption text-caption text-risk-low-text tabular-nums font-bold">24ms</span>
+</div>
+<span class="font-caption text-caption text-text-secondary">Portfolio totals, risk distribution, 12-month slippage trends</span>
+</div>
+<!-- Endpoint 2 -->
+<div class="p-2.5 rounded bg-bg-subtle hover:bg-surface-container transition-colors flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="code-mask font-caption-bold text-caption-bold text-primary">GET /watchlist?regime={r}</span>
+<span class="font-caption text-caption text-risk-low-text tabular-nums font-bold">31ms</span>
+</div>
+<span class="font-caption text-caption text-text-secondary">High conviction multi-period warning cohort</span>
+</div>
+<!-- Endpoint 3 -->
+<div class="p-2.5 rounded bg-bg-subtle hover:bg-surface-container transition-colors flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="code-mask font-caption-bold text-caption-bold text-primary">GET /projects/{id}</span>
+<span class="font-caption text-caption text-risk-low-text tabular-nums font-bold">19ms</span>
+</div>
+<span class="font-caption text-caption text-text-secondary">Deep telemetry, TreeSHAP drivers, financial vs physical gap</span>
+</div>
+<!-- Endpoint 4 -->
+<div class="p-2.5 rounded bg-bg-subtle hover:bg-surface-container transition-colors flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="code-mask font-caption-bold text-caption-bold text-primary">GET /sectors/{s}/summary</span>
+<span class="font-caption text-caption text-risk-low-text tabular-nums font-bold">22ms</span>
+</div>
+<span class="font-caption text-caption text-text-secondary">Sector comparative averages, delay ratios, capital at risk</span>
+</div>
+</div>
+</div>
+<!-- Panel 2: Live Query Execution Trace (Last Dispatched Payload) -->
+<div class="bg-bg-surface p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[18px]">terminal</span>
+<h3 class="font-headline-subsection text-headline-subsection text-on-surface">Execution Trace (Live JSON)</h3>
+</div>
+<span class="font-caption text-caption text-text-muted code-mask">ID: PRJ-RLY-2016-0089</span>
+</div>
+<div class="bg-inverse-surface text-inverse-on-surface p-3 rounded text-[12px] code-mask overflow-x-auto leading-relaxed">
+<div class="text-text-muted">// Parsed JSON payload returned to retrieval LLM</div>
+<div class="text-inverse-primary">{</div>
+<div class="pl-3">
+<span class="text-tertiary-fixed">"project_id"</span>: <span class="text-secondary-fixed">"PRJ-RLY-2016-0089"</span>,<br/>
+<span class="text-tertiary-fixed">"sector"</span>: <span class="text-secondary-fixed">"Railways"</span>,<br/>
+<span class="text-tertiary-fixed">"sanctioned_cr"</span>: <span class="text-primary-fixed">6648.00</span>,<br/>
+<span class="text-tertiary-fixed">"expenditure_cr"</span>: <span class="text-primary-fixed">6280.12</span>,<br/>
+<span class="text-tertiary-fixed">"physical_progress_pct"</span>: <span class="text-primary-fixed">43.0</span>,<br/>
+<span class="text-tertiary-fixed">"financial_expenditure_pct"</span>: <span class="text-primary-fixed">94.3</span>,<br/>
+<span class="text-tertiary-fixed">"risk_score"</span>: <span class="text-risk-critical-text font-bold">89</span>,<br/>
+<span class="text-tertiary-fixed">"risk_band"</span>: <span class="text-risk-critical-text font-bold">"CRITICAL"</span>,<br/>
+<span class="text-tertiary-fixed">"warning_conviction"</span>: <span class="text-primary-fixed">3</span>,<br/>
+<span class="text-tertiary-fixed">"triggers_fired"</span>: [<br/>
+<span class="pl-3 text-secondary-fixed">"score_rising_2m"</span>,<br/>
+<span class="pl-3 text-secondary-fixed">"gap_widening_2m"</span>,<br/>
+<span class="pl-3 text-secondary-fixed">"velocity_stalled"</span><br/>
+            ],<br/>
+<span class="text-tertiary-fixed">"verification_hash"</span>: <span class="text-secondary-fixed">"0x9c42ae77e92"</span><br/>
+</div>
+<div class="text-inverse-primary">}</div>
+</div>
+<div class="flex items-center justify-between text-text-muted font-caption text-caption">
+<span>Payload Size: 1.42 KB</span>
+<span>Schema: <strong class="text-on-surface">ProjectTelemetryV2</strong></span>
+</div>
+</div>
+<!-- Panel 3: Sovereign Audit & Compliance Guarantees -->
+<div class="bg-bg-surface p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-risk-low-text text-[18px]">verified</span>
+<h3 class="font-headline-subsection text-headline-subsection text-on-surface">Audit Guarantees</h3>
+</div>
+<div class="flex flex-col gap-2.5">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-risk-low-text text-[18px] shrink-0 mt-0.5">check_box</span>
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-on-surface text-[13px]">Parameter Injection Shielding</span>
+<span class="font-caption text-caption text-text-secondary">Sanitizes natural language queries against SQL/RAG vector contamination.</span>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-risk-low-text text-[18px] shrink-0 mt-0.5">check_box</span>
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-on-surface text-[13px]">Strict Schema Validation (Pydantic v2)</span>
+<span class="font-caption text-caption text-text-secondary">Type-checked at ingress; non-compliant tool payloads are dropped.</span>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-risk-low-text text-[18px] shrink-0 mt-0.5">check_box</span>
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-on-surface text-[13px]">Mandatory Cryptographic Attribution</span>
+<span class="font-caption text-caption text-text-secondary">All output claims cite verified OCMS database row primary keys.</span>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-risk-low-text text-[18px] shrink-0 mt-0.5">check_box</span>
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-on-surface text-[13px]">Regime Partition Compliance</span>
+<span class="font-caption text-caption text-text-secondary">Roads under MoRTH transferred metrics segregated from Non-Roads empirical modeling.</span>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-risk-low-text text-[18px] shrink-0 mt-0.5">check_box</span>
+<div class="flex flex-col">
+<span class="font-body-emphasis text-body-emphasis text-on-surface text-[13px]">Epistemic Honesty Constraint</span>
+<span class="font-caption text-caption text-text-secondary">Hard refusal to fabricate causality beyond calculated TreeSHAP feature bounds.</span>
+</div>
+</div>
+</div>
+<div class="pt-2">
+<button class="w-full py-2 px-3 bg-bg-subtle hover:bg-surface-container text-on-surface rounded font-body-emphasis text-body-emphasis text-[13px] flex items-center justify-center gap-2 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-text-secondary">download_for_offline</span>
+<span>Download Cryptographic Audit Trail (CSV/JSON)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Raw Trace Modal Popover (Hidden by default, activated via button) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden flex items-center justify-center p-4" id="raw-trace-modal">
+<div class="bg-bg-surface w-full max-w-2xl rounded-lg shadow-xl p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">data_object</span>
+<h3 class="font-headline-subsection text-headline-subsection text-on-surface">API Response Payload Trace</h3>
+</div>
+<button class="text-text-muted hover:text-on-surface" onclick="document.getElementById('raw-trace-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-3 bg-bg-subtle rounded code-mask text-[12px] text-on-surface max-h-80 overflow-y-auto leading-relaxed">
+<pre>{
+  "query_endpoint": "/projects",
+  "query_params": {
+    "sector": "Railways",
+    "sort": "risk_score",
+    "order": "desc",
+    "limit": 3
+  },
+  "execution_time_ms": 14.28,
+  "cache_hit": true,
+  "timestamp": "2026-07-14T10:41:02.119Z",
+  "results_count": 3,
+  "records": [
+    {
+      "project_id": "PRJ-RLY-2016-0089",
+      "name": "Dimapur-Kohima New Broad Gauge Link",
+      "outlay_cr": 6648.0,
+      "expenditure_cr": 6280.12,
+      "risk_score": 89,
+      "risk_band": "CRITICAL",
+      "warning_conviction": 3
+    },
+    {
+      "project_id": "PRJ-RLY-2022-0144",
+      "name": "Taranga Hill-Ambaji-Abu Road Line",
+      "outlay_cr": 2798.0,
+      "expenditure_cr": 1410.5,
+      "risk_score": 91,
+      "risk_band": "CRITICAL",
+      "warning_conviction": 2
+    },
+    {
+      "project_id": "PRJ-NR-2016-0041",
+      "name": "Mumbai-Ahmedabad High Speed Rail",
+      "outlay_cr": 108000.0,
+      "expenditure_cr": 54200.0,
+      "risk_score": 88,
+      "risk_band": "CRITICAL",
+      "warning_conviction": 2
+    }
+  ]
+}</pre>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-caption text-caption text-text-muted">Signature: ED25519-SHA512 VALID</span>
+<button class="px-4 py-1.5 bg-primary-container text-on-primary rounded font-body-emphasis text-body-emphasis text-[13px]" onclick="document.getElementById('raw-trace-modal').classList.add('hidden')" type="button">
+          Close Inspector
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Inline Script -->
+<script>
+    function setQuery(text) {
+      const input = document.getElementById('query-input');
+      if (input) {
+        input.value = text;
+        input.focus();
+      }
+    }
+
+    function simulateQuery() {
+      const input = document.getElementById('query-input');
+      if (input && input.value.trim() !== '') {
+        // Soft feedback indication of execution
+        const val = input.value;
+        input.value = 'Executing deterministic tool call against IPMD endpoints...';
+        input.disabled = true;
+        setTimeout(() => {
+          input.value = '';
+          input.disabled = false;
+          input.placeholder = 'Grounded answer rendered into audit buffer. Enter next query...';
+        }, 600);
+      }
+    }
+  </script>
+</div></main></div></body></html>

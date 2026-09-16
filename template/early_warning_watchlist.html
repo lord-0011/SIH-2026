@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"risk-medium-text":"#C99A06","on-secondary-fixed-variant":"#683c00","on-tertiary-fixed":"#001a40","on-background":"#131b2c","on-tertiary-fixed-variant":"#164589","on-error-container":"#93000a","bg-subtle":"#EEF2F7","tertiary-fixed-dim":"#acc7ff","on-primary-container":"#a7c2ff","risk-critical-bg":"#FBE0DE","tertiary-fixed":"#d7e2ff","risk-low-bg":"#E7F5EC","inverse-surface":"#283042","tertiary-container":"#234f93","risk-high-text":"#E8730C","bg-page":"#F5F7FA","surface-variant":"#dae2fa","data-provisional":"#8A94A6","on-secondary-container":"#693d00","surface":"#f9f9ff","primary-container":"#0b4da2","on-secondary":"#ffffff","surface-container-low":"#f1f3ff","text-muted":"#8A94A6","primary":"#00377a","on-tertiary":"#ffffff","tertiary":"#003779","bg-surface":"#FFFFFF","primary-fixed-dim":"#adc6ff","on-secondary-fixed":"#2c1700","error-container":"#ffdad6","outline-variant":"#c3c6d4","secondary-fixed":"#ffdcbc","surface-bright":"#f9f9ff","border-hairline":"#DCE3EC","on-surface":"#131b2c","primary-fixed":"#d8e2ff","secondary":"#895100","inverse-on-surface":"#edf0ff","risk-high-bg":"#FCE9D6","surface-tint":"#255cb1","inverse-primary":"#adc6ff","background":"#f9f9ff","surface-container":"#e9edff","focus-ring":"#2E7CE4","on-error":"#ffffff","outline":"#737783","risk-critical-text":"#C6362F","on-primary-fixed":"#001a41","on-primary":"#ffffff","text-secondary":"#5A6472","on-primary-fixed-variant":"#004494","surface-container-lowest":"#ffffff","error":"#ba1a1a","secondary-fixed-dim":"#ffb86c","risk-low-text":"#2E9E5B","risk-medium-bg":"#FBF3D6","surface-container-high":"#e0e8ff","surface-dim":"#d2daf1","secondary-container":"#ffa026","on-tertiary-container":"#a7c3ff","on-surface-variant":"#424752","surface-container-highest":"#dae2fa"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"1.75rem","space-xs":"0.25rem","gutter-desktop":"1.25rem","margin-tablet":"1.5rem","space-md":"0.75rem","margin":"1rem","gutter":"1rem","margin-desktop":"2rem","space-lg":"1.25rem","space-sm":"0.5rem"},"fontFamily":{"headline-page-mobile":["Inter"],"headline-page":["Inter"],"caption":["Inter"],"headline-subsection":["Inter"],"table-numeric":["Inter"],"label-card-metric":["Inter"],"body-emphasis":["Inter"],"caption-bold":["Inter"],"display-kpi":["Inter"],"badge-label":["Inter"],"body-default":["Inter"],"headline-section":["Inter"]},"fontSize":{"headline-page-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-page":["28px",{"lineHeight":"34px","letterSpacing":"-0.015em","fontWeight":"600"}],"caption":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-subsection":["16px",{"lineHeight":"22px","fontWeight":"600"}],"table-numeric":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-card-metric":["13px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],"body-emphasis":["14px",{"lineHeight":"20px","fontWeight":"500"}],"caption-bold":["12px",{"lineHeight":"16px","fontWeight":"600"}],"display-kpi":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"badge-label":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-default":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-section":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-bg-page font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-bg-surface border-r border-border-hairline z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-14 px-4 flex items-center gap-3 border-b border-border-hairline bg-bg-surface"><div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[20px]">account_balance</span></div><div class="flex flex-col min-w-0 leading-tight"><span class="font-headline-subsection text-headline-subsection text-primary font-bold tracking-tight truncate">PAIMANA</span><span class="font-caption text-caption text-text-muted truncate text-[10px]">MoSPI IPMD Risk Cockpit</span></div></div><div class="px-3 py-2"><span class="font-badge-label text-badge-label uppercase text-text-muted px-2 py-1 block tracking-wider text-[10px]">Monitoring Modules</span></div><nav class="flex flex-col gap-1 px-2" data-active-classes="bg-primary-container text-on-primary font-body-emphasis"><a aria-current="page" class="flex items-center justify-between px-3 py-2 rounded transition-colors bg-primary-container text-on-primary font-body-emphasis" data-path="national-overview" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">query_stats</span><span class="font-body-emphasis text-body-emphasis truncate">National Overview</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="sectors-and-ministries" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">apartment</span><span class="font-body-emphasis text-body-emphasis truncate">Sectors &amp; Ministries</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="projects-master" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">view_kanban</span><span class="font-body-emphasis text-body-emphasis truncate">Projects Master</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="early-warning-watchlist" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0 text-risk-high-text">warning</span><span class="font-body-emphasis text-body-emphasis truncate">Early-Warning Watchlist</span></div><span class="bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label px-1.5 py-0.5 rounded text-[10px] tabular-nums font-bold">312</span></a><a class="flex items-center justify-between px-3 py-2 rounded text-text-secondary hover:bg-bg-subtle hover:text-on-surface transition-colors" data-path="analyst-assistant" href="#"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-[18px] shrink-0">psychology</span><span class="font-body-emphasis text-body-emphasis truncate">Analyst Assistant</span></div><span class="bg-tertiary-fixed text-on-tertiary-fixed font-badge-label text-badge-label px-1 py-0.5 rounded text-[9px] uppercase font-bold tracking-tight">AI</span></a></nav></div><div class="flex flex-col border-t border-border-hairline bg-bg-surface"><div class="px-3 py-2 bg-bg-subtle/60 border-b border-border-hairline flex items-center justify-between text-[11px]"><span class="flex items-center gap-1.5 font-caption text-caption text-text-muted truncate"><span class="w-1.5 h-1.5 rounded-full bg-risk-low-text shrink-0"></span>Model v4.2.1 • Validated</span><span class="material-symbols-outlined text-text-muted text-[14px]">verified</span></div><div class="p-3 flex items-center gap-2.5"><div class="w-8 h-8 rounded bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0 leading-tight"><span class="font-body-emphasis text-body-emphasis text-on-surface truncate text-[13px]">V. Ramanathan</span><span class="font-caption text-caption text-text-muted truncate text-[11px]">Senior Analyst, IPMD</span></div></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-14 bg-bg-surface border-b border-border-hairline z-40 px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><span class="font-caption text-caption text-text-muted uppercase tracking-wider text-[11px]">MoSPI IPMD</span><span class="text-text-muted text-[11px]">/</span><span class="font-body-emphasis text-body-emphasis text-on-surface truncate text-[13px]">National Infrastructure Overview</span></div><div class="flex items-center gap-space-md"><div class="flex items-center bg-bg-subtle rounded border border-border-hairline p-0.5 text-text-secondary text-[11px] font-caption-bold"><button class="px-1.5 py-0.5 hover:text-on-surface hover:bg-bg-surface rounded transition-colors" title="Decrease text scale" type="button">A-</button><button class="px-1.5 py-0.5 bg-bg-surface text-on-surface rounded shadow-sm" title="Default text scale" type="button">A</button><button class="px-1.5 py-0.5 hover:text-on-surface hover:bg-bg-surface rounded transition-colors" title="Increase text scale" type="button">A+</button></div><button class="p-1 text-text-secondary hover:text-on-surface hover:bg-bg-subtle rounded transition-colors" title="Toggle high contrast" type="button"><span class="material-symbols-outlined text-[18px]">contrast</span></button><div class="h-4 w-[1px] bg-border-hairline"></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-bg-subtle border border-border-hairline"><span class="material-symbols-outlined text-text-muted text-[16px]">schedule</span><span class="font-caption text-caption text-text-secondary text-[11px]">Data: <span class="font-caption-bold text-caption-bold text-on-surface">July 2026</span> (Provisional)</span></div><button class="flex items-center gap-1.5 px-2.5 py-1 bg-bg-surface border border-primary text-primary rounded font-caption-bold text-caption-bold hover:bg-bg-subtle transition-colors text-[12px]" type="button"><span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>Export Briefing</button><a class="flex items-center text-text-secondary hover:text-primary transition-colors" href="#" title="Documentation"><span class="material-symbols-outlined text-[20px]">help_outline</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 w-full bg-bg-page min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Script & Top Subsystem Setup -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sync App Shell Sidebar active tab
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'early-warning-watchlist') {
+          link.className = 'flex items-center justify-between px-3 py-2 rounded bg-primary-container text-on-primary font-body-emphasis transition-colors';
+          const icon = link.querySelector('span.material-symbols-outlined');
+          if (icon) icon.className = 'material-symbols-outlined text-[18px] shrink-0 text-white';
+        }
+      });
+    });
+  </script>
+<!-- Content Container with Disciplined Spacing & Max Contrast -->
+<div class="p-gutter-desktop space-y-space-md">
+<!-- BREADCRUMB & REAL-TIME OPERATIONAL HEADER -->
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-sm bg-bg-surface p-space-md rounded shadow-sm border border-border-hairline">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-badge-label uppercase tracking-widest bg-risk-critical-bg text-risk-critical-text font-bold">
+            Live Escalation Queue
+          </span>
+<span class="text-text-muted text-[11px]">•</span>
+<span class="font-caption text-caption text-text-secondary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-risk-critical-text animate-pulse"></span>
+            Surveillance Interval: 60-Day Rolling Ingress
+          </span>
+</div>
+<h1 class="font-headline-page text-headline-page text-on-surface tracking-tight">
+          Priority Early-Warning Watchlist — Deteriorating Projects
+        </h1>
+<p class="font-body-default text-body-default text-text-secondary mt-0.5 max-w-4xl">
+          Real-time surveillance triage filtered strictly to active early-warning anomalies (trajectory worsening over 2-month rolling window). Conviction level dictates operational intervention queue.
+        </p>
+</div>
+<!-- Freshness & OCMS Live Sync Pill -->
+<div class="flex flex-col items-end gap-1.5 shrink-0 self-start md:self-auto">
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-bg-subtle text-text-secondary text-caption font-caption">
+<span class="material-symbols-outlined text-text-muted text-[15px]">database</span>
+<span>Data: <strong class="font-caption-bold text-on-surface">July 2026</strong> (Provisional)</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-primary/10 text-primary text-caption font-caption-bold">
+<span class="material-symbols-outlined text-[15px] text-primary">sync</span>
+<span>Escalations Sync: IPMD OCMS</span>
+</div>
+</div>
+<span class="text-[10px] text-text-muted font-caption">Automated Pipeline v4.2.1 • Hash: #9FA-2680K</span>
+</div>
+</div>
+<!-- METHODOLOGICAL HONESTY STAT BANNER (Institutional Mandate) -->
+<div class="bg-surface-variant/40 rounded p-space-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-[13px] border-l-4 border-l-primary text-on-surface shadow-sm">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-7 h-7 rounded bg-primary text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div>
+<span class="font-caption-bold text-on-surface uppercase tracking-wider text-[11px] block text-primary">Regime Partition Protocol</span>
+<p class="font-body-emphasis text-body-emphasis leading-tight">
+<strong class="font-bold text-risk-critical-text">846 projects</strong> flagged deteriorating this month:
+            <span class="text-on-surface font-semibold underline decoration-primary decoration-2 underline-offset-2">311 Non-Roads</span> (Empirical Hazard Validated)
+            <span class="text-text-muted mx-1.5">/</span>
+<span class="text-text-secondary">535 Roads (MoRTH Transferred Framework Regime)</span>.
+          </p>
+</div>
+</div>
+<div class="text-[11px] font-caption text-text-secondary bg-bg-surface px-2.5 py-1 rounded shrink-0 border border-border-hairline">
+<span class="font-caption-bold text-on-surface">Directive:</span> Never blend cohort counts without explicit regime partition metadata.
+      </div>
+</div>
+<!-- REGIME SWITCHER & CONTROLS -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-sm bg-bg-surface p-space-sm rounded shadow-sm border border-border-hairline">
+<!-- Segmented Tab Toggle -->
+<div class="inline-flex p-1 bg-bg-subtle rounded text-[13px] font-body-emphasis w-full sm:w-auto">
+<button class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-1.5 rounded bg-bg-surface text-primary font-bold shadow-sm transition-all cursor-pointer" id="toggle-non-roads">
+<span class="material-symbols-outlined text-[17px]">account_tree</span>
+<span>Non-Roads Baseline</span>
+<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.2 rounded font-mono font-bold">311</span>
+</button>
+<button class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-1.5 rounded text-text-secondary hover:text-on-surface transition-all cursor-pointer" id="toggle-roads">
+<span class="material-symbols-outlined text-[17px]">alt_route</span>
+<span>Roads (MoRTH) Transfer Regime</span>
+<span class="bg-risk-high-bg text-risk-high-text text-[10px] px-1.5 py-0.2 rounded font-mono font-bold">535</span>
+<span class="material-symbols-outlined text-risk-high-text text-[15px]" title="Experimental Transfer Penalty Applied">warning</span>
+</button>
+</div>
+<!-- Right Tooling Actions -->
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<button class="flex items-center gap-1.5 px-3 py-1.5 bg-bg-subtle text-text-secondary hover:text-on-surface rounded text-caption font-caption-bold transition-colors">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Trigger Coefficients</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-on-primary rounded text-caption font-caption-bold hover:bg-primary-container transition-colors shadow-sm" id="export-briefing-btn">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Export Triage Briefing (CSV / PDF)</span>
+</button>
+</div>
+</div>
+<!-- ADVISORY BANNER (Dynamic conditional transfer banner) -->
+<div class="hidden bg-risk-high-bg/50 p-space-sm rounded text-[12px] font-body-default text-on-secondary-fixed-variant flex items-center justify-between border-l-4 border-risk-high-text" id="transfer-advisory">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-risk-high-text text-[18px]">announcement</span>
+<span>
+<strong>MoRTH Transfer Regime Advisory:</strong> Linear highway packages exhibit episodic bulk billing cycles. The 535 flagged highway packages apply transferred survival hazards with an empirical duration-penalty factor (λ=1.42).
+          </span>
+</div>
+<span class="font-mono text-[11px] font-caption-bold bg-bg-surface px-2 py-0.5 rounded text-risk-high-text border border-risk-high-text/30">TRANSFER CALIBRATED</span>
+</div>
+</div>
+<!-- 4 COMPACT KEY TRIAGE METRICS -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm">
+<!-- Card 1: Level 3 -->
+<div class="bg-bg-surface p-space-md rounded shadow-sm border-t-2 border-t-risk-critical-text flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric text-text-secondary uppercase">High-Conviction Watchlist</span>
+<span class="px-1.5 py-0.5 bg-risk-critical-bg text-risk-critical-text text-[10px] font-badge-label font-bold rounded">LEVEL 3</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-kpi text-display-kpi text-on-surface font-bold tracking-tight">68</span>
+<span class="text-caption text-text-muted font-caption">Projects (21.8%)</span>
+</div>
+<div class="pt-2 bg-bg-subtle/50 -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center justify-between text-[11px]">
+<span class="text-risk-critical-text font-caption-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">error</span>
+            All 3 triggers fired concurrently
+          </span>
+<span class="text-text-muted font-mono font-bold">▲ +12 this mo</span>
+</div>
+</div>
+<!-- Card 2: Level 2 -->
+<div class="bg-bg-surface p-space-md rounded shadow-sm border-t-2 border-t-risk-high-text flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric text-text-secondary uppercase">Moderate Conviction</span>
+<span class="px-1.5 py-0.5 bg-risk-high-bg text-risk-high-text text-[10px] font-badge-label font-bold rounded">LEVEL 2</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-kpi text-display-kpi text-on-surface font-bold tracking-tight">144</span>
+<span class="text-caption text-text-muted font-caption">Projects (46.3%)</span>
+</div>
+<div class="pt-2 bg-bg-subtle/50 -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center justify-between text-[11px]">
+<span class="text-risk-high-text font-caption-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+            2 triggers active (60-day window)
+          </span>
+<span class="text-text-muted font-mono font-bold">▼ -3 this mo</span>
+</div>
+</div>
+<!-- Card 3: Level 1 -->
+<div class="bg-bg-surface p-space-md rounded shadow-sm border-t-2 border-t-risk-medium-text flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric text-text-secondary uppercase">Emerging Trajectory</span>
+<span class="px-1.5 py-0.5 bg-risk-medium-bg text-risk-medium-text text-[10px] font-badge-label font-bold rounded">LEVEL 1</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-kpi text-display-kpi text-on-surface font-bold tracking-tight">99</span>
+<span class="text-caption text-text-muted font-caption">Projects (31.9%)</span>
+</div>
+<div class="pt-2 bg-bg-subtle/50 -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center justify-between text-[11px]">
+<span class="text-risk-medium-text font-caption-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+            Single early indicator surging
+          </span>
+<span class="text-text-muted font-mono font-bold">▲ +9 this mo</span>
+</div>
+</div>
+<!-- Card 4: Provisional -->
+<div class="bg-bg-surface p-space-md rounded shadow-sm border-t-2 border-t-data-provisional flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-card-metric text-label-card-metric text-text-secondary uppercase">Low-Sufficiency Cohort</span>
+<span class="px-1.5 py-0.5 bg-bg-subtle text-data-provisional text-[10px] font-badge-label font-bold rounded">AUDIT CAVEAT</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-kpi text-display-kpi text-on-surface font-bold tracking-tight">42</span>
+<span class="text-caption text-text-muted font-caption">Projects (&lt;3 cycles)</span>
+</div>
+<div class="pt-2 bg-bg-subtle/50 -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center justify-between text-[11px]">
+<span class="text-data-provisional font-caption-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history_toggle_off</span>
+            Provisional confidence flags
+          </span>
+<span class="text-text-muted font-mono font-bold">42 of 311</span>
+</div>
+</div>
+</div>
+<!-- COMPREHENSIVE FILTER TOOLBAR -->
+<div class="bg-bg-surface p-space-sm rounded shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-sm border border-border-hairline">
+<!-- Search Input -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3 top-2 text-text-muted text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-1.5 bg-bg-surface rounded text-body-default text-on-surface text-[13px] border border-border-hairline placeholder-text-muted focus:outline-none focus:border-primary focus:ring-1 focus:ring-focus-ring" id="search-input" placeholder="Search deteriorating project, corridor, nodal agency, trigger driver..." type="text"/>
+</div>
+<!-- Quick Filter Selects -->
+<div class="flex flex-wrap items-center gap-2">
+<select class="h-8 px-2.5 py-1 bg-bg-surface rounded text-[12px] font-body-default text-on-surface border border-border-hairline focus:outline-none focus:border-primary" id="filter-sector">
+<option value="all">All Sectors (Non-Roads)</option>
+<option value="railways">Railways (NEFR / ECoR / WCR)</option>
+<option value="jal-shakti">Water Resources &amp; Jal Shakti</option>
+<option value="power">Power &amp; Transmission</option>
+<option value="atomic">Atomic Energy &amp; Nuclear</option>
+<option value="petroleum">Petroleum &amp; Natural Gas</option>
+<option value="urban">Urban Development / Metro</option>
+</select>
+<select class="h-8 px-2.5 py-1 bg-bg-surface rounded text-[12px] font-body-default text-on-surface border border-border-hairline focus:outline-none focus:border-primary" id="filter-conviction">
+<option value="all">All Conviction Levels (L3, L2, L1)</option>
+<option value="3">Level 3 (High Conviction - 3 Triggers)</option>
+<option value="2">Level 2 (Moderate - 2 Triggers)</option>
+<option value="1">Level 1 (Emerging - 1 Trigger)</option>
+</select>
+<select class="h-8 px-2.5 py-1 bg-bg-surface rounded text-[12px] font-body-default text-on-surface border border-border-hairline focus:outline-none focus:border-primary" id="filter-trigger">
+<option value="all">All Trigger Patterns</option>
+<option value="score">Score Surge (≥+10 pts/2mo)</option>
+<option value="divergence">Financial/Physical Gap Widening</option>
+<option value="stalled">Milestone Stalling (&lt;0.5%/mo)</option>
+</select>
+<select class="h-8 px-2.5 py-1 bg-bg-surface rounded text-[12px] font-body-default text-on-surface border border-border-hairline focus:outline-none focus:border-primary" id="filter-sufficiency">
+<option value="all">Sufficiency: All Cohorts</option>
+<option value="sufficient">Sufficient (≥36 mo history)</option>
+<option value="provisional">Provisional (&lt;3 mo history)</option>
+</select>
+<!-- Reset Button -->
+<button class="h-8 px-2.5 py-1 text-text-muted hover:text-on-surface rounded bg-bg-subtle text-[12px] font-caption flex items-center gap-1" id="reset-filters" title="Reset all filters">
+<span class="material-symbols-outlined text-[14px]">restart_alt</span>
+<span>Reset</span>
+</button>
+</div>
+</div>
+<!-- SORT ORDER SPECIFICATION STRIP -->
+<div class="flex items-center justify-between px-2 text-[11px] font-caption text-text-secondary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-primary">sort</span>
+<span>
+          Current Primary Sort: <strong class="font-caption-bold text-on-surface">WARNING CONVICTION (STRENGTH 3 → 2 → 1) DESC</strong>, then <span class="font-caption-bold text-on-surface">Risk Score DESC</span>.
+        </span>
+<span class="text-text-muted">|</span>
+<span class="text-risk-critical-text font-caption-bold">Methodology Note:</span>
+<span class="text-text-secondary">A multi-trigger project (e.g. Strength 3, Score 78) strictly precedes a single-trigger project (Strength 1, Score 94).</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-caption text-text-muted">Real-time Watchlist:</span>
+<span class="font-caption-bold text-on-surface" id="filtered-count">10 displayed of 311 total</span>
+</div>
+</div>
+<!-- DENSE, ACTIONABLE TRIAGE TABLE -->
+<div class="bg-bg-surface rounded shadow-sm overflow-x-auto border border-border-hairline">
+<table class="w-full text-left border-collapse select-none" id="watchlist-table">
+<!-- Sticky Header with Hairline -->
+<thead>
+<tr class="bg-bg-subtle text-text-secondary text-[11px] font-caption-bold uppercase tracking-wider sticky top-0 z-10 border-b border-border-hairline">
+<th class="py-2.5 px-3 w-40">Rank &amp; Conviction</th>
+<th class="py-2.5 px-3 min-w-[240px]">Project Identity &amp; Nodal Authority</th>
+<th class="py-2.5 px-3 min-w-[280px]">Active Deterioration Triggers</th>
+<th class="py-2.5 px-3 text-right w-36">Score &amp; 2mo Δ</th>
+<th class="py-2.5 px-3 min-w-[260px]">Root Cause Driver</th>
+<th class="py-2.5 px-3 text-center w-36">Sufficiency</th>
+<th class="py-2.5 px-3 text-right w-36">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-hairline text-[13px] font-body-default" id="triage-rows">
+<!-- ROW 1: STRENGTH 3, SCORE 89 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="3" data-score="89" data-sector="railways" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#01</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="ml-1 tracking-tight">STRENGTH 3 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-critical-text font-caption block mt-1">High Conviction Triage</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Dimapur-Kohima New Broad Gauge Rail Link (NEFR)
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-RLY-2016-0089</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹6,648 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Railways</span>
+<span class="text-text-muted text-[10px]">Railways (NEFR)</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span>Score Surge 2mo: +14 pts</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">call_split</span>
+<span>Gap Widening: +16.4% financial vs physical</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">motion_photos_paused</span>
+<span>Velocity: 0.18%/mo physical (Stalled)</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span>89 CRITICAL</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-critical-text mt-1 tabular-nums">
+                ▲ +14 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 75 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                Contractor claim dispute on Tunnel P-4 water ingress; major slope stability collapse at km 48.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">flag</span>
+<span>Inter-ministerial escalation raised by Chief Secy Nagaland</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">38 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 2: STRENGTH 3, SCORE 84 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="3" data-score="84" data-sector="jal-shakti" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#02</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="ml-1 tracking-tight">STRENGTH 3 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-critical-text font-caption block mt-1">High Conviction Triage</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Polavaram Irrigation National Project Headworks Package
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-JAL-2014-0012</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹55,548 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Jal Shakti</span>
+<span class="text-text-muted text-[10px]">Water Resources</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span>Score Surge 2mo: +18 pts</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">call_split</span>
+<span>Gap Widening: +21.1% outlay divergence</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">motion_photos_paused</span>
+<span>Velocity: 0.08%/mo (Diaphragm wall repair)</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span>84 CRITICAL</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-critical-text mt-1 tabular-nums">
+                ▲ +18 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 66 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                Diaphragm wall vibro-stone column redesign delay; R&amp;R compensation backlog in 14 villages.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">history_edu</span>
+<span>Central Water Commission design audit pending clearance</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">52 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 3: STRENGTH 3, SCORE 78 (Demonstrating ranking: Strength 3 with 78 outranks Strength 2 with 91!) -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group bg-bg-subtle/20" data-conviction="3" data-score="78" data-sector="atomic" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#03</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-critical-text"></span>
+<span class="ml-1 tracking-tight">STRENGTH 3 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-critical-text font-caption block mt-1">High Conviction Triage</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Gorakhpur Haryana Atomic Power Station (GHAVP) Units 1 &amp; 2
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-AEC-2015-0004</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹20,594 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Dept of Atomic Energy</span>
+<span class="text-text-muted text-[10px]">Nuclear Power</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span>Score Surge 2mo: +13 pts</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">call_split</span>
+<span>Gap Widening: +12.8% capital advance idle</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-critical-bg/70 text-risk-critical-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">motion_photos_paused</span>
+<span>Velocity: Steam generator forging delay</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>78 HIGH</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-critical-text mt-1 tabular-nums">
+                ▲ +13 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 65 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                Turbine island forging vendor qualification audit failure; nuclear containment liner hold.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">shield</span>
+<span>AERB safety review committee scheduled Aug 2026</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">44 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 4: STRENGTH 2, SCORE 91 (Demonstrates: High score 91 appears below Strength 3 items!) -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="2" data-score="91" data-sector="railways" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#04</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="ml-1 tracking-tight">STRENGTH 2 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-high-text font-caption block mt-1">Moderate Conviction</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Taranga Hill-Ambaji-Abu Road New Broad Gauge Line
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-RLY-2022-0144</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹2,798 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Railways</span>
+<span class="text-text-muted text-[10px]">Western Railway</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-high-bg/70 text-risk-high-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span>Score Surge 2mo: +9 pts</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-high-bg/70 text-risk-high-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">call_split</span>
+<span>Gap Widening: +19.7% land vs civil</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span>91 CRITICAL</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-high-text mt-1 tabular-nums">
+                ▲ +9 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 82 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                Right-of-way litigation across 3 tehsils in Banaskantha; forest sanctuary diversion standstill.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">balance</span>
+<span>Stage-II MoEFCC green corridor clearance pending</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">26 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 5: STRENGTH 2, SCORE 85 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="2" data-score="85" data-sector="jal-shakti" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#05</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="ml-1 tracking-tight">STRENGTH 2 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-high-text font-caption block mt-1">Moderate Conviction</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Bodwad Parisar Sinchan Yojana Lift Irrigation Phase-I &amp; II
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-JAL-2018-0062</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹3,420 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Jal Shakti</span>
+<span class="text-text-muted text-[10px]">Vidarbha Dev Corp</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-high-bg/70 text-risk-high-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span>Score Surge 2mo: +12 pts</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-high-bg/70 text-risk-high-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">motion_photos_paused</span>
+<span>Velocity: 0.22%/mo civil progress</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span>85 CRITICAL</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-high-text mt-1 tabular-nums">
+                ▲ +12 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 73 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                Rising main electro-mechanical pumps delivery failure; contractor working capital insolvency notice.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">account_balance_wallet</span>
+<span>LC renewal disputed by consortium lead bank</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">34 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 6: STRENGTH 2, SCORE 74 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="2" data-score="74" data-sector="power" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#06</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="ml-1 tracking-tight">STRENGTH 2 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-high-text font-caption block mt-1">Moderate Conviction</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Pakal Dul Hydro Electric Project (1000 MW - CVPP)
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-PWR-2015-0027</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹8,112 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Power</span>
+<span class="text-text-muted text-[10px]">Hydro / NHPC Joint</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-high-bg/70 text-risk-high-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">call_split</span>
+<span>Gap Widening: +14.8% divergence</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-high-bg/70 text-risk-high-text text-[11px] font-caption">
+<span class="material-symbols-outlined text-[13px]">motion_photos_paused</span>
+<span>Velocity: Head Race Tunnel boring halted</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>74 HIGH</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-high-text mt-1 tabular-nums">
+                ▲ +8 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 66 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                HRT shear zone rock burst incident; specialized TBM back-up system overhaul required.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">construction</span>
+<span>CEA dam safety board on-site inspection completed</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">41 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 7: STRENGTH 1, SCORE 94 (Demonstrating ranking: Strength 1 with 94 ranks after all Strength 3 and Strength 2!) -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="1" data-score="94" data-sector="urban" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#07</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-medium-bg text-risk-medium-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-medium-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="ml-1 tracking-tight">STRENGTH 1 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-medium-text font-caption block mt-1">Emerging Trajectory</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Patna Metro Rail Project Phase-1 (East-West &amp; North-South Corridors)
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-URB-2019-0033</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹13,365 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Housing &amp; Urban</span>
+<span class="text-text-muted text-[10px]">Metro Rail</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-medium-bg/80 text-risk-medium-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span>
+<span>Score Surge 2mo: +4 pts (Single Active Trigger)</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span>94 CRITICAL</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-medium-text mt-1 tabular-nums">
+                ▲ +4 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 90 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                Underground utility encumbrances along Ashok Rajpath; elevated depot land handover incomplete.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">location_city</span>
+<span>State cabinet special acquisition task force formed</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">31 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 8: STRENGTH 1, SCORE 88 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="1" data-score="88" data-sector="petroleum" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#08</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-medium-bg text-risk-medium-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-medium-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="ml-1 tracking-tight">STRENGTH 1 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-medium-text font-caption block mt-1">Emerging Trajectory</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Barauni to Guwahati Natural Gas Pipeline (GAIL / JHBDPL)
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-PNG-2018-0019</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹4,330 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Petroleum</span>
+<span class="text-text-muted text-[10px]">Natural Gas Grid</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-medium-bg/80 text-risk-medium-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">call_split</span>
+<span>Gap Widening: +11.2% pipeline laying vs billings</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg text-risk-critical-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span>88 CRITICAL</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-medium-text mt-1 tabular-nums">
+                ▲ +5 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 83 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                HDD river-crossing failure across Teesta basin during monsoon surge; directional drilling rig stuck.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">water</span>
+<span>Post-monsoon re-drilling contract tendered</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">36 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 9: STRENGTH 2, SCORE 81, PROVISIONAL (Hatched background, muted styling, caveat tooltip) -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group relative bg-[repeating-linear-gradient(45deg,#fafbfc,#fafbfc_10px,#f1f4f8_10px,#f1f4f8_20px)] border-l-4 border-l-data-provisional" data-conviction="2" data-score="81" data-sector="railways" data-sufficiency="provisional">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-data-provisional text-[12px]">#09</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-bg-subtle text-text-secondary font-badge-label text-[10px] font-bold border border-border-hairline">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-risk-high-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/30"></span>
+<span class="ml-1 tracking-tight">STRENGTH 2 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-data-provisional font-caption block mt-1 italic flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">info</span>
+                Provisional Data Caveat
+              </span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-text-secondary group-hover:text-primary transition-colors italic">
+                Bairabi to Sairang New Broad Gauge Railway Line (Mizoram)
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5 font-mono">
+<span>PRJ-RLY-2023-0209</span>
+<span>•</span>
+<span class="font-semibold text-text-secondary">₹8,213 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-surface text-data-provisional text-[10px] font-caption-bold border border-border-hairline">Ministry of Railways</span>
+<span class="text-data-provisional text-[10px]">Northeast Frontier</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-bg-surface text-text-secondary text-[11px] font-caption-bold border border-border-hairline">
+<span class="material-symbols-outlined text-[13px] text-risk-high-text">trending_up</span>
+<span>Score Surge: +15 pts (Provisional)</span>
+</div>
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-bg-surface text-text-secondary text-[11px] font-caption border border-border-hairline">
+<span class="material-symbols-outlined text-[13px] text-risk-high-text">call_split</span>
+<span>Bridge Pillar 196 girder collapse anomaly</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-bg-subtle text-text-secondary font-badge-label font-bold text-[12px] tabular-nums border border-border-hairline">
+<span class="material-symbols-outlined text-[14px] text-risk-high-text">warning</span>
+<span>81 HIGH*</span>
+</div>
+<div class="text-[11px] font-caption-bold text-data-provisional mt-1 tabular-nums">
+                ▲ +15 (2mo)
+              </div>
+<span class="text-[10px] text-data-provisional font-caption italic">was 66 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-text-secondary leading-tight italic">
+                Bridge pier reconstruction structural probe ongoing; low observation cadence (&lt;3 reports).
+              </div>
+<div class="mt-1 text-[11px] text-data-provisional flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">notification_important</span>
+<span>Confidence lower-bound threshold applied (Model v4.2.1)</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-bg-surface text-data-provisional text-[10px] font-badge-label font-bold border border-border-hairline" title="Fewer than 3 monthly cycles recorded. Subject to calibration adjustment.">
+<span class="material-symbols-outlined text-[12px] text-data-provisional">pending</span>
+                PROVISIONAL
+              </span>
+<span class="block text-[10px] text-data-provisional font-mono mt-0.5">2 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-surface border border-border-hairline hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 10: STRENGTH 1, SCORE 77 -->
+<tr class="hover:bg-bg-subtle/80 transition-colors group" data-conviction="1" data-score="77" data-sector="power" data-sufficiency="sufficient">
+<td class="py-2.5 px-3 align-top">
+<div class="flex items-center gap-2">
+<span class="font-mono text-caption-bold font-bold text-on-surface text-[12px]">#10</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-medium-bg text-risk-medium-text font-badge-label text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-risk-medium-text"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted/40"></span>
+<span class="ml-1 tracking-tight">STRENGTH 1 / 3</span>
+</div>
+</div>
+<span class="text-[10px] text-risk-medium-text font-caption block mt-1">Emerging Trajectory</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="font-body-emphasis font-semibold text-on-surface group-hover:text-primary transition-colors">
+                Green Energy Corridor Phase-II Inter-State Transmission Scheme
+              </div>
+<div class="flex items-center gap-2 text-[11px] text-text-muted mt-0.5">
+<span class="font-mono">PRJ-PWR-2021-0078</span>
+<span>•</span>
+<span class="font-mono font-semibold text-on-surface">₹12,031 Cr</span>
+</div>
+<div class="mt-1 flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded bg-bg-subtle text-text-secondary text-[10px] font-caption-bold">Ministry of Power</span>
+<span class="text-text-muted text-[10px]">PGCIL Grid Network</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="flex flex-col gap-1">
+<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-risk-medium-bg/80 text-risk-medium-text text-[11px] font-caption-bold">
+<span class="material-symbols-outlined text-[13px]">motion_photos_paused</span>
+<span>Velocity: Severe sub-station land transfer freeze</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg text-risk-high-text font-badge-label font-bold text-[12px] tabular-nums">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>77 HIGH</span>
+</div>
+<div class="text-[11px] font-caption-bold text-risk-medium-text mt-1 tabular-nums">
+                ▲ +7 (2mo)
+              </div>
+<span class="text-[10px] text-text-muted font-caption">was 70 in May '26</span>
+</td>
+<td class="py-2.5 px-3 align-top">
+<div class="text-[12px] font-body-default text-on-surface leading-tight">
+                765 kV bay substation site allocation in Ladakh contested by local wildlife council.
+              </div>
+<div class="mt-1 text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-text-muted">landscape</span>
+<span>Alternate terrain alignment survey commissioned</span>
+</div>
+</td>
+<td class="py-2.5 px-3 align-top text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-risk-low-bg text-risk-low-text text-[10px] font-badge-label font-bold">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                SUFFICIENT
+              </span>
+<span class="block text-[10px] text-text-muted font-mono mt-0.5">30 mo history</span>
+</td>
+<td class="py-2.5 px-3 align-top text-right">
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-primary hover:text-on-primary text-text-secondary text-[11px] font-caption-bold transition-all shadow-xs flex items-center gap-1 ml-auto">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- PAGINATION & OPERATIONAL FOOTER -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-bg-surface p-space-sm rounded shadow-sm border border-border-hairline text-[12px] text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="font-body-emphasis text-on-surface">
+          Displaying <strong id="footer-count-text">10 of 311</strong> deteriorating Non-Roads projects
+        </span>
+<span class="text-text-muted">•</span>
+<span>Page 1 of 32</span>
+</div>
+<!-- Pagination Buttons -->
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-bg-subtle text-text-muted cursor-not-allowed text-[11px] font-caption-bold" disabled="">
+          Previous
+        </button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary text-[11px] font-caption-bold shadow-xs">
+          1
+        </button>
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-surface-variant text-on-surface text-[11px] font-caption-bold transition-colors">
+          2
+        </button>
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-surface-variant text-on-surface text-[11px] font-caption-bold transition-colors">
+          3
+        </button>
+<span class="px-1 text-text-muted">...</span>
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-surface-variant text-on-surface text-[11px] font-caption-bold transition-colors">
+          32
+        </button>
+<button class="px-2.5 py-1 rounded bg-bg-subtle hover:bg-surface-variant text-on-surface text-[11px] font-caption-bold transition-colors">
+          Next
+        </button>
+</div>
+</div>
+<!-- INSTITUTIONAL AUDIT DISCLAIMER & STATISTICAL BOUNDS -->
+<div class="p-space-sm bg-bg-subtle/70 rounded text-[11px] font-caption text-text-secondary border border-border-hairline space-y-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-caption-bold text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-primary">policy</span>
+<span>MoSPI IPMD STATISTICAL QUALITY ASSURANCE NOTE</span>
+</div>
+<span class="font-mono text-text-muted">Standard Operating Procedure: OCMS-EW-Rev7</span>
+</div>
+<p class="leading-relaxed">
+        The Early-Warning Watchlist isolates projects exhibiting multi-dimensional hazard trajectory degradation over a rolling 60-day observation window. Conviction strengths correspond to synchronous trigger crossings: (1) Machine-learning risk score acceleration (≥+10 points or top decile delta); (2) Cumulative expenditure-to-physical divergence surge (&gt;10 percentage points); and (3) Physical velocity stalling (&lt;0.4% physical completion per 30-day reporting cycle). Under MoSPI IPMD surveillance guidelines, Level 3 alerts require ministerial nodal officer intervention within 14 calendar days.
+      </p>
+</div>
+</div>
+<!-- INTERACTIVE VANILLA JAVASCRIPT CONTROLS -->
+<script>
+    (function() {
+      // Regime Toggle Elements
+      const btnNonRoads = document.getElementById('toggle-non-roads');
+      const btnRoads = document.getElementById('toggle-roads');
+      const advisoryBanner = document.getElementById('transfer-advisory');
+      const footerCountText = document.getElementById('footer-count-text');
+      const searchInput = document.getElementById('search-input');
+      const sectorFilter = document.getElementById('filter-sector');
+      const convictionFilter = document.getElementById('filter-conviction');
+      const sufficiencyFilter = document.getElementById('filter-sufficiency');
+      const resetBtn = document.getElementById('reset-filters');
+      const rows = Array.from(document.querySelectorAll('#triage-rows tr'));
+      const filteredCountDisplay = document.getElementById('filtered-count');
+
+      let currentRegime = 'non-roads';
+
+      function updateRegime(regime) {
+        currentRegime = regime;
+        if (regime === 'roads') {
+          // Switch to Roads Transfer Regime
+          btnNonRoads.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-1.5 rounded text-text-secondary hover:text-on-surface transition-all cursor-pointer';
+          btnRoads.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-1.5 rounded bg-bg-surface text-risk-high-text font-bold shadow-sm transition-all cursor-pointer';
+          advisoryBanner.classList.remove('hidden');
+          footerCountText.textContent = '10 of 535';
+          filteredCountDisplay.textContent = '10 displayed of 535 transferred highway packages';
+        } else {
+          // Switch to Non-Roads Baseline
+          btnRoads.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-1.5 rounded text-text-secondary hover:text-on-surface transition-all cursor-pointer';
+          btnNonRoads.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-1.5 rounded bg-bg-surface text-primary font-bold shadow-sm transition-all cursor-pointer';
+          advisoryBanner.classList.add('hidden');
+          footerCountText.textContent = '10 of 311';
+          filteredCountDisplay.textContent = '10 displayed of 311 total';
+        }
+      }
+
+      btnNonRoads.addEventListener('click', () => updateRegime('non-roads'));
+      btnRoads.addEventListener('click', () => updateRegime('roads'));
+
+      // Table Filtering Engine
+      function filterTable() {
+        const query = searchInput.value.toLowerCase().trim();
+        const selectedSector = sectorFilter.value;
+        const selectedConviction = convictionFilter.value;
+        const selectedSufficiency = sufficiencyFilter.value;
+
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+          const text = row.innerText.toLowerCase();
+          const sector = row.getAttribute('data-sector');
+          const conviction = row.getAttribute('data-conviction');
+          const sufficiency = row.getAttribute('data-sufficiency');
+
+          const matchesQuery = !query || text.includes(query);
+          const matchesSector = (selectedSector === 'all') || (sector === selectedSector);
+          const matchesConviction = (selectedConviction === 'all') || (conviction === selectedConviction);
+          const matchesSufficiency = (selectedSufficiency === 'all') || (sufficiency === selectedSufficiency);
+
+          if (matchesQuery && matchesSector && matchesConviction && matchesSufficiency) {
+            row.style.display = '';
+            visibleCount++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        filteredCountDisplay.textContent = `${visibleCount} displayed of ${currentRegime === 'roads' ? '535' : '311'} total`;
+        footerCountText.textContent = `${visibleCount} of ${currentRegime === 'roads' ? '535' : '311'}`;
+      }
+
+      searchInput.addEventListener('input', filterTable);
+      sectorFilter.addEventListener('change', filterTable);
+      convictionFilter.addEventListener('change', filterTable);
+      sufficiencyFilter.addEventListener('change', filterTable);
+
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        sectorFilter.value = 'all';
+        convictionFilter.value = 'all';
+        sufficiencyFilter.value = 'all';
+        document.getElementById('filter-trigger').value = 'all';
+        filterTable();
+      });
+
+      // Quick visual feedback on export
+      const exportBtn = document.getElementById('export-briefing-btn');
+      exportBtn.addEventListener('click', () => {
+        const originalText = exportBtn.innerHTML;
+        exportBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Compiling Triage Dossiers...</span>';
+        setTimeout(() => {
+          exportBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span><span>Export Ready (CSV/PDF)</span>';
+          setTimeout(() => {
+            exportBtn.innerHTML = originalText;
+          }, 2400);
+        }, 900);
+      });
+    })();
+  </script>
+</div></main></div></body></html>
