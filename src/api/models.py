@@ -47,12 +47,45 @@ class MonthlyTrendPoint(BaseModel):
     critical_count: int
     high_count: int
     active_warnings_count: int
+    non_roads_avg_risk_score: float | None = None
+    non_roads_critical_count: int | None = None
+    non_roads_active_warnings: int | None = None
+    roads_avg_risk_score: float | None = None
+    roads_critical_count: int | None = None
+    roads_active_warnings: int | None = None
+
+
+class RegimeSectorItem(BaseModel):
+    """Sector summary item within a specific regime."""
+
+    sector: str
+    total_projects: int
+    high_critical_count: int
+    critical_count: int = 0
+    high_count: int = 0
+    active_warnings: int = 0
+    avg_risk_score: float
+    is_road: bool
+    transfer_regime: bool
+
+
+class RegimeMinistryItem(BaseModel):
+    """Ministry escalation item within a specific regime."""
+
+    ministry: str
+    total_projects: int
+    avg_risk_score: float
+    critical_count: int = 0
+    active_warnings: int
+    score_delta_1m: float | None = None
 
 
 class NationalSubSummary(BaseModel):
     """Sub-summary for a specific sector regime (Non-Roads vs Roads)."""
 
     total_projects: int
+    total_cost_cr: float = 0.0
+    total_expenditure_cr: float = 0.0
     avg_risk_score: float
     band_distribution: BandDistribution
     active_warnings_count: int
@@ -60,6 +93,8 @@ class NationalSubSummary(BaseModel):
     data_sufficiency_counts: dict[str, int]
     transfer_regime: bool = False
     transfer_regime_note: str | None = None
+    sectors: list[RegimeSectorItem] = Field(default_factory=list)
+    ministries: list[RegimeMinistryItem] = Field(default_factory=list)
 
 
 class NationalSummaryResponse(BaseModel):

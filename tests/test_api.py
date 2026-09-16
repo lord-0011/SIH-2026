@@ -207,3 +207,47 @@ def test_real_projects_pagination_and_filter(client: TestClient):
     assert crit_data["total"] > 0
     for item in crit_data["items"]:
         assert item["risk_band"] == "CRITICAL"
+
+
+def test_real_watchlist_regime_filter(client: TestClient):
+    """Verify regime query param on watchlist isolates non-roads vs roads."""
+    # Non-roads
+    res_nr = client.get("/watchlist?regime=non_roads")
+    assert res_nr.status_code == 200
+    nr_data = res_nr.json()
+    assert nr_data["total_active_warnings"] > 0
+    for item in nr_data["items"]:
+        assert item["is_road"] is False
+        assert item["transfer_regime"] is False
+
+    # Roads
+    res_r = client.get("/watchlist?regime=roads")
+    assert res_r.status_code == 200
+    r_data = res_r.json()
+    assert r_data["total_active_warnings"] > 0
+    for item in r_data["items"]:
+        assert item["is_road"] is True
+        assert item["transfer_regime"] is True
+
+
+def test_real_national_summary_regime_breakdowns(client: TestClient):
+    """Verify non_roads sectors/ministries strictly exclude Roads."""
+    res = client.get("/national/summary")
+    assert res.status_code == 200
+    data = res.json()
+
+    nr_sectors = [s["sector"].lower() for s in data["non_roads"]["sectors"]]
+    for sec in nr_sectors:
+        assert "road" not in sec
+
+    nr_mins = [m["ministry"].lower() for m in data["non_roads"]["ministries"]]
+    for m in nr_mins:
+        assert "road transport" not in m
+        assert "morth" not in m
+
+    # Trend points must contain separated regime metrics
+    tp = data["monthly_trend"][-1]
+    assert "non_roads_avg_risk_score" in tp
+    assert "roads_avg_risk_score" in tp
+    assert tp["non_roads_avg_risk_score"] > 0
+    assert tp["roads_avg_risk_score"] > 0
