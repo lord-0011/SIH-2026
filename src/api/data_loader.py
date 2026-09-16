@@ -405,12 +405,8 @@ class DataLoader:
         early_warnings = {
             "active_warnings_count": active_cnt,
             "active_warning_rate_pct": active_rate,
-            "score_rising_count": int(
-                (matched.get("score_rising_fired", pd.Series(0))).sum()
-            ),
-            "gap_widening_count": int(
-                (matched.get("gap_widening_fired", pd.Series(0))).sum()
-            ),
+            "score_rising_count": int((matched.get("score_rising_fired", pd.Series(0))).sum()),
+            "gap_widening_count": int((matched.get("gap_widening_fired", pd.Series(0))).sum()),
             "velocity_divergence_count": int(
                 (matched.get("velocity_divergence_fired", pd.Series(0))).sum()
             ),
@@ -550,12 +546,8 @@ class DataLoader:
         early_warnings = {
             "active_warnings_count": active_cnt,
             "active_warning_rate_pct": active_rate,
-            "score_rising_count": int(
-                (matched.get("score_rising_fired", pd.Series(0))).sum()
-            ),
-            "gap_widening_count": int(
-                (matched.get("gap_widening_fired", pd.Series(0))).sum()
-            ),
+            "score_rising_count": int((matched.get("score_rising_fired", pd.Series(0))).sum()),
+            "gap_widening_count": int((matched.get("gap_widening_fired", pd.Series(0))).sum()),
             "velocity_divergence_count": int(
                 (matched.get("velocity_divergence_fired", pd.Series(0))).sum()
             ),
@@ -664,20 +656,24 @@ class DataLoader:
                     "cumulative_expenditure_cr": round(
                         float(t_row.get("cumulative_expenditure_cr", 0.0)), 2
                     ),
-                    "exp_utilization": round(float(t_row.get("exp_utilization", 0.0)), 3)
-                    if pd.notna(t_row.get("exp_utilization"))
-                    else 0.0,
+                    "exp_utilization": (
+                        round(float(t_row.get("exp_utilization", 0.0)), 3)
+                        if pd.notna(t_row.get("exp_utilization"))
+                        else 0.0
+                    ),
                     "financial_physical_gap": round(
                         float(t_row.get("financial_physical_gap", 0.0)), 2
                     ),
-                    "progress_velocity_3mo": round(
-                        float(t_row.get("progress_velocity_3mo", 0.0)), 2
-                    )
-                    if pd.notna(t_row.get("progress_velocity_3mo"))
-                    else 0.0,
-                    "exp_velocity_3mo": round(float(t_row.get("exp_velocity_3mo", 0.0)), 2)
-                    if pd.notna(t_row.get("exp_velocity_3mo"))
-                    else 0.0,
+                    "progress_velocity_3mo": (
+                        round(float(t_row.get("progress_velocity_3mo", 0.0)), 2)
+                        if pd.notna(t_row.get("progress_velocity_3mo"))
+                        else 0.0
+                    ),
+                    "exp_velocity_3mo": (
+                        round(float(t_row.get("exp_velocity_3mo", 0.0)), 2)
+                        if pd.notna(t_row.get("exp_velocity_3mo"))
+                        else 0.0
+                    ),
                     "early_warning": bool(t_row.get("early_warning", False)),
                     "warning_status": str(t_row.get("warning_status", "INSUFFICIENT_HISTORY")),
                     "triggers_fired": str(t_row.get("triggers_fired", "none")),
@@ -693,9 +689,11 @@ class DataLoader:
         return {
             "project_id": str(row["project_id"]),
             "project_name": str(row["project_name"]),
-            "implementing_agency": str(row["implementing_agency"])
-            if pd.notna(row.get("implementing_agency"))
-            else None,
+            "implementing_agency": (
+                str(row["implementing_agency"])
+                if pd.notna(row.get("implementing_agency"))
+                else None
+            ),
             "ministry": str(row["ministry"]),
             "sector": str(row["sector"]),
             "state": state_list,
@@ -714,18 +712,26 @@ class DataLoader:
             "cost_escalation_pct": round(float(row.get("cost_escalation_pct", 0.0)), 2),
             "physical_progress_pct": round(float(row.get("physical_progress_pct", 0.0)), 2),
             "financial_physical_gap": round(float(row.get("financial_physical_gap", 0.0)), 2),
-            "schedule_variance_months": round(float(row.get("schedule_variance_months", 0.0)), 1)
-            if pd.notna(row.get("schedule_variance_months"))
-            else 0.0,
-            "planned_duration_months": round(float(row.get("planned_duration_months", 0.0)), 1)
-            if pd.notna(row.get("planned_duration_months"))
-            else 0.0,
-            "elapsed_duration_months": round(float(row.get("elapsed_duration_months", 0.0)), 1)
-            if pd.notna(row.get("elapsed_duration_months"))
-            else 0.0,
-            "remaining_duration_months": round(float(row.get("remaining_duration_months", 0.0)), 1)
-            if pd.notna(row.get("remaining_duration_months"))
-            else 0.0,
+            "schedule_variance_months": (
+                round(float(row.get("schedule_variance_months", 0.0)), 1)
+                if pd.notna(row.get("schedule_variance_months"))
+                else 0.0
+            ),
+            "planned_duration_months": (
+                round(float(row.get("planned_duration_months", 0.0)), 1)
+                if pd.notna(row.get("planned_duration_months"))
+                else 0.0
+            ),
+            "elapsed_duration_months": (
+                round(float(row.get("elapsed_duration_months", 0.0)), 1)
+                if pd.notna(row.get("elapsed_duration_months"))
+                else 0.0
+            ),
+            "remaining_duration_months": (
+                round(float(row.get("remaining_duration_months", 0.0)), 1)
+                if pd.notna(row.get("remaining_duration_months"))
+                else 0.0
+            ),
             "risk_score": round(float(row.get("risk_score", 0.0)), 2),
             "risk_band": str(row.get("risk_band", "PROVISIONAL")),
             "data_sufficiency": str(row.get("data_sufficiency", "PROVISIONAL")),
@@ -733,21 +739,27 @@ class DataLoader:
             "warning_status": str(row.get("warning_status", "INSUFFICIENT_HISTORY")),
             "warning_strength": int(row.get("warning_strength", 0)),
             "triggers_fired": str(row.get("triggers_fired", "none")),
-            "risk_score_prev": round(float(row["risk_score_prev"]), 2)
-            if pd.notna(row.get("risk_score_prev"))
-            else None,
-            "risk_score_delta_1m": round(float(row["risk_score_delta_1m"]), 2)
-            if pd.notna(row.get("risk_score_delta_1m"))
-            else None,
-            "risk_score_delta_2m": round(float(row["risk_score_delta_2m"]), 2)
-            if pd.notna(row.get("risk_score_delta_2m"))
-            else None,
-            "gap_delta_1m": round(float(row["gap_delta_1m"]), 2)
-            if pd.notna(row.get("gap_delta_1m"))
-            else None,
-            "gap_delta_2m": round(float(row["gap_delta_2m"]), 2)
-            if pd.notna(row.get("gap_delta_2m"))
-            else None,
+            "risk_score_prev": (
+                round(float(row["risk_score_prev"]), 2)
+                if pd.notna(row.get("risk_score_prev"))
+                else None
+            ),
+            "risk_score_delta_1m": (
+                round(float(row["risk_score_delta_1m"]), 2)
+                if pd.notna(row.get("risk_score_delta_1m"))
+                else None
+            ),
+            "risk_score_delta_2m": (
+                round(float(row["risk_score_delta_2m"]), 2)
+                if pd.notna(row.get("risk_score_delta_2m"))
+                else None
+            ),
+            "gap_delta_1m": (
+                round(float(row["gap_delta_1m"]), 2) if pd.notna(row.get("gap_delta_1m")) else None
+            ),
+            "gap_delta_2m": (
+                round(float(row["gap_delta_2m"]), 2) if pd.notna(row.get("gap_delta_2m")) else None
+            ),
             "top_risk_drivers": drivers,
             "trajectory": trajectory,
         }
@@ -925,28 +937,42 @@ class DataLoader:
                     "warning_status": str(r.get("warning_status", "ACTIVE_WARNING")),
                     "warning_strength": int(r.get("warning_strength", 1)),
                     "triggers_fired": str(r.get("triggers_fired", "")),
-                    "risk_score_prev": round(float(r["risk_score_prev"]), 2)
-                    if pd.notna(r.get("risk_score_prev"))
-                    else None,
-                    "risk_score_delta_1m": round(float(r["risk_score_delta_1m"]), 2)
-                    if pd.notna(r.get("risk_score_delta_1m"))
-                    else None,
-                    "risk_score_delta_2m": round(float(r["risk_score_delta_2m"]), 2)
-                    if pd.notna(r.get("risk_score_delta_2m"))
-                    else None,
+                    "risk_score_prev": (
+                        round(float(r["risk_score_prev"]), 2)
+                        if pd.notna(r.get("risk_score_prev"))
+                        else None
+                    ),
+                    "risk_score_delta_1m": (
+                        round(float(r["risk_score_delta_1m"]), 2)
+                        if pd.notna(r.get("risk_score_delta_1m"))
+                        else None
+                    ),
+                    "risk_score_delta_2m": (
+                        round(float(r["risk_score_delta_2m"]), 2)
+                        if pd.notna(r.get("risk_score_delta_2m"))
+                        else None
+                    ),
                     "financial_physical_gap": round(float(r.get("financial_physical_gap", 0.0)), 2),
-                    "gap_delta_1m": round(float(r["gap_delta_1m"]), 2)
-                    if pd.notna(r.get("gap_delta_1m"))
-                    else None,
-                    "gap_delta_2m": round(float(r["gap_delta_2m"]), 2)
-                    if pd.notna(r.get("gap_delta_2m"))
-                    else None,
-                    "progress_velocity_3mo": round(float(r.get("progress_velocity_3mo", 0.0)), 2)
-                    if pd.notna(r.get("progress_velocity_3mo"))
-                    else 0.0,
-                    "exp_velocity_3mo": round(float(r.get("exp_velocity_3mo", 0.0)), 2)
-                    if pd.notna(r.get("exp_velocity_3mo"))
-                    else 0.0,
+                    "gap_delta_1m": (
+                        round(float(r["gap_delta_1m"]), 2)
+                        if pd.notna(r.get("gap_delta_1m"))
+                        else None
+                    ),
+                    "gap_delta_2m": (
+                        round(float(r["gap_delta_2m"]), 2)
+                        if pd.notna(r.get("gap_delta_2m"))
+                        else None
+                    ),
+                    "progress_velocity_3mo": (
+                        round(float(r.get("progress_velocity_3mo", 0.0)), 2)
+                        if pd.notna(r.get("progress_velocity_3mo"))
+                        else 0.0
+                    ),
+                    "exp_velocity_3mo": (
+                        round(float(r.get("exp_velocity_3mo", 0.0)), 2)
+                        if pd.notna(r.get("exp_velocity_3mo"))
+                        else 0.0
+                    ),
                     "revised_cost_cr": round(float(r.get("revised_cost_cr", 0.0)), 2),
                     "physical_progress_pct": round(float(r.get("physical_progress_pct", 0.0)), 2),
                 }
