@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {"darkMode":"class","theme":{"extend":{"colors":{"risk-med-bg":"#FBF3D6","table-header-bg":"#EEF2F7","risk-high-bg":"#FCE9D6","on-tertiary":"#ffffff","page-bg":"#F5F7FA","risk-low-text":"#2E9E5B","risk-critical-text":"#C6362F","secondary-container":"#ffa026","on-primary":"#ffffff","secondary-fixed-dim":"#ffb86c","on-secondary-container":"#693d00","on-background":"#131b2c","tertiary":"#303a47","on-error-container":"#93000a","surface-container-low":"#f1f3ff","surface-container":"#e9edff","error-container":"#ffdad6","primary-container":"#0b4da2","surface-dim":"#d2daf1","tertiary-fixed":"#d9e3f4","on-surface":"#131b2c","risk-high-text":"#E8730C","on-secondary":"#ffffff","tertiary-container":"#47515e","secondary":"#895100","risk-med-text":"#C99A06","surface-container-highest":"#dae2fa","primary-fixed-dim":"#adc6ff","surface-container-lowest":"#ffffff","text-primary":"#1A2233","secondary-fixed":"#ffdcbc","on-tertiary-fixed":"#121c28","outline":"#737783","on-secondary-fixed-variant":"#683c00","error":"#ba1a1a","text-muted":"#8A94A6","surface-tint":"#255cb1","on-secondary-fixed":"#2c1700","inverse-primary":"#adc6ff","outline-variant":"#c3c6d4","surface-container-high":"#e0e8ff","surface-bright":"#f9f9ff","surface":"#f9f9ff","inverse-on-surface":"#edf0ff","on-primary-fixed-variant":"#004494","risk-critical-bg":"#FBE0DE","card-bg":"#FFFFFF","text-secondary":"#5A6472","on-tertiary-fixed-variant":"#3e4855","hairline-border":"#DCE3EC","risk-low-bg":"#E7F5EC","on-surface-variant":"#424752","on-primary-fixed":"#001a41","primary":"#00377a","inverse-surface":"#283042","on-error":"#ffffff","primary-fixed":"#d8e2ff","tertiary-fixed-dim":"#bdc7d7","surface-variant":"#dae2fa","on-tertiary-container":"#b9c3d4","background":"#f9f9ff","on-primary-container":"#a7c2ff"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"gutter":"1rem","space-xs":"0.25rem","space-xl":"1.5rem","space-sm":"0.5rem","space-lg":"1rem","margin":"1.25rem","space-md":"0.75rem"},"fontFamily":{"caption":["Inter"],"body-medium":["Inter"],"body-default":["Inter"],"badge-label":["Inter"],"headline-md":["Inter"],"headline-lg":["Inter"],"display-kpi":["Inter"],"table-header":["Inter"],"body-secondary":["Inter"],"kpi-label":["Inter"],"headline-sm":["Inter"]},"fontSize":{"caption":["11px",{"lineHeight":"15px","letterSpacing":"0em","fontWeight":"400"}],"body-medium":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"500"}],"body-default":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"badge-label":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"700"}],"headline-md":["16px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-lg":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-kpi":["28px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"700"}],"table-header":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-secondary":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"kpi-label":["11px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"600"}]}}};</script></head><body class="bg-page-bg font-body-default text-text-primary antialiased"><aside class="fixed left-0 top-0 h-full w-[240px] bg-card-bg z-50 flex flex-col justify-between border-r border-hairline-border"><div class="flex flex-col"><div class="h-12 px-space-lg flex items-center border-b border-hairline-border bg-card-bg"><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">PMG Cockpit Rail</span></div><div class="p-space-sm"><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-medium rounded-lg"><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-body-medium rounded-lg" data-path="national-overview" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">dashboard</span>National Overview</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-table-header-bg hover:text-text-primary transition-colors font-body-default text-body-default" data-path="sectors-and-ministries" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">domain</span>Sectors &amp; Ministries</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-table-header-bg hover:text-text-primary transition-colors font-body-default text-body-default" data-path="projects-directory" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">list_alt</span>Projects Directory</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-table-header-bg hover:text-text-primary transition-colors font-body-default text-body-default" data-path="watchlist" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">visibility</span>Watchlist</span><span class="px-space-xs py-[1px] bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label rounded-lg border border-risk-critical-text/20">48</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-table-header-bg hover:text-text-primary transition-colors font-body-default text-body-default" data-path="decision-assistant" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">psychology</span>Decision Assistant</span><span class="px-space-xs py-[1px] bg-surface-container text-primary font-caption text-caption rounded">AI</span></a></nav></div></div><div class="p-space-md border-t border-hairline-border bg-card-bg flex flex-col gap-space-sm"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-risk-low-text"></span><span class="font-caption text-caption text-text-secondary">Live Feed Synced</span></div><div class="px-space-sm py-space-xs bg-table-header-bg rounded border border-hairline-border"><span class="font-caption text-caption text-text-secondary block uppercase tracking-wider">Classification</span><span class="font-body-secondary text-body-secondary text-text-primary block truncate font-medium">Internal Decision Support</span></div></div></aside><div class="pl-[240px]"><header class="fixed top-0 left-[240px] right-0 h-12 bg-card-bg border-b border-hairline-border z-40 flex items-center justify-between px-space-lg gap-space-md"><div class="flex items-center gap-space-md flex-1 min-w-0"><img alt="MoSPI Government Emblem" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1XIGZZWtdueAw89-rzfCt4BYp1iB7SIzEfRCs-muMvxSD63rsuRFVY9V-Ks_LQxmllu8qi8YLMzSeyq04nQhp7GN3Ea25dZ4hKUfZbYnNdLV9KQYFtb940E63jlJ3uPzg51vghfZ-DjmP4FpmEnUnMtLtFOAgaEas73JZ86j3mYsg_xhKcpde8d7ibvqCGH2p_bqRKd_8AT9510iZCSlDh71DezfLsy1dBYOYCyPlUMPUrcyynZ_IfwQ3w"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-text-primary truncate">MoSPI Infrastructure Analytics Cockpit | Project Monitoring Group (PMG)</span><div class="flex items-center gap-space-xs font-caption text-caption text-text-muted"><span class="hover:text-text-primary cursor-pointer">Home</span><span>/</span><span class="text-text-secondary font-medium">National Overview</span></div></div></div><div class="flex items-center gap-space-md shrink-0"><div class="relative w-64"><input class="w-full h-8 pl-8 pr-space-sm bg-card-bg border border-hairline-border rounded text-body-default font-body-default text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary-container" placeholder="Filter projects by ID, sector..." type="text"/><span class="material-symbols-outlined absolute left-2 top-2 text-[16px] text-text-muted">search</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 bg-table-header-bg rounded border border-hairline-border"><span class="material-symbols-outlined text-[16px] text-text-secondary">update</span><span class="font-caption text-caption text-text-secondary font-medium">Data as of July 2026</span></div><div class="flex items-center border border-hairline-border rounded overflow-hidden"><button class="px-2 py-1 bg-card-bg text-text-secondary hover:bg-table-header-bg text-[11px] font-medium border-r border-hairline-border" type="button">A-</button><button class="px-2 py-1 bg-card-bg text-text-secondary hover:bg-table-header-bg text-[11px] font-medium border-r border-hairline-border" type="button">A</button><button class="px-2 py-1 bg-card-bg text-text-secondary hover:bg-table-header-bg text-[11px] font-medium" type="button">A+</button></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-12 bg-page-bg min-h-screen px-margin"><div class="flex flex-col w-full font-body-default text-text-primary gap-space-lg pb-space-xl">
+<!-- Context Strip / View Header -->
+<section class="bg-card-bg p-space-lg rounded border border-hairline-border flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center justify-center w-5 h-5 rounded bg-primary-container text-on-primary">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+</span>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+          National Infrastructure Overview — Early Warning &amp; Delay Risk Cockpit
+        </h1>
+</div>
+<p class="font-body-secondary text-body-secondary text-text-secondary">
+        Continuous algorithmic risk classification across 2,243 active Central Sector projects (≥ ₹150 Cr)
+      </p>
+</div>
+<!-- Quick Action / Triage Controls -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-page-bg p-1 rounded border border-hairline-border">
+<button class="px-space-sm py-1 bg-card-bg text-text-primary font-caption text-caption rounded font-medium border border-hairline-border flex items-center gap-1" type="button">
+<span>All Sectors (14)</span>
+<span class="material-symbols-outlined text-[14px] text-text-secondary">expand_more</span>
+</button>
+<button class="px-space-sm py-1 text-text-secondary hover:text-text-primary font-caption text-caption rounded font-medium flex items-center gap-1" type="button">
+<span>Cost Tiers (≥ ₹150 Cr)</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+</div>
+<button class="h-8 px-space-md bg-card-bg border border-hairline-border rounded text-text-primary hover:bg-table-header-bg font-caption text-caption font-semibold flex items-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px] text-text-secondary">picture_as_pdf</span>
+        Export Briefing (PDF)
+      </button>
+<button class="h-8 px-space-md bg-primary-container hover:bg-primary text-on-primary rounded font-caption text-caption font-semibold flex items-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">flag</span>
+        Bulk Flag for PMG Review
+      </button>
+</div>
+</section>
+<!-- 5 Authoritative Dense KPI Metric Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Card 1: Total Ongoing -->
+<div class="bg-card-bg p-space-md rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-kpi-label text-kpi-label uppercase text-text-secondary tracking-wider">Total Ongoing Projects</span>
+<span class="material-symbols-outlined text-[16px] text-text-muted">account_tree</span>
+</div>
+<div class="font-display-kpi text-display-kpi text-text-primary [font-feature-settings:'tnum'] mt-1">
+          2,243
+        </div>
+<div class="font-caption text-caption text-text-muted mt-0.5">Active portfolio tracked</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center gap-1 font-caption text-caption text-primary">
+<span class="material-symbols-outlined text-[14px]">trending_flat</span>
+<span class="font-medium">+14 vs last month</span>
+</div>
+</div>
+<!-- Card 2: High-Risk Projects -->
+<div class="bg-card-bg p-space-md rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-kpi-label text-kpi-label uppercase text-text-secondary tracking-wider">High-Risk Projects</span>
+<span class="material-symbols-outlined text-[16px] text-risk-high-text">warning</span>
+</div>
+<div class="font-display-kpi text-display-kpi text-risk-high-text [font-feature-settings:'tnum'] mt-1">
+          318
+        </div>
+<div class="font-caption text-caption text-text-muted mt-0.5">14.2% of total portfolio</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center gap-1 font-caption text-caption text-risk-critical-text">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+<span class="font-medium">+22 vs last mo (deteriorating)</span>
+</div>
+</div>
+<!-- Card 3: Critical Projects -->
+<div class="bg-card-bg p-space-md rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-kpi-label text-kpi-label uppercase text-text-secondary tracking-wider">Critical Projects</span>
+<span class="material-symbols-outlined text-[16px] text-risk-critical-text">error</span>
+</div>
+<div class="font-display-kpi text-display-kpi text-risk-critical-text [font-feature-settings:'tnum'] mt-1">
+          87
+        </div>
+<div class="font-caption text-caption text-text-muted mt-0.5">Immediate intervention required</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center gap-1 font-caption text-caption text-risk-critical-text">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+<span class="font-medium">+9 vs last mo</span>
+</div>
+</div>
+<!-- Card 4: Deteriorating Velocity -->
+<div class="bg-card-bg p-space-md rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-kpi-label text-kpi-label uppercase text-text-secondary tracking-wider">Deteriorating This Month</span>
+<span class="material-symbols-outlined text-[16px] text-risk-high-text">speed</span>
+</div>
+<div class="font-display-kpi text-display-kpi text-text-primary [font-feature-settings:'tnum'] mt-1">
+          64
+        </div>
+<div class="font-caption text-caption text-text-muted mt-0.5">Early-warning velocity trigger</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center gap-1 font-caption text-caption text-risk-high-text">
+<span class="material-symbols-outlined text-[14px]">north_east</span>
+<span class="font-medium">+18 new flags triggered</span>
+</div>
+</div>
+<!-- Card 5: Portfolio Capital Value -->
+<div class="bg-card-bg p-space-md rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-kpi-label text-kpi-label uppercase text-text-secondary tracking-wider">Portfolio Capital Value</span>
+<span class="material-symbols-outlined text-[16px] text-text-muted">account_balance</span>
+</div>
+<div class="font-display-kpi text-display-kpi text-text-primary [font-feature-settings:'tnum'] mt-1">
+          ₹28.42<span class="text-headline-sm font-normal text-text-secondary ml-1">L Cr</span>
+</div>
+<div class="font-caption text-caption text-text-muted mt-0.5">Under active MoSPI tracking</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center gap-1 font-caption text-caption text-risk-med-text">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span>
+<span class="font-medium">₹3.18L Cr in High/Crit tier</span>
+</div>
+</div>
+</section>
+<!-- Risk Distribution & Trajectory Section (60% / 40% Grid) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Left Panel: 60% Width (7 Cols) -->
+<div class="lg:col-span-7 bg-card-bg p-space-lg rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Portfolio Risk Band Distribution</h2>
+<p class="font-caption text-caption text-text-secondary">Distribution computed from composite schedule, land acquisition, and cost-variance regressors</p>
+</div>
+<span class="font-caption text-caption text-text-muted bg-table-header-bg px-2 py-0.5 rounded border border-hairline-border">
+            Total: 2,243 Projects
+          </span>
+</div>
+<!-- Stacked Horizontal Bar (No Pie Chart) -->
+<div class="mt-space-md">
+<div class="h-6 w-full flex rounded overflow-hidden border border-hairline-border">
+<div class="bg-[#2E9E5B] flex items-center justify-center text-white font-badge-label text-[10px] [font-feature-settings:'tnum']" style="width: 52.8%;" title="LOW: 1,184 projects (52.8%)">
+              52.8%
+            </div>
+<div class="bg-[#C99A06] flex items-center justify-center text-white font-badge-label text-[10px] [font-feature-settings:'tnum']" style="width: 29.2%;" title="MEDIUM: 654 projects (29.2%)">
+              29.2%
+            </div>
+<div class="bg-[#E8730C] flex items-center justify-center text-white font-badge-label text-[10px] [font-feature-settings:'tnum']" style="width: 14.2%;" title="HIGH: 318 projects (14.2%)">
+              14.2%
+            </div>
+<div class="bg-[#C6362F] flex items-center justify-center text-white font-badge-label text-[10px] [font-feature-settings:'tnum']" style="width: 3.8%;" title="CRITICAL: 87 projects (3.8%)">
+              3.8%
+            </div>
+</div>
+</div>
+<!-- Segment Breakdown Table -->
+<div class="mt-space-md overflow-x-auto">
+<table class="w-full text-left font-body-secondary text-body-secondary border border-hairline-border rounded">
+<thead class="bg-table-header-bg text-text-secondary font-table-header text-table-header uppercase border-b border-hairline-border">
+<tr>
+<th class="py-2 px-3">Risk Band</th>
+<th class="py-2 px-3">Algorithmic Score</th>
+<th class="py-2 px-3 text-right">Project Count</th>
+<th class="py-2 px-3 text-right">Portfolio Share</th>
+<th class="py-2 px-3 text-right">Cap. at Risk (₹ L Cr)</th>
+<th class="py-2 px-3 text-right">Avg Anticipated Delay</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-hairline-border [font-feature-settings:'tnum']">
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2 px-3 flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#2E9E5B]"></span>
+<span class="font-medium text-[#2E9E5B]">LOW</span>
+</td>
+<td class="py-2 px-3 text-text-secondary">0 – 29</td>
+<td class="py-2 px-3 text-right font-medium text-text-primary">1,184</td>
+<td class="py-2 px-3 text-right text-text-secondary">52.8%</td>
+<td class="py-2 px-3 text-right text-text-primary">14.12</td>
+<td class="py-2 px-3 text-right text-text-secondary">+1.4 mo</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2 px-3 flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#C99A06]"></span>
+<span class="font-medium text-[#C99A06]">MEDIUM</span>
+</td>
+<td class="py-2 px-3 text-text-secondary">30 – 59</td>
+<td class="py-2 px-3 text-right font-medium text-text-primary">654</td>
+<td class="py-2 px-3 text-right text-text-secondary">29.2%</td>
+<td class="py-2 px-3 text-right text-text-primary">11.12</td>
+<td class="py-2 px-3 text-right text-text-secondary">+5.8 mo</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2 px-3 flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#E8730C]"></span>
+<span class="font-medium text-[#E8730C]">HIGH</span>
+</td>
+<td class="py-2 px-3 text-text-secondary">60 – 79</td>
+<td class="py-2 px-3 text-right font-medium text-text-primary">318</td>
+<td class="py-2 px-3 text-right text-text-secondary">14.2%</td>
+<td class="py-2 px-3 text-right text-text-primary">2.31</td>
+<td class="py-2 px-3 text-right font-medium text-[#E8730C]">+14.6 mo</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors bg-risk-critical-bg/20">
+<td class="py-2 px-3 flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#C6362F]"></span>
+<span class="font-medium text-[#C6362F]">CRITICAL</span>
+</td>
+<td class="py-2 px-3 text-text-secondary">80 – 100</td>
+<td class="py-2 px-3 text-right font-medium text-[#C6362F]">87</td>
+<td class="py-2 px-3 text-right text-[#C6362F] font-medium">3.8%</td>
+<td class="py-2 px-3 text-right text-text-primary font-medium">0.87</td>
+<td class="py-2 px-3 text-right font-medium text-[#C6362F]">+24.2 mo</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center justify-between font-caption text-caption text-text-muted">
+<span>Combined At-Risk (High + Critical): <strong>405 projects (18.0%)</strong></span>
+<span>Aggregated Capital Vulnerability: <strong>₹3.18 Lakh Crore</strong></span>
+</div>
+</div>
+<!-- Right Panel: 40% Width (5 Cols) -->
+<div class="lg:col-span-5 bg-card-bg p-space-lg rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">National Risk Trajectory</h2>
+<p class="font-caption text-caption text-text-secondary">Share of portfolio flagged in High + Critical tiers (Last 8 Mo)</p>
+</div>
+<div class="flex items-center gap-1 font-caption text-caption text-risk-critical-text font-medium bg-risk-critical-bg px-2 py-0.5 rounded border border-risk-critical-text/20">
+<span class="material-symbols-outlined text-[13px]">north_east</span>
+<span>+2.9% trend</span>
+</div>
+</div>
+<!-- SVG Line Chart with Crisp Data Markers and Threshold -->
+<div class="relative w-full h-[180px] mt-space-sm">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 380 160">
+<!-- Grid Lines -->
+<line stroke="#E2E8F0" stroke-dasharray="2 2" stroke-width="1" x1="30" x2="370" y1="20" y2="20"></line>
+<line stroke="#E2E8F0" stroke-dasharray="2 2" stroke-width="1" x1="30" x2="370" y1="60" y2="60"></line>
+<line stroke="#E2E8F0" stroke-dasharray="2 2" stroke-width="1" x1="30" x2="370" y1="100" y2="100"></line>
+<line stroke="#DCE3EC" stroke-width="1" x1="30" x2="370" y1="135" y2="135"></line>
+<!-- Y-Axis labels -->
+<text class="[font-feature-settings:'tnum'] font-caption" fill="#8A94A6" font-size="9" x="5" y="24">19.0%</text>
+<text class="[font-feature-settings:'tnum'] font-caption" fill="#8A94A6" font-size="9" x="5" y="64">17.0%</text>
+<text class="[font-feature-settings:'tnum'] font-caption" fill="#8A94A6" font-size="9" x="5" y="104">15.0%</text>
+<!-- 15.0% Benchmark / Tolerance Threshold line -->
+<line stroke="#C6362F" stroke-opacity="0.4" stroke-width="1" x1="30" x2="370" y1="100" y2="100"></line>
+<text class="font-caption uppercase" fill="#C6362F" font-size="8" font-weight="600" x="290" y="96">Threshold (15%)</text>
+<!-- Line Path: 8 points -->
+<!-- Scale: 14% = 120, 19% = 20. Diff = 100px for 5% -> 20px per 1% -->
+<!-- Nov(15.1% -> 98), Dec(15.4% -> 92), Jan(16.0% -> 80), Feb(16.5% -> 70), Mar(16.9% -> 62), Apr(17.2% -> 56), May(17.6% -> 48), Jun(18.0% -> 40) -->
+<!-- X: 45, 90, 135, 180, 225, 270, 315, 360 -->
+<polyline fill="none" points="45,98 90,92 135,80 180,70 225,62 270,56 315,48 360,40" stroke="#0B4DA2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<!-- Filled area below chart -->
+<polygon fill="#0B4DA2" fill-opacity="0.06" points="45,135 45,98 90,92 135,80 180,70 225,62 270,56 315,48 360,40 360,135"></polygon>
+<!-- Data Point Circles & Numeric Pills -->
+<circle cx="45" cy="98" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<circle cx="90" cy="92" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<circle cx="135" cy="80" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<circle cx="180" cy="70" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<circle cx="225" cy="62" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<circle cx="270" cy="56" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<circle cx="315" cy="48" fill="#FFFFFF" r="3" stroke="#0B4DA2" stroke-width="2"></circle>
+<!-- Current Month point with ping halo -->
+<circle cx="360" cy="40" fill="#C6362F" r="5"></circle>
+<circle cx="360" cy="40" fill="#C6362F" fill-opacity="0.25" r="8"></circle>
+<!-- Current Label -->
+<rect fill="#1A2233" height="15" rx="2" width="38" x="332" y="16"></rect>
+<text class="[font-feature-settings:'tnum'] font-caption" fill="#FFFFFF" font-size="9" font-weight="600" text-anchor="middle" x="351" y="27">18.0%</text>
+<!-- X-Axis Labels -->
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="45" y="150">Nov</text>
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="90" y="150">Dec</text>
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="135" y="150">Jan</text>
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="180" y="150">Feb</text>
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="225" y="150">Mar</text>
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="270" y="150">Apr</text>
+<text class="font-caption" fill="#5A6472" font-size="9" text-anchor="middle" x="315" y="150">May</text>
+<text class="font-caption" fill="#1A2233" font-size="9" font-weight="700" text-anchor="middle" x="360" y="150">Jun '26</text>
+</svg>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-hairline-border flex items-center justify-between font-caption text-caption text-text-secondary">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+          8-Month Trajectory
+        </span>
+<span class="text-text-muted">Algorithm Version: PMG-ML-v4.2.8</span>
+</div>
+</div>
+</section>
+<!-- Mid Panels: Sector & Ministry Risk Analysis -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Panel A: Risk Distribution by Sector -->
+<div class="bg-card-bg p-space-lg rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Top 5 Vulnerable Infrastructure Sectors</h3>
+<p class="font-caption text-caption text-text-secondary">Proportion of sectoral portfolio currently classified in High/Critical bands</p>
+</div>
+<span class="font-caption text-caption text-text-secondary bg-table-header-bg px-2 py-0.5 rounded border border-hairline-border">
+            5 Sectors
+          </span>
+</div>
+<div class="flex flex-col gap-space-sm mt-space-md">
+<!-- Sector 1: Coal & Mining (Highest %: 24.1%) -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-baseline font-body-secondary text-body-secondary">
+<span class="font-medium text-text-primary">Coal &amp; Mining</span>
+<span class="[font-feature-settings:'tnum'] text-text-secondary">
+<strong class="text-risk-high-text font-semibold">38 High/Crit</strong> of 158 projects · 
+                <span class="text-text-primary font-semibold">24.1%</span>
+</span>
+</div>
+<div class="h-2 w-full bg-table-header-bg rounded overflow-hidden flex">
+<div class="bg-risk-high-text h-full" style="width: 24.1%;"></div>
+<div class="bg-primary-container h-full" style="width: 75.9%;"></div>
+</div>
+</div>
+<!-- Sector 2: Petroleum & Natural Gas (22.4%) -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-baseline font-body-secondary text-body-secondary">
+<span class="font-medium text-text-primary">Petroleum &amp; Natural Gas</span>
+<span class="[font-feature-settings:'tnum'] text-text-secondary">
+<strong class="text-risk-high-text font-semibold">48 High/Crit</strong> of 214 projects · 
+                <span class="text-text-primary font-semibold">22.4%</span>
+</span>
+</div>
+<div class="h-2 w-full bg-table-header-bg rounded overflow-hidden flex">
+<div class="bg-risk-high-text h-full" style="width: 22.4%;"></div>
+<div class="bg-primary-container h-full" style="width: 77.6%;"></div>
+</div>
+</div>
+<!-- Sector 3: Railways (19.5%) -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-baseline font-body-secondary text-body-secondary">
+<span class="font-medium text-text-primary">Railways</span>
+<span class="[font-feature-settings:'tnum'] text-text-secondary">
+<strong class="text-risk-high-text font-semibold">94 High/Crit</strong> of 482 projects · 
+                <span class="text-text-primary font-semibold">19.5%</span>
+</span>
+</div>
+<div class="h-2 w-full bg-table-header-bg rounded overflow-hidden flex">
+<div class="bg-risk-high-text h-full" style="width: 19.5%;"></div>
+<div class="bg-primary-container h-full" style="width: 80.5%;"></div>
+</div>
+</div>
+<!-- Sector 4: Power & Renewable (17.9%) -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-baseline font-body-secondary text-body-secondary">
+<span class="font-medium text-text-primary">Power &amp; Renewable Energy</span>
+<span class="[font-feature-settings:'tnum'] text-text-secondary">
+<strong class="text-risk-high-text font-semibold">56 High/Crit</strong> of 312 projects · 
+                <span class="text-text-primary font-semibold">17.9%</span>
+</span>
+</div>
+<div class="h-2 w-full bg-table-header-bg rounded overflow-hidden flex">
+<div class="bg-risk-high-text h-full" style="width: 17.9%;"></div>
+<div class="bg-primary-container h-full" style="width: 82.1%;"></div>
+</div>
+</div>
+<!-- Sector 5: Road Transport & Highways (16.4%) -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-baseline font-body-secondary text-body-secondary">
+<span class="font-medium text-text-primary">Road Transport &amp; Highways (NHAI)</span>
+<span class="[font-feature-settings:'tnum'] text-text-secondary">
+<strong class="text-risk-high-text font-semibold">142 High/Crit</strong> of 864 projects · 
+                <span class="text-text-primary font-semibold">16.4%</span>
+</span>
+</div>
+<div class="h-2 w-full bg-table-header-bg rounded overflow-hidden flex">
+<div class="bg-risk-high-text h-full" style="width: 16.4%;"></div>
+<div class="bg-primary-container h-full" style="width: 83.6%;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-hairline-border flex items-center justify-between font-caption text-caption text-text-muted">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-risk-high-text"></span> High/Critical</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-primary-container"></span> Low/Medium</span>
+</div>
+<a class="text-primary font-medium hover:underline flex items-center gap-0.5" href="#">
+          Detailed Sector Breakdown <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Panel B: Ministry Triage Velocity & Top Impasses -->
+<div class="bg-card-bg p-space-lg rounded border border-hairline-border flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Ministry Triage Velocity &amp; Lead Bottlenecks</h3>
+<p class="font-caption text-caption text-text-secondary">Key central executing agencies ranked by at-risk volume &amp; driver diagnostics</p>
+</div>
+<span class="font-caption text-caption text-text-secondary bg-table-header-bg px-2 py-0.5 rounded border border-hairline-border">
+            Agency Matrix
+          </span>
+</div>
+<div class="mt-space-sm overflow-x-auto">
+<table class="w-full text-left font-body-secondary text-body-secondary border border-hairline-border rounded">
+<thead class="bg-table-header-bg text-text-secondary font-table-header text-table-header uppercase border-b border-hairline-border">
+<tr>
+<th class="py-2 px-3">Ministry / Body</th>
+<th class="py-2 px-3 text-right">At-Risk</th>
+<th class="py-2 px-3 text-right">Avg Anticipated Delay</th>
+<th class="py-2 px-3">Primary Impasse Driver</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-hairline-border [font-feature-settings:'tnum']">
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-3 font-medium text-text-primary">MoRTH / NHAI</td>
+<td class="py-2.5 px-3 text-right font-semibold text-risk-critical-text">142</td>
+<td class="py-2.5 px-3 text-right font-medium text-text-primary">+14.2 mo</td>
+<td class="py-2.5 px-3">
+<span class="px-1.5 py-0.5 rounded bg-table-header-bg text-text-primary text-[11px] font-medium border border-hairline-border">
+                    Land Acquisition (Sec 3A)
+                  </span>
+</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-3 font-medium text-text-primary">Ministry of Railways</td>
+<td class="py-2.5 px-3 text-right font-semibold text-risk-critical-text">94</td>
+<td class="py-2.5 px-3 text-right font-medium text-risk-critical-text">+21.4 mo</td>
+<td class="py-2.5 px-3">
+<span class="px-1.5 py-0.5 rounded bg-table-header-bg text-text-primary text-[11px] font-medium border border-hairline-border">
+                    Forest Clearance &amp; RoW
+                  </span>
+</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-3 font-medium text-text-primary">Ministry of Power</td>
+<td class="py-2.5 px-3 text-right font-semibold text-risk-high-text">56</td>
+<td class="py-2.5 px-3 text-right font-medium text-text-primary">+11.8 mo</td>
+<td class="py-2.5 px-3">
+<span class="px-1.5 py-0.5 rounded bg-table-header-bg text-text-primary text-[11px] font-medium border border-hairline-border">
+                    Equipment Import Delay
+                  </span>
+</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-3 font-medium text-text-primary">MoPNG</td>
+<td class="py-2.5 px-3 text-right font-semibold text-risk-high-text">48</td>
+<td class="py-2.5 px-3 text-right font-medium text-text-primary">+8.6 mo</td>
+<td class="py-2.5 px-3">
+<span class="px-1.5 py-0.5 rounded bg-table-header-bg text-text-primary text-[11px] font-medium border border-hairline-border">
+                    Vendor EPC Default
+                  </span>
+</td>
+</tr>
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-3 font-medium text-text-primary">Ministry of Shipping &amp; Ports</td>
+<td class="py-2.5 px-3 text-right font-semibold text-text-primary">27</td>
+<td class="py-2.5 px-3 text-right font-medium text-text-primary">+9.1 mo</td>
+<td class="py-2.5 px-3">
+<span class="px-1.5 py-0.5 rounded bg-table-header-bg text-text-primary text-[11px] font-medium border border-hairline-border">
+                    Coastal Reg. Zone (CRZ)
+                  </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-hairline-border flex items-center justify-between font-caption text-caption text-text-muted">
+<span>Cross-ministerial inter-dependencies: <strong>71 active cases</strong></span>
+<a class="text-primary font-medium hover:underline flex items-center gap-0.5" href="#">
+          Open Ministry Matrix <span class="material-symbols-outlined text-[13px]">open_in_new</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Primary Triage Grid: Priority Watchlist Table Preview -->
+<section class="bg-card-bg rounded border border-hairline-border overflow-hidden">
+<!-- Table Toolbar / Controls -->
+<div class="p-space-md border-b border-hairline-border bg-card-bg flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-risk-critical-text animate-pulse"></span>
+<h2 class="font-headline-md text-headline-md text-text-primary">
+          Priority Triage Watchlist (Highest Escalation Urgency)
+        </h2>
+<span class="px-space-xs py-0.5 bg-risk-critical-bg text-risk-critical-text font-badge-label text-badge-label rounded border border-risk-critical-text/20">
+          Showing 8 of 405 High/Critical
+        </span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative w-72">
+<input class="w-full h-8 pl-8 pr-space-sm bg-page-bg border border-hairline-border rounded text-body-default font-body-default text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary-container transition-colors" id="triage-search" placeholder="Search watchlist projects..." type="text"/>
+<span class="material-symbols-outlined absolute left-2 top-2 text-[16px] text-text-muted">search</span>
+</div>
+<a class="text-primary hover:text-primary-container font-caption text-caption font-semibold flex items-center gap-1 shrink-0" href="#">
+<span>View Full Directory</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-default text-body-default border-collapse">
+<thead class="bg-table-header-bg text-text-secondary font-table-header text-table-header uppercase border-b border-hairline-border sticky top-0">
+<tr>
+<th class="py-2.5 px-4 font-semibold">Project Identification</th>
+<th class="py-2.5 px-4 font-semibold">Ministry / Sector</th>
+<th class="py-2.5 px-4 font-semibold text-center">Risk Score &amp; Tier</th>
+<th class="py-2.5 px-4 font-semibold text-right">Trend (MoM)</th>
+<th class="py-2.5 px-4 font-semibold">Primary Bottleneck Driver</th>
+<th class="py-2.5 px-4 font-semibold text-center">Triage Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-hairline-border [font-feature-settings:'tnum']">
+<!-- Row 1: USBRL (Score: 94) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Udhampur-Srinagar-Baramulla Rail Link (USBRL)</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2024-RL-019 · ₹37,012 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">Ministry of Railways</span>
+<span class="font-caption text-caption text-text-secondary">Railways</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg border border-risk-critical-text/20">
+<span class="font-headline-sm font-bold text-risk-critical-text">94</span>
+<span class="font-badge-label text-badge-label text-risk-critical-text uppercase">CRITICAL</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-critical-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span>
+                +8 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-critical-text">report_problem</span>
+<span class="truncate max-w-[280px]" title="Geological fault in Tunnel T-15">Geological fault in Tunnel T-15</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Mumbai-Ahmedabad HSR (Score: 89) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Mumbai-Ahmedabad High Speed Rail (Bullet Train)</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2023-HSR-004 · ₹1,08,000 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">Ministry of Railways</span>
+<span class="font-caption text-caption text-text-secondary">Railways</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg border border-risk-critical-text/20">
+<span class="font-headline-sm font-bold text-risk-critical-text">89</span>
+<span class="font-badge-label text-badge-label text-risk-critical-text uppercase">CRITICAL</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-critical-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span>
+                +5 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-critical-text">report_problem</span>
+<span class="truncate max-w-[280px]" title="Undersea tunnel tender re-bid">Undersea tunnel tender re-bid</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Polavaram Irrigation (Score: 86) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Polavaram Multi-Purpose Irrigation Project</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2022-IR-071 · ₹55,548 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">Ministry of Jal Shakti</span>
+<span class="font-caption text-caption text-text-secondary">Water Resources</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-critical-bg border border-risk-critical-text/20">
+<span class="font-headline-sm font-bold text-risk-critical-text">86</span>
+<span class="font-badge-label text-badge-label text-risk-critical-text uppercase">CRITICAL</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-critical-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span>
+                +3 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-critical-text">report_problem</span>
+<span class="truncate max-w-[280px]" title="Diaphragm wall redesign delay">Diaphragm wall redesign delay</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Delhi-Amritsar-Katra Expressway (Score: 78) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Delhi-Amritsar-Katra Expressway (Pkg 8-12)</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2025-EX-112 · ₹39,500 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">MoRTH</span>
+<span class="font-caption text-caption text-text-secondary">Roads &amp; Highways</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg border border-risk-high-text/20">
+<span class="font-headline-sm font-bold text-risk-high-text">78</span>
+<span class="font-badge-label text-badge-label text-risk-high-text uppercase">HIGH</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-critical-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span>
+                +11 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-high-text">error_outline</span>
+<span class="truncate max-w-[280px]" title="RoW acquisition in Punjab sector">RoW acquisition in Punjab sector</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Barmer Petroleum Refinery (Score: 74) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Barmer Petroleum Refinery &amp; Petrochem Complex</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2023-OG-058 · ₹72,937 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">MoPNG</span>
+<span class="font-caption text-caption text-text-secondary">Petroleum</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg border border-risk-high-text/20">
+<span class="font-headline-sm font-bold text-risk-high-text">74</span>
+<span class="font-badge-label text-badge-label text-risk-high-text uppercase">HIGH</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-low-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_downward</span>
+                -2 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-high-text">error_outline</span>
+<span class="truncate max-w-[280px]" title="Offsite utility package commissioning">Offsite utility package commissioning</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 6: Talcher Fertilizer (Score: 72) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Talcher Fertilizer Revival Coal Gasification</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2024-CF-033 · ₹13,277 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">Ministry of Chemicals &amp; Fert.</span>
+<span class="font-caption text-caption text-text-secondary">Fertilizers</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg border border-risk-high-text/20">
+<span class="font-headline-sm font-bold text-risk-high-text">72</span>
+<span class="font-badge-label text-badge-label text-risk-high-text uppercase">HIGH</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-critical-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span>
+                +4 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-high-text">error_outline</span>
+<span class="truncate max-w-[280px]" title="Chinese vendor engineer visa hold">Chinese vendor engineer visa hold</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 7: Great Nicobar Transhipment (Score: 68) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Great Nicobar International Container Transhipment</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2025-PT-009 · ₹44,000 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">Ministry of Ports &amp; Shipping</span>
+<span class="font-caption text-caption text-text-secondary">Ports</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg border border-risk-high-text/20">
+<span class="font-headline-sm font-bold text-risk-high-text">68</span>
+<span class="font-badge-label text-badge-label text-risk-high-text uppercase">HIGH</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-risk-critical-text font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span>
+                +14 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-high-text">error_outline</span>
+<span class="truncate max-w-[280px]" title="Statutory environmental clearances">Statutory environmental clearances</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 8: Chennai Metro Phase II (Score: 63) -->
+<tr class="hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-text-primary font-medium">Chennai Metro Rail Phase II (Corridor 3 &amp; 5)</span>
+<span class="font-caption text-caption text-text-muted">PRJ-2024-MR-088 · ₹61,843 Cr</span>
+</div>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex flex-col">
+<span class="text-text-primary">MoHUA</span>
+<span class="font-caption text-caption text-text-secondary">Urban Transit</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-risk-high-bg border border-risk-high-text/20">
+<span class="font-headline-sm font-bold text-risk-high-text">63</span>
+<span class="font-badge-label text-badge-label text-risk-high-text uppercase">HIGH</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-right">
+<span class="inline-flex items-center gap-0.5 text-text-muted font-medium font-caption text-caption">
+<span class="material-symbols-outlined text-[13px]">trending_flat</span>
+                0 pts
+              </span>
+</td>
+<td class="py-2.5 px-4">
+<div class="flex items-center gap-1.5 text-text-primary font-body-secondary text-body-secondary">
+<span class="material-symbols-outlined text-[14px] text-risk-high-text">error_outline</span>
+<span class="truncate max-w-[280px]" title="TBM shaft water ingress mitigation">TBM shaft water ingress mitigation</span>
+</div>
+</td>
+<td class="py-2.5 px-4 text-center">
+<button class="h-7 px-2.5 bg-card-bg border border-hairline-border hover:bg-table-header-bg rounded text-text-primary font-caption text-caption font-medium transition-colors inline-flex items-center gap-1" type="button">
+<span>Inspect</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Watchlist Table Footer Bar -->
+<div class="p-space-sm bg-table-header-bg border-t border-hairline-border flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs font-caption text-caption text-text-secondary">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-risk-low-text"></span>
+<span>Displaying highest urgency index records prioritized by PMG Escalation Protocol v4</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="text-text-muted">Page 1 of 51</span>
+<div class="flex items-center border border-hairline-border rounded bg-card-bg overflow-hidden">
+<button class="px-2 py-1 text-text-muted cursor-not-allowed border-r border-hairline-border" disabled="" type="button">
+<span class="material-symbols-outlined text-[12px] block">chevron_left</span>
+</button>
+<button class="px-2 py-1 text-text-primary hover:bg-page-bg" type="button">
+<span class="material-symbols-outlined text-[12px] block">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Institutional Compliance & Validation Footnote -->
+<footer class="p-space-md bg-card-bg rounded border border-hairline-border flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-text-secondary">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[16px] text-primary-container">info</span>
+<p class="font-caption text-caption">
+        Predictions validated on held-out data; scores are triage signals, not certainties. Algorithmic early-warning model v4.2.8 trained on MoSPI Flash Reports (2012–2025).
+      </p>
+</div>
+<span class="font-badge-label text-badge-label uppercase text-text-muted shrink-0 tracking-wider">
+      Internal Classification: For Official Use Only
+    </span>
+</footer>
+</div>
+<script>
+  // Simple interactive search filter for triage table preview
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('triage-search');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      const rows = document.querySelectorAll('tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        if (text.includes(query)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script></main></div></body></html>
