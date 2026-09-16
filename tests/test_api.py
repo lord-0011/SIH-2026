@@ -251,3 +251,20 @@ def test_real_national_summary_regime_breakdowns(client: TestClient):
     assert "roads_avg_risk_score" in tp
     assert tp["non_roads_avg_risk_score"] > 0
     assert tp["roads_avg_risk_score"] > 0
+
+
+def test_real_watchlist_min_strength_and_filters(client: TestClient):
+    """Verify watchlist min_strength and sector/ministry query parameters."""
+    res_str3 = client.get("/watchlist?min_strength=3")
+    assert res_str3.status_code == 200
+    data_str3 = res_str3.json()
+    assert data_str3["total_active_warnings"] > 0
+    for item in data_str3["items"]:
+        assert item["warning_strength"] == 3
+
+    # Sector filter
+    res_sec = client.get("/watchlist?sector=Railways")
+    assert res_sec.status_code == 200
+    data_sec = res_sec.json()
+    for item in data_sec["items"]:
+        assert item["sector"].lower() == "railways"
